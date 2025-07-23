@@ -14,73 +14,97 @@ import ChangeCalculatorProps from "./index.types"
 
 
 const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
+  // Initial state for the calculator
   const [state, setState] = useState<CalculatorState>({
-    billTotal: "",
-    cashReceived: "",
-    changeDue: 0,
-    breakdown: [],
-    error: "",
+    billTotal: "", // Total bill amount
+    cashReceived: "", // Cash received from the customer
+    changeDue: 0, // Change to be returned to the customer
+    breakdown: [], // Breakdown of the change in denominations
+    error: "", // Error message if any validation fails
   })
 
-  const handleInputChange = (field: "billTotal" | "cashReceived", value: string) => {
+  /**
+   * Handles input changes for the specified field by sanitizing the input value.
+   * Only numbers and decimal points are allowed; commas are converted to periods.
+   * Updates the component state with the sanitized value and clears any error messages.
+   *
+   * @param field - The name of the field to update ("billTotal" or "cashReceived").
+   * @param value - The input value to sanitize and set.
+   */
+  function handleInputChange(field: "billTotal" | "cashReceived", value: string) {
     // Allow only numbers and decimal point
-    const sanitizedValue = value.replace(/[^0-9.,]/g, "").replace(",", ".")
+    const sanitizedValue = value.replace(/[^0-9.,]/g, "").replace(",", ".");
 
     setState((prev) => ({
       ...prev,
-      [field]: sanitizedValue,
-      error: "",
-    }))
+      [field]: sanitizedValue, // Update the specific field with sanitized value
+      error: "", // Clear any previous error message
+    }));
   }
 
-  const handleCalculate = () => {
-    const billTotal = Number.parseFloat(state.billTotal.replace(",", "."))
-    const cashReceived = Number.parseFloat(state.cashReceived.replace(",", "."))
+  /**
+   * Calculates the change due based on the bill total and cash received from the current state.
+   * Performs validation on the input values:
+   * - Ensures both bill total and cash received are valid numbers.
+   * - Ensures the bill total is greater than zero.
+   * - Ensures the cash received is not less than the bill total.
+   * If validation fails, sets an appropriate error message in the state.
+   * If validation passes, computes the change due and its breakdown, and updates the state accordingly.
+   */
+  function handleCalculate() {
+    const billTotal = Number.parseFloat(state.billTotal.replace(",", "."));
+    const cashReceived = Number.parseFloat(state.cashReceived.replace(",", "."));
 
-    // Validation
+    // Check if inputs are valid numbers
     if (isNaN(billTotal) || isNaN(cashReceived)) {
       setState((prev) => ({
         ...prev,
         error: "Inserisci importi validi",
-      }))
-      return
+      }));
+      return;
     }
-
+    // check if bill total is greater than zero
     if (billTotal <= 0) {
       setState((prev) => ({
         ...prev,
         error: "Il totale deve essere maggiore di zero",
-      }))
-      return
+      }));
+      return;
     }
-
+    // check if cash received is less than bill total
     if (cashReceived < billTotal) {
       setState((prev) => ({
         ...prev,
         error: "Il contante ricevuto è insufficiente",
-      }))
-      return
+      }));
+      return;
     }
 
-    const changeDue = cashReceived - billTotal
-    const breakdown = calculateChange(billTotal, cashReceived)
+    const changeDue = cashReceived - billTotal; // Calculate the change due
+    const breakdown = calculateChange(billTotal, cashReceived); // Get the breakdown of change in denominations
 
     setState((prev) => ({
       ...prev,
       changeDue,
       breakdown,
       error: "",
-    }))
+    }));
   }
 
-  const handleReset = () => {
+  /**
+   * Resets the calculator state to its initial values.
+   *
+   * This function clears the bill total, cash received, change due,
+   * breakdown of change, and any error messages.
+   */
+  function handleReset() {
     setState({
       billTotal: "",
       cashReceived: "",
       changeDue: 0,
       breakdown: [],
       error: "",
-    })
+    });
   }
 
   return (
