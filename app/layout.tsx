@@ -20,6 +20,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={websiteConfig.font_variables.join(' ') }
+      suppressHydrationWarning
     >
       <body>
         <ThemeProvider
