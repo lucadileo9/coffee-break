@@ -2,10 +2,9 @@ import { Metadata } from 'next';
 import React from 'react';
 
 import '../styles/globals.css';
+import Header from '@/components/organisms/Header';
 import { websiteConfig } from '@/website.config';
 import { ThemeProvider } from '@atoms/ThemeProvider';
-import Footer from '@molecules/Footer';
-import Header from '@organisms/Header';
 
 export const metadata: Metadata = {
   title: websiteConfig.title,
@@ -25,11 +24,12 @@ export default function RootLayout({
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-          themes={websiteConfig.color_themes}
+          defaultTheme="light"
+          enableSystem={false}
+          themes={['light', 'dark']}
         >
           <div className="relative flex min-h-screen flex-col">
+            {/* <Header /> */}
             <Header />
             <main className="flex-grow">{children}</main>
             {/* <Footer /> */}

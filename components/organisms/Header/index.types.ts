@@ -1,11 +1,8 @@
-export default interface HeaderProps {}
-
-export interface Route {
+export interface MenuItem {
   href: string;
   text: string;
   active: boolean;
 }
 
-export interface NavProps {
-  routes: Route[];
+export interface HeaderProps {
 }
