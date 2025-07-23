@@ -175,7 +175,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
               <div className="flex gap-3 pt-2">
                 <Button
                   onClick={handleCalculate}
-                  className="flex-1 h-12 font-semibold"
+                  className="flex-1 h-12 font-semibold transition-transform duration-200 hover:scale-105 active:scale-95"
                   disabled={!state.billTotal || !state.cashReceived}
                 >
                   CALCOLA
@@ -183,7 +183,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="px-6 h-12"
+                  className="px-6 h-12 transition-transform duration-200 hover:scale-105 active:scale-95"
                 >
                   Reset
                 </Button>
