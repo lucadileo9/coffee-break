@@ -23,34 +23,46 @@
 
 @layer base {
   :root {
-    --background: 0 60% 98%; /* --bianco-latte */
-    --foreground: 240 22% 15%; /* --blu-scuro */
+    /* Background e Foreground */
+    --background: 60, 56%, 91%; /* Beige chiarissimo (F5F5DC) */
+    --foreground: 25 37% 33%; /* Marrone scuro (6F4E37) */
 
-    --card: 233 57% 31%;
-    --card-foreground: 0 60% 98%;
+    /* Card */
+    --card: 0 0% 100%; /* Marrone/beige medio (C4A484) */
+    --card-foreground: 60 56% 96%; /* Beige chiarissimo (F5F5DC) */
 
-    --popover: 0 60% 98%;
-    --popover-foreground: 240 22% 15%;
+    /* Popover */
+    --popover: 60 56% 96%; /* Beige chiarissimo (F5F5DC) */
+    --popover-foreground: 25 37% 33%; /* Marrone scuro (6F4E37) */
 
-    --primary: 233 57% 31%; /* --blu */
-    --primary-foreground: 0 60% 98%; /* --bianco-latte */
+    /* Primary */
+    --primary: 30 41% 59%; /* Marrone caldo (B8956F) */
+    --primary-foreground: 60 56% 96%; /* Beige chiarissimo (F5F5DC) */
 
-    --secondary: 50 100% 51%; /* Grigio-blu chiaro derivato */
-    --secondary-foreground: 233 57% 31%; /* --blu */
+    /* Secondary */
+    --secondary: 30 39% 66%; /* Marrone/beige medio (C4A484) */
+    --secondary-foreground: 25 37% 33%; /* Marrone scuro (6F4E37) */
 
-    --muted: 233 20% 94%;
-    --muted-foreground: 233 19% 27%; /* --blu-petrolio */
+    /* Muted */
+    --muted: 60 56% 92%; /* Beige leggermente più scuro del background */
+    --muted-foreground: 25 37% 33%; /* Marrone scuro (6F4E37) */
 
-    --accent: 50 100% 51%; /* --giallo */
-    --accent-foreground: 240 22% 15%; /* --blu-scuro */
+    /* Accent */
+    --accent: 30 41% 59%; /* Marrone caldo (B8956F) */
+    --accent-foreground: 25 37% 33%; /* Marrone scuro (6F4E37) */
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 60% 98%;
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%; /* Rosso acceso (non fornito, mantenuto) */
+    --destructive-foreground: 60 56% 96%; /* Beige chiarissimo (F5F5DC) */
 
-    --border: 233 20% 88%;
-    --input: 233 20% 88%;
-    --ring: 233 57% 31%; /* --blu */
+    /* Border e Input */
+    --border: 30 39% 66%; /* Marrone/beige medio (C4A484) */
+    --input: 30 39% 66%; /* Marrone/beige medio (C4A484) */
 
+    /* Ring */
+    --ring: 30 41% 59%; /* Marrone caldo (B8956F) */
+
+    /* Radius */
     --radius: 0.5rem;
   }
   .dark {
