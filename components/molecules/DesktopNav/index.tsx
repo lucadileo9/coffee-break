@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { FC } from 'react';
 
+import { ThemeToggle } from '@/components/atoms/ThemeToggle';
 import { cn } from '@/lib/utils';
 import ButtonContattaci from '@atoms/ButtonContattaci';
-import { ThemeSelector } from '@atoms/ThemeSelector';
 import { NavProps, Route } from '@organisms/Header/index.types';
 
 const DesktopNav: FC<NavProps> = ({ routes }: NavProps) => {
@@ -24,7 +24,7 @@ const DesktopNav: FC<NavProps> = ({ routes }: NavProps) => {
         ))}
       </div>
       <div className="flex items-center space-x-4">
-        <ThemeSelector />
+        <ThemeToggle />
         <ButtonContattaci href="https://jemore.it/contattaci/" />
       </div>
     </nav>

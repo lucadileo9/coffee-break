@@ -20,17 +20,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={websiteConfig.font_variables.join(' ') + ' jemore-theme-light'}
+      className={websiteConfig.font_variables.join(' ') }
     >
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           disableTransitionOnChange
           themes={websiteConfig.color_themes}
         >
           <div className="relative flex min-h-screen flex-col">
-            {/* <Header /> */}
+            <Header />
             <main className="flex-grow">{children}</main>
             {/* <Footer /> */}
           </div>

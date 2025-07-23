@@ -66,36 +66,26 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 240 22% 15%; /* --blu-scuro */
-    --foreground: 0 60% 98%; /* --bianco-latte */
-
-    --card: 233 19% 27%; /* --blu-petrolio */
-    --card-foreground: 0 60% 98%; /* --bianco-latte */
-
-    --popover: 240 22% 15%; /* --blu-scuro */
-    --popover-foreground: 0 60% 98%; /* --bianco-latte */
-
-    --primary: 233 57% 31%; /* --blu */
-    --primary-foreground: 50 100% 51%; /* --giallo per un contrasto più forte */
-
-    --secondary: 50 100% 51%; /* --giallo */
-    --secondary-foreground: 240 22% 15%; /* --blu-scuro */
-
-    --muted: 233 19% 27%; /* --blu-petrolio */
-    --muted-foreground: 0 60% 90%; /* --bianco-latte leggermente più scuro */
-
-    --accent: 50 100% 51%; /* --giallo */
-    --accent-foreground: 240 22% 15%; /* --blu-scuro */
-
-    --destructive: 0 70% 55%; /* Rosso più vibrante per il tema scuro */
-    --destructive-foreground: 0 60% 98%;
-
-    --border: 233 20% 88%;
-    --input: 233 20% 35%; /* Un blu leggermente più chiaro per l'input */
-    --ring: 50 100% 51%; /* --giallo per l'outline del focus */
-
-    --radius: 0.5rem;
-  }
+  --background: 25 30% 10%;
+  --foreground: 60 56% 96%;
+  --card: 25 25% 15%;
+  --card-foreground: 60 56% 96%;
+  --popover: 25 30% 12%;
+  --popover-foreground: 60 56% 96%;
+  --primary: 30 41% 25%;
+  --primary-foreground: 60 56% 96%;
+  --secondary: 30 39% 30%;
+  --secondary-foreground: 60 56% 96%;
+  --muted: 25 20% 18%;
+  --muted-foreground: 60 56% 75%;
+  --accent: 30 41% 35%;
+  --accent-foreground: 60 56% 96%;
+  --destructive: 0 84.2% 40%;
+  --destructive-foreground: 60 56% 96%;
+  --border: 25 20% 25%;
+  --input: 25 20% 25%;
+  --ring: 30 41% 25%;
+}  
 }
 
 @layer base {
