@@ -36,3 +36,6 @@ public/
 coverage/
 .cache/
 components/ui/
+
+# Cartelle di documentazione
+documentation/
