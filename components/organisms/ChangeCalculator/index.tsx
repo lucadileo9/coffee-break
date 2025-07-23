@@ -140,7 +140,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                   placeholder="0,00"
                   value={state.billTotal}
                   onChange={(e) => handleInputChange("billTotal", e.target.value)}
-                  className="text-lg h-12"
+                  className="text-lg h-12 bg-card-foreground/80 text-foreground placeholder:text-foreground"
                 />
               </div>
 
@@ -155,7 +155,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                   placeholder="0,00"
                   value={state.cashReceived}
                   onChange={(e) => handleInputChange("cashReceived", e.target.value)}
-                  className="text-lg h-12"
+                  className="text-lg h-12 bg-card-foreground/80 text-foreground placeholder:text-foreground"
                 />
               </div>
 
