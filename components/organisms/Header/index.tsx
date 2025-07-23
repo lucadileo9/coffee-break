@@ -32,12 +32,12 @@ const Header: FC<HeaderProps> = () => {
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
+    <header className="top-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">
         <div className="flex h-14 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Image
+            {/* <Image
               src={websiteConfig.logo_img}
               alt="Logo"
               width={LOGO_SIZE}
@@ -46,7 +46,7 @@ const Header: FC<HeaderProps> = () => {
             />
             <span className="hidden font-semibold text-foreground sm:inline-block">
               {websiteConfig.title.split(' - ')[0]}
-            </span>
+            </span> */}
           </Link>
 
           {/* Desktop Navigation */}
