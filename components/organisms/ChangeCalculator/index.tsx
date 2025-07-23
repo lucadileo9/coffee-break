@@ -165,7 +165,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-sm p-3 rounded-md"
+                    className="text-sm p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive/80"
                   >
                     {state.error}
                   </motion.div>
