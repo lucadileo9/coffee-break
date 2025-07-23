@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import MyTitle from '@/components/molecules/MyTitle';
 import ChangeCalculator from '@/components/organisms/ChangeCalculator';
 export const metadata: Metadata = {
   title: 'JEMORE ti vuole bene',
@@ -7,5 +8,10 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return  <ChangeCalculator />;
+  return (
+    <>
+      <MyTitle title="Coffee Break" subtitle="Calcolatore di Resto" />
+      <ChangeCalculator />;
+    </>
+  );
 }

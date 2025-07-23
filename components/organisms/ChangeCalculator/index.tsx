@@ -1,6 +1,6 @@
 'use client';
 import { motion, AnimatePresence } from "framer-motion";
-import { Euro, Calculator, Banknote, Coins } from "lucide-react";
+import { Calculator, Banknote, Coins } from "lucide-react";
 import React, { FC, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -110,15 +110,6 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
   return (
     <div className={`min-h-screen p-4 ${className}`}>
       <div className="mx-auto max-w-md space-y-6">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-2">
-          <div className="flex items-center justify-center gap-2">
-            <Euro className="h-8 w-8" />
-            <h1 className="text-2xl font-bold">Coffee Break</h1>
-          </div>
-          <p className="text-sm">Calcolatore di Resto</p>
-        </motion.div>
-
         {/* Input Card */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           <Card className="backdrop-blur-sm">
