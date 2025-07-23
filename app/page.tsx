@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
 
-import Hero from '@molecules/Hero';
-
+import ChangeCalculator from '@/components/organisms/ChangeCalculator';
 export const metadata: Metadata = {
   title: 'JEMORE ti vuole bene',
   description: 'anche se non ti paga',
 };
 
 export default function Home() {
-  return <Hero></Hero>;
+  return  <ChangeCalculator />;
 }
