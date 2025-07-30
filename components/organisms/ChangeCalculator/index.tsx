@@ -1,27 +1,26 @@
 'use client';
-import { motion, AnimatePresence } from "framer-motion";
-import { Calculator, Banknote, Coins } from "lucide-react";
-import React, { FC, useState } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calculator, Banknote, Coins } from 'lucide-react';
+import React, { FC, useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { calculateChange, formatCurrency } from "@/lib/change-calculator";
-import { CalculatorState } from "@/types/calculator-types";
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { calculateChange, formatCurrency } from '@/lib/change-calculator';
+import { CalculatorState } from '@/types/calculator-types';
 
-import ChangeCalculatorProps from "./index.types"
-
+import ChangeCalculatorProps from './index.types';
 
 const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
   // Initial state for the calculator
   const [state, setState] = useState<CalculatorState>({
-    billTotal: "", // Total bill amount
-    cashReceived: "", // Cash received from the customer
+    billTotal: '', // Total bill amount
+    cashReceived: '', // Cash received from the customer
     changeDue: 0, // Change to be returned to the customer
     breakdown: [], // Breakdown of the change in denominations
-    error: "", // Error message if any validation fails
-  })
+    error: '', // Error message if any validation fails
+  });
 
   /**
    * Handles input changes for the specified field by sanitizing the input value.
@@ -31,14 +30,17 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
    * @param field - The name of the field to update ("billTotal" or "cashReceived").
    * @param value - The input value to sanitize and set.
    */
-  function handleInputChange(field: "billTotal" | "cashReceived", value: string) {
+  function handleInputChange(
+    field: 'billTotal' | 'cashReceived',
+    value: string
+  ) {
     // Allow only numbers and decimal point
-    const sanitizedValue = value.replace(/[^0-9.,]/g, "").replace(",", ".");
+    const sanitizedValue = value.replace(/[^0-9.,]/g, '').replace(',', '.');
 
     setState((prev) => ({
       ...prev,
       [field]: sanitizedValue, // Update the specific field with sanitized value
-      error: "", // Clear any previous error message
+      error: '', // Clear any previous error message
     }));
   }
 
@@ -52,14 +54,16 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
    * If validation passes, computes the change due and its breakdown, and updates the state accordingly.
    */
   function handleCalculate() {
-    const billTotal = Number.parseFloat(state.billTotal.replace(",", "."));
-    const cashReceived = Number.parseFloat(state.cashReceived.replace(",", "."));
+    const billTotal = Number.parseFloat(state.billTotal.replace(',', '.'));
+    const cashReceived = Number.parseFloat(
+      state.cashReceived.replace(',', '.')
+    );
 
     // Check if inputs are valid numbers
     if (isNaN(billTotal) || isNaN(cashReceived)) {
       setState((prev) => ({
         ...prev,
-        error: "Inserisci importi validi",
+        error: 'Inserisci importi validi',
       }));
       return;
     }
@@ -67,7 +71,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
     if (billTotal <= 0) {
       setState((prev) => ({
         ...prev,
-        error: "Il totale deve essere maggiore di zero",
+        error: 'Il totale deve essere maggiore di zero',
       }));
       return;
     }
@@ -75,7 +79,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
     if (cashReceived < billTotal) {
       setState((prev) => ({
         ...prev,
-        error: "Il contante ricevuto è insufficiente",
+        error: 'Il contante ricevuto è insufficiente',
       }));
       return;
     }
@@ -87,7 +91,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
       ...prev,
       changeDue,
       breakdown,
-      error: "",
+      error: '',
     }));
   }
 
@@ -99,11 +103,11 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
    */
   function handleReset() {
     setState({
-      billTotal: "",
-      cashReceived: "",
+      billTotal: '',
+      cashReceived: '',
       changeDue: 0,
       breakdown: [],
-      error: "",
+      error: '',
     });
   }
 
@@ -111,7 +115,11 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
     <div className={`min-h-screen p-4 ${className}`}>
       <div className="mx-auto max-w-md space-y-6">
         {/* Input Card */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
           <Card className="backdrop-blur-sm">
             <CardHeader className="pb-4">
               <CardTitle className="flex items-center gap-2">
@@ -130,8 +138,10 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                   inputMode="decimal"
                   placeholder="0,00"
                   value={state.billTotal}
-                  onChange={(e) => handleInputChange("billTotal", e.target.value)}
-                  className="text-lg h-12 bg-card-foreground/80 text-foreground placeholder:text-foreground"
+                  onChange={(e) =>
+                    handleInputChange('billTotal', e.target.value)
+                  }
+                  className="h-12 bg-card-foreground/80 text-lg text-foreground placeholder:text-foreground"
                 />
               </div>
 
@@ -145,8 +155,10 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                   inputMode="decimal"
                   placeholder="0,00"
                   value={state.cashReceived}
-                  onChange={(e) => handleInputChange("cashReceived", e.target.value)}
-                  className="text-lg h-12 bg-card-foreground/80 text-foreground placeholder:text-foreground"
+                  onChange={(e) =>
+                    handleInputChange('cashReceived', e.target.value)
+                  }
+                  className="h-12 bg-card-foreground/80 text-lg text-foreground placeholder:text-foreground"
                 />
               </div>
 
@@ -154,9 +166,9 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                 {state.error && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
+                    animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-sm p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive/80"
+                    className="rounded-md border border-destructive/20 bg-destructive/10 p-3 text-sm text-destructive/80"
                   >
                     {state.error}
                   </motion.div>
@@ -166,7 +178,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
               <div className="flex gap-3 pt-2">
                 <Button
                   onClick={handleCalculate}
-                  className="flex-1 h-12 font-semibold transition-transform duration-200 hover:scale-105 active:scale-95"
+                  className="h-12 flex-1 font-semibold transition-transform duration-200 hover:scale-105 active:scale-95"
                   disabled={!state.billTotal || !state.cashReceived}
                 >
                   CALCOLA
@@ -174,7 +186,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="px-6 h-12 transition-transform duration-200 hover:scale-105 active:scale-95"
+                  className="h-12 px-6 transition-transform duration-200 hover:scale-105 active:scale-95"
                 >
                   Reset
                 </Button>
@@ -196,8 +208,10 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
               <Card className="backdrop-blur-sm">
                 <CardContent className="pt-6">
                   <div className="text-center">
-                    <p className="text-sm mb-1">Resto da Dare:</p>
-                    <p className="text-3xl font-bold">{formatCurrency(state.changeDue)}</p>
+                    <p className="mb-1 text-sm">Resto da Dare:</p>
+                    <p className="text-3xl font-bold">
+                      {formatCurrency(state.changeDue)}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
@@ -217,16 +231,17 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
-                        {item.type === "bill" ? (
+                        {item.type === 'bill' ? (
                           <Banknote className="h-5 w-5" />
                         ) : (
                           <Coins className="h-5 w-5" />
                         )}
                         <span className="font-medium">
-                          {formatCurrency(item.denomination)} {item.type === "bill" ? "Banconote" : "Monete"}
+                          {formatCurrency(item.denomination)}{' '}
+                          {item.type === 'bill' ? 'Banconote' : 'Monete'}
                         </span>
                       </div>
-                      <span className="font-bold text-lg">{item.count}</span>
+                      <span className="text-lg font-bold">{item.count}</span>
                     </motion.div>
                   ))}
                 </CardContent>
@@ -236,7 +251,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
         </AnimatePresence>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ChangeCalculator
+export default ChangeCalculator;

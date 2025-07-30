@@ -13,7 +13,7 @@ export const useCategories = () => {
       setError(null);
 
       const response = await fetch('/api/categories');
-      
+
       if (!response.ok) {
         throw new Error('Errore nel caricare le categorie');
       }

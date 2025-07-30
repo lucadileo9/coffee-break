@@ -11,33 +11,36 @@ import { useGuide } from '@/lib/hooks/useGuide';
 export default function GuidePage() {
   const params = useParams();
   const id = params.id as string;
-  
+
   const { guide, loading, error } = useGuide(id);
 
   if (loading) {
     return (
       <div className="min-h-screen p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           {/* Back button skeleton */}
           <div className="mb-8">
-            <div className="h-10 w-32 bg-muted rounded animate-pulse"></div>
+            <div className="h-10 w-32 animate-pulse rounded bg-muted"></div>
           </div>
-          
+
           {/* Content skeleton */}
           <Card>
             <CardHeader>
               <div className="space-y-4">
-                <div className="h-8 bg-muted rounded animate-pulse"></div>
+                <div className="h-8 animate-pulse rounded bg-muted"></div>
                 <div className="flex gap-4">
-                  <div className="h-4 w-24 bg-muted rounded animate-pulse"></div>
-                  <div className="h-4 w-32 bg-muted rounded animate-pulse"></div>
+                  <div className="h-4 w-24 animate-pulse rounded bg-muted"></div>
+                  <div className="h-4 w-32 animate-pulse rounded bg-muted"></div>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="h-4 bg-muted rounded animate-pulse"></div>
+                  <div
+                    key={i}
+                    className="h-4 animate-pulse rounded bg-muted"
+                  ></div>
                 ))}
               </div>
             </CardContent>
@@ -50,7 +53,7 @@ export default function GuidePage() {
   if (error) {
     return (
       <div className="min-h-screen p-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           <div className="mb-8">
             <Link href="/guides">
               <Button variant="outline" className="gap-2">
@@ -59,19 +62,15 @@ export default function GuidePage() {
               </Button>
             </Link>
           </div>
-          
+
           <Card>
             <CardContent className="p-8 text-center">
-              <h1 className="text-2xl font-bold text-destructive mb-4">
+              <h1 className="mb-4 text-2xl font-bold text-destructive">
                 Errore
               </h1>
-              <p className="text-muted-foreground mb-6">
-                {error}
-              </p>
+              <p className="mb-6 text-muted-foreground">{error}</p>
               <Link href="/guides">
-                <Button>
-                  Torna alle Guide
-                </Button>
+                <Button>Torna alle Guide</Button>
               </Link>
             </CardContent>
           </Card>
@@ -84,39 +83,39 @@ export default function GuidePage() {
     return null;
   }
 
-
   // Formatta la data
   const formattedDate = new Date(guide.created_at).toLocaleDateString('it-IT', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
 
   return (
     <div className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-4xl">
         {/* Back Button */}
         <div className="mb-8">
           <Link href="/guides">
-            <Button variant="outline" className="gap-2 transition-transform hover:scale-105">
+            <Button
+              variant="outline"
+              className="gap-2 transition-transform hover:scale-105"
+            >
               <ArrowLeft className="h-4 w-4" />
               Torna alle Guide
             </Button>
           </Link>
         </div>
 
-<div className="space-y-6">
-    CIAO
-    </div>
+        <div className="space-y-6">CIAO</div>
         {/* Guide Content */}
         <Card className="overflow-hidden">
-          <CardHeader className="bg-muted/30 border-b">
+          <CardHeader className="border-b bg-muted/30">
             <div className="space-y-4">
               {/* Title */}
               <h1 className="text-3xl font-bold leading-tight">
                 {guide.title}
               </h1>
-              
+
               {/* Meta info */}
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
@@ -124,11 +123,11 @@ export default function GuidePage() {
                   {/* <span>{formattedDate}</span> */}
                   <span>{guide.created_at}</span>
                 </div>
-                
+
                 {guide.category && (
                   <div className="flex items-center gap-2">
                     <Tag className="h-4 w-4" />
-                    <span className="bg-primary/10 text-primary px-2 py-1 rounded-md text-xs font-medium">
+                    <span className="rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
                       {guide.category.name}
                     </span>
                   </div>
@@ -140,11 +139,11 @@ export default function GuidePage() {
           <CardContent className="p-8">
             {/* Content */}
             <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <div 
+              <div
                 className="whitespace-pre-wrap leading-relaxed"
                 // dangerouslySetInnerHTML={{ __html: guide.content.replace(/\n/g, '<br>') }}
               />
-                    {guide.content}
+              {guide.content}
             </div>
           </CardContent>
         </Card>

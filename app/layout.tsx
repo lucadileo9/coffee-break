@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={websiteConfig.font_variables.join(' ') }
+      className={websiteConfig.font_variables.join(' ')}
       suppressHydrationWarning
     >
       <body>

@@ -14,7 +14,7 @@ export const useGuide = (id: string) => {
         setError(null);
 
         const response = await fetch(`/api/guides/${id}`);
-        
+
         if (!response.ok) {
           throw new Error('Guida non trovata');
         }

@@ -9,7 +9,7 @@ interface UseGuidesOptions {
 
 export const useGuides = (options: UseGuidesOptions = {}) => {
   const { categoryId, autoFetch = true } = options;
-  
+
   const [guides, setGuides] = useState<Guide[]>([]);
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState<string | null>(null);
@@ -26,14 +26,13 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
 
       const url = `/api/guides${params.toString() ? `?${params}` : ''}`;
       const response = await fetch(url);
-      
+
       if (!response.ok) {
         throw new Error('Errore nel caricare le guide');
       }
 
       const result = await response.json();
       setGuides(result.data);
-      
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
       console.error('Error fetching guides:', err);

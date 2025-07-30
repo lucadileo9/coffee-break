@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { FC, useState } from 'react';
@@ -56,10 +55,8 @@ const Header: FC<HeaderProps> = () => {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  item.active 
-                    ? "text-foreground" 
-                    : "text-muted-foreground"
+                  'text-sm font-medium transition-colors hover:text-primary',
+                  item.active ? 'text-foreground' : 'text-muted-foreground'
                 )}
               >
                 {item.text}
@@ -70,7 +67,7 @@ const Header: FC<HeaderProps> = () => {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2">
             <ThemeToggle />
-            
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -96,9 +93,9 @@ const Header: FC<HeaderProps> = () => {
               animate={{ opacity: 1, y: 0, height: 'auto' }}
               exit={{ opacity: 0, y: -20, height: 0 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              className="absolute left-0 right-0 top-full z-50 border-t border-border/40 bg-background dark:bg-background/90 backdrop-blur-md shadow-lg md:hidden overflow-hidden"
+              className="absolute left-0 right-0 top-full z-50 overflow-hidden border-t border-border/40 bg-background shadow-lg backdrop-blur-md dark:bg-background/90 md:hidden"
             >
-              <motion.nav 
+              <motion.nav
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -111,16 +108,21 @@ const Header: FC<HeaderProps> = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -20 }}
-                    transition={{ delay: index * ANIMATION_DELAY_INCREMENT + ANIMATION_BASE_DELAY, duration: ANIMATION_DURATION }}
+                    transition={{
+                      delay:
+                        index * ANIMATION_DELAY_INCREMENT +
+                        ANIMATION_BASE_DELAY,
+                      duration: ANIMATION_DURATION,
+                    }}
                   >
                     <Link
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        "block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                        item.active 
-                          ? "bg-accent text-accent-foreground" 
-                          : "text-muted-foreground"
+                        'block rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+                        item.active
+                          ? 'bg-accent text-accent-foreground'
+                          : 'text-muted-foreground'
                       )}
                     >
                       {item.text}

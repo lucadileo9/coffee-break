@@ -12,7 +12,7 @@ export const websiteConfig = {
   logo_img: '/images/logo_jemore.png',
   menuItems: [
     { text: 'Home', href: '/' },
-    
+
     // { text: 'Chi Siamo', href: 'https://jemore.it/chisiamo/' },
     // { text: 'Servizi', href: 'https://jemore.it/servizi-offerti/' },
     // { text: 'Unisciti a Noi', href: 'https://jemore.it/unisciti-a-noi/' },

@@ -4,28 +4,28 @@ import { supabase } from '@/lib/supabase';
 
 /**
  * GET /api/guides
- * 
+ *
  * Recupera tutte le guide dal database con le informazioni delle categorie associate.
  * Supporta filtri opzionali tramite query parameters.
  * Le guide vengono ordinate per data di creazione (più recenti per prime).
- * 
+ *
  * @param {NextRequest} request - Oggetto richiesta HTTP che contiene URL e parametri
- * 
+ *
  * Query Parameters supportati:
  * @param {string} [category_id] - Filtra guide per ID categoria specifica
- * 
+ *
  * @returns {Promise<NextResponse>} Response JSON con:
  *   - success: boolean - Indica se l'operazione è riuscita
  *   - data: GuideWithCategory[] - Array delle guide con info categoria
  *   - error?: string - Messaggio di errore (solo in caso di fallimento)
- * 
+ *
  * @example
  * Richiesta: tutte le guide
  * GET /api/guides
- * 
+ *
  * Richiesta: guide di una categoria specifica
  * GET /api/guides?category_id=uuid-123
- * 
+ *
  * Risposta di successo (200)
  * {
  *   "success": true,
@@ -44,7 +44,7 @@ import { supabase } from '@/lib/supabase';
  *     }
  *   ]
  * }
- * 
+ *
  * Risposta di errore (500)
  * {
  *   "error": "Errore nel recuperare le guide",
@@ -59,15 +59,17 @@ export async function GET(request: NextRequest) {
 
     // Costruzione della query base con JOIN
     let query = supabase
-      .from('guides')                        // Tabella principale
-      .select(`
+      .from('guides') // Tabella principale
+      .select(
+        `
         *,                                   
         categories (                         
           id,                                
           name
         )
-      `)
-      .order('created_at', { ascending: false })  // Ordinamento: più recenti per prime
+      `
+      )
+      .order('created_at', { ascending: false }); // Ordinamento: più recenti per prime
 
     // Applicazione filtro condizionale per categoria
     if (categoryId) {
@@ -82,20 +84,19 @@ export async function GET(request: NextRequest) {
     if (error) {
       console.error('Supabase error:', error);
       return NextResponse.json(
-        { 
-          error: 'Errore nel recuperare le guide', 
-          details: error.message 
+        {
+          error: 'Errore nel recuperare le guide',
+          details: error.message,
         },
         { status: 500 }
       );
     }
 
     // Risposta di successo
-    return NextResponse.json({ 
-      success: true, 
-      data: guides || [] // Fallback array vuoto se guides è null
+    return NextResponse.json({
+      success: true,
+      data: guides || [], // Fallback array vuoto se guides è null
     });
-
   } catch (error) {
     // Gestione errori JavaScript generici
     console.error('API error:', error);

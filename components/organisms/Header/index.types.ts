@@ -4,5 +4,4 @@ export interface MenuItem {
   active: boolean;
 }
 
-export interface HeaderProps {
-}
+export interface HeaderProps {}
