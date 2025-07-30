@@ -13,7 +13,6 @@ export default function GuidePage() {
   const id = params.id as string;
   
   const { guide, loading, error } = useGuide(id);
-  console.log('Guide data:', guide);
 
   if (loading) {
     return (
@@ -94,12 +93,7 @@ export default function GuidePage() {
   });
 
   return (
-console.log('GUIDA:', guide),
-console.log('Title:', guide?.title),
-console.log('Created At:', guide?.created_at),
-console.log('Category:', guide?.category),
-console.log('Content:', guide?.content),
-  <div className="min-h-screen p-8">
+    <div className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <div className="mb-8">
