@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
+import CategoryFilter from '@/components/molecules/CategoryFilter';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 
@@ -57,22 +58,12 @@ export default function GuidesPage() {
 
         {/* Filtro per categoria */}
         <div className="mb-8">
-          <label className="mb-2 block text-sm font-medium">
-            Filtra per categoria:
-          </label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="rounded-lg border bg-background px-3 py-2"
-            disabled={categoriesLoading}
-          >
-            <option value="">Tutte le categorie</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            loading={categoriesLoading}
+          />
         </div>
 
         {/* Lista guide */}
