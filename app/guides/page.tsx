@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 
@@ -28,11 +29,7 @@ export default function GuidesPage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Skeleton loading */}
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="animate-pulse rounded-lg bg-card p-6">
-                <div className="mb-4 h-4 rounded bg-muted"></div>
-                <div className="mb-2 h-3 rounded bg-muted"></div>
-                <div className="h-3 w-2/3 rounded bg-muted"></div>
-              </div>
+              <LoadingSkeleton key={i} lines={5} className="mb-8" />
             ))}
           </div>
         </div>
