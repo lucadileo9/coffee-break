@@ -1,14 +1,17 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
+import GuidePreview from '@/components/molecules/GuidePreview';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 
 export default function GuidesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const router = useRouter();
 
   // Hook per caricare le guide
   const {
@@ -69,37 +72,7 @@ export default function GuidesPage() {
         {/* Lista guide */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {guides.map((guide) => (
-            <div
-              key={guide.id}
-              className="rounded-lg bg-card p-6 transition-shadow hover:shadow-lg"
-            >
-              <div className="mb-4">
-                {guide.categories && (
-                  <span className="mb-2 inline-block rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">
-                    {guide.categories.name}
-                  </span>
-                )}
-                <h3 className="mb-2 text-lg font-semibold">{guide.title}</h3>
-                {/* {guide.excerpt && (
-                  <p className="text-muted-foreground text-sm line-clamp-3">
-                    {guide.excerpt}
-                  </p>
-                )} */}
-              </div>
-
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">
-                  {new Date(guide.created_at).toLocaleDateString('it-IT')}
-  
-                </span>
-                <a
-                  href={`/guides/${guide.id}`}
-                  className="text-sm font-medium text-primary hover:underline"
-                >
-                  Leggi →
-                </a>
-              </div>
-            </div>
+            <GuidePreview key={guide.id} guide={guide} onClick={() => router.push(`/guides/${guide.id}`)} />
           ))}
         </div>
 
