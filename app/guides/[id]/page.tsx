@@ -125,8 +125,8 @@ export default function GuidePage() {
                   <DateBadge date={guide.created_at} />
                 </div>
 
-                {guide.category && (
-                  <CategoryBadge name={guide.category.name} variant="default" />
+                {guide.categories && (
+                  <CategoryBadge name={guide.categories.name} variant="default" />
                 )}
               </div>
             </div>

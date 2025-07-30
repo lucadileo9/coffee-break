@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
+import CategoryBadge from '@/components/atoms/CategoryBadge';
 
 export default function GuidesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -53,6 +54,7 @@ export default function GuidesPage() {
     );
   }
 
+  console.log('Guides:', guides);
   return (
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
@@ -86,9 +88,9 @@ export default function GuidesPage() {
               className="rounded-lg bg-card p-6 transition-shadow hover:shadow-lg"
             >
               <div className="mb-4">
-                {guide.category && (
+                {guide.categories && (
                   <span className="mb-2 inline-block rounded-full bg-primary/10 px-2 py-1 text-xs text-primary">
-                    {guide.category.name}
+                    {guide.categories.name}
                   </span>
                 )}
                 <h3 className="mb-2 text-lg font-semibold">{guide.title}</h3>
@@ -102,6 +104,7 @@ export default function GuidesPage() {
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">
                   {new Date(guide.created_at).toLocaleDateString('it-IT')}
+  
                 </span>
                 <a
                   href={`/guides/${guide.id}`}

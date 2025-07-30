@@ -5,9 +5,9 @@ export interface Guide {
   created_at: string;
   title: string;
   content: string;
-  category_id: string;
+  category_id: string;     // Foreign key - ID della categoria
   // published?: boolean;
-  category?: Category; // Relazione con categoria
+  categories?: Category;   // ← Nome del campo come restituito da Supabase (plurale)
 }
 
 // Per form di creazione (se servisse)

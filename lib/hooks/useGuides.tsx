@@ -21,7 +21,7 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
 
       const params = new URLSearchParams();
       if (categoryId) {
-        params.append('category_id', categoryId);
+        params.append('id', categoryId);
       }
 
       const url = `/api/guides${params.toString() ? `?${params}` : ''}`;

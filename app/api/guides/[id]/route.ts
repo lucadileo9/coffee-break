@@ -46,7 +46,7 @@ interface RouteParams {
  *     "id": "abc-123-def-456",
  *     "title": "Come macinare i chicchi di caffè",
  *     "content": "Il contenuto completo della guida...",
- *     "category_id": "cat-uuid-789",
+ *     "id": "cat-uuid-789",
  *     "created_at": "2024-01-20T14:30:00Z",
  *     "published": true,
  *     "categories": {

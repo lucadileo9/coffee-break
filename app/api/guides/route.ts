@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
  * @param {NextRequest} request - Oggetto richiesta HTTP che contiene URL e parametri
  *
  * Query Parameters supportati:
- * @param {string} [category_id] - Filtra guide per ID categoria specifica
+ * @param {string} [id] - Filtra guide per ID categoria specifica
  *
  * @returns {Promise<NextResponse>} Response JSON con:
  *   - success: boolean - Indica se l'operazione è riuscita
@@ -24,7 +24,7 @@ import { supabase } from '@/lib/supabase';
  * GET /api/guides
  *
  * Richiesta: guide di una categoria specifica
- * GET /api/guides?category_id=uuid-123
+ * GET /api/guides?id=uuid-123
  *
  * Risposta di successo (200)
  * {
@@ -34,7 +34,7 @@ import { supabase } from '@/lib/supabase';
  *       "id": "guide-uuid-456",
  *       "title": "Come preparare un espresso perfetto",
  *       "content": "Testo della guida...",
- *       "category_id": "uuid-123",
+ *       "id": "uuid-123",
  *       "created_at": "2024-01-15T10:30:00Z",
  *       "published": true,
  *       "categories": {
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
   try {
     // Estrazione dei query parameters dall'URL
     const { searchParams } = new URL(request.url);
-    const categoryId = searchParams.get('category_id');
+    const categoryId = searchParams.get('id');
 
     // Costruzione della query base con JOIN
     let query = supabase
@@ -73,8 +73,8 @@ export async function GET(request: NextRequest) {
 
     // Applicazione filtro condizionale per categoria
     if (categoryId) {
-      query = query.eq('category_id', categoryId);
-      // SQL equivalente: WHERE category_id = 'categoryId'
+      query = query.eq('id', categoryId);
+      // SQL equivalente: WHERE id = 'categoryId'
     }
 
     // Esecuzione della query
