@@ -61,9 +61,9 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('guides')                        // Tabella principale
       .select(`
-        *,                                   // Tutti i campi di guides (id, title, content, etc.)
-        categories (                         // Relazione con tabella categories
-          id,                                // Solo id e name della categoria
+        *,                                   
+        categories (                         
+          id,                                
           name
         )
       `)
