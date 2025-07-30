@@ -1,9 +1,11 @@
 'use client';
 
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import CategoryBadge from '@/components/atoms/CategoryBadge';
+import DateBadge from '@/components/atoms/DateBadge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useGuide } from '@/lib/hooks/useGuide';
@@ -89,7 +91,8 @@ export default function GuidePage() {
     month: 'long',
     day: 'numeric',
   });
-
+  console.log('Category:', guide.category);
+  console.log('Guide:', guide);
   return (
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
@@ -119,18 +122,11 @@ export default function GuidePage() {
               {/* Meta info */}
               <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4" />
-                  {/* <span>{formattedDate}</span> */}
-                  <span>{guide.created_at}</span>
+                  <DateBadge date={guide.created_at} />
                 </div>
 
                 {guide.category && (
-                  <div className="flex items-center gap-2">
-                    <Tag className="h-4 w-4" />
-                    <span className="rounded-md bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-                      {guide.category.name}
-                    </span>
-                  </div>
+                  <CategoryBadge name={guide.category.name} variant="default" />
                 )}
               </div>
             </div>
