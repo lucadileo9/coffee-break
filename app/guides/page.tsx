@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
-import CategoryBadge from '@/components/atoms/CategoryBadge';
 
 export default function GuidesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -54,7 +53,6 @@ export default function GuidesPage() {
     );
   }
 
-  console.log('Guides:', guides);
   return (
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">

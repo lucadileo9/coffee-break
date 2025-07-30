@@ -85,14 +85,6 @@ export default function GuidePage() {
     return null;
   }
 
-  // Formatta la data
-  const formattedDate = new Date(guide.created_at).toLocaleDateString('it-IT', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-  console.log('Category:', guide.category);
-  console.log('Guide:', guide);
   return (
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
