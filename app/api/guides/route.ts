@@ -21,7 +21,7 @@ import { supabase } from '@/lib/supabase';
  *
  * @example
  * Richiesta: tutte le guide
- * GET /api/guides
+ * GET /api/guides?id=all
  *
  * Richiesta: guide di una categoria specifica
  * GET /api/guides?id=uuid-123
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false }); // Ordinamento: più recenti per prime
 
     // Applicazione filtro condizionale per categoria
-    if (categoryId) {
+    if (categoryId !== 'all') {
       query = query.eq('category_id', categoryId);
       // SQL equivalente: WHERE category_id = 'categoryId'
     }
