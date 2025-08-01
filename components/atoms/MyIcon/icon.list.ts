@@ -33,6 +33,12 @@ import {
   Info,
   AlertCircle,
   RefreshCw,
+  ArrowRight,
+  ArrowUp,
+  ArrowDown,
+  ArrowLeft,
+  ArrowUpDown,
+  ArrowLeftRight,
 } from 'lucide-react';
 
 import { IconName } from './index.types';
@@ -73,6 +79,12 @@ export const iconMap = {
   'info': Info,
   'alert-circle': AlertCircle,
   'refresh-cw': RefreshCw,
+  'arrow-right': ArrowRight,
+  'arrow-left': ArrowLeft,
+  'arrow-up': ArrowUp,
+  'arrow-down': ArrowDown,
+  'arrow-up-down': ArrowUpDown,
+  'arrow-left-right': ArrowLeftRight, 
 } as const;
 
 /**
