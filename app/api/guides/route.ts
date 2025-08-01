@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false }); // Ordinamento: più recenti per prime
 
     // Applicazione filtro condizionale per categoria
-    if (categoryId !== 'all') {
+    if (categoryId && categoryId !== 'all'  ) {
       query = query.eq('category_id', categoryId);
       // SQL equivalente: WHERE category_id = 'categoryId'
     }
