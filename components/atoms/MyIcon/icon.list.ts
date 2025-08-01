@@ -84,7 +84,7 @@ export const iconMap = {
   'arrow-up': ArrowUp,
   'arrow-down': ArrowDown,
   'arrow-up-down': ArrowUpDown,
-  'arrow-left-right': ArrowLeftRight, 
+  'arrow-left-right': ArrowLeftRight,
 } as const;
 
 /**
