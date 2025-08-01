@@ -4,11 +4,10 @@ import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import CategoryBadge from '@/components/atoms/CategoryBadge';
-import DateBadge from '@/components/atoms/DateBadge';
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
+import GuideCard from '@/components/molecules/GuideCard';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useGuide } from '@/lib/hooks/useGuide';
 
 export default function GuidePage() {
@@ -82,43 +81,8 @@ export default function GuidePage() {
           </Link>
         </div>
 
-        <div className="space-y-6">CIAO</div>
         {/* Guide Content */}
-        <Card className="overflow-hidden">
-          <CardHeader className="border-b bg-muted/30">
-            <div className="space-y-4">
-              {/* Title */}
-              <h1 className="text-3xl font-bold leading-tight">
-                {guide.title}
-              </h1>
-
-              {/* Meta info */}
-              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <DateBadge date={guide.created_at} />
-                </div>
-
-                {guide.categories && (
-                  <CategoryBadge
-                    name={guide.categories.name}
-                    variant="default"
-                  />
-                )}
-              </div>
-            </div>
-          </CardHeader>
-
-          <CardContent className="p-8">
-            {/* Content */}
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <div
-                className="whitespace-pre-wrap leading-relaxed"
-                // dangerouslySetInnerHTML={{ __html: guide.content.replace(/\n/g, '<br>') }}
-              />
-              {guide.content}
-            </div>
-          </CardContent>
-        </Card>
+        <GuideCard guide={guide} />
 
         {/* Navigation Footer */}
         <div className="mt-8 text-center">
