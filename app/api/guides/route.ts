@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
  * @param {NextRequest} request - Oggetto richiesta HTTP che contiene URL e parametri
  *
  * Query Parameters supportati:
- * @param {string} [id] - Filtra guide per ID categoria specifica
+ * @param {string} [id] - Filtra guide per ID categoria specifica (filtra su category_id)
  *
  * @returns {Promise<NextResponse>} Response JSON con:
  *   - success: boolean - Indica se l'operazione è riuscita
@@ -73,8 +73,8 @@ export async function GET(request: NextRequest) {
 
     // Applicazione filtro condizionale per categoria
     if (categoryId) {
-      query = query.eq('id', categoryId);
-      // SQL equivalente: WHERE id = 'categoryId'
+      query = query.eq('category_id', categoryId);
+      // SQL equivalente: WHERE category_id = 'categoryId'
     }
 
     // Esecuzione della query
