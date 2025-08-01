@@ -3,17 +3,33 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
-import GuidePreview from '@/components/molecules/GuidePreview';
+import GuideList from '@/components/organisms/GuideList';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 
+
 export default function GuidesPage() {
+  // ==================== STATE MANAGEMENT ====================
+  
+  /**
+   * Stato per tracciare la categoria selezionata nel filtro
+   * Stringa vuota significa "tutte le categorie"
+   */
   const [selectedCategory, setSelectedCategory] = useState<string>('');
+  
+  /**
+   * Router per la navigazione programmatica verso le pagine di dettaglio
+   */
   const router = useRouter();
 
-  // Hook per caricare le guide
+  // ==================== DATA FETCHING ====================
+  
+  /**
+   * Hook personalizzato per il caricamento delle guide
+   * - Se selectedCategory è vuoto, carica tutte le guide
+   * - Se selectedCategory è valorizzato, filtra per quella categoria
+   */
   const {
     guides,
     loading: guidesLoading,
@@ -22,25 +38,37 @@ export default function GuidesPage() {
     categoryId: selectedCategory || undefined,
   });
 
-  // Hook per caricare le categorie
+  /**
+   * Hook personalizzato per il caricamento delle categorie
+   * Necessario per popolare il filtro delle categorie
+   */
   const { categories, loading: categoriesLoading } = useCategories();
 
-  if (guidesLoading && guides.length === 0) {
-    return (
-      <div className="min-h-screen p-8">
-        <div className="mx-auto max-w-4xl">
-          <h1 className="mb-8 text-3xl font-bold">Guide</h1>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* Skeleton loading */}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <LoadingSkeleton key={i} lines={5} className="mb-8" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // ==================== COMPUTED VALUES ====================
+  
+  /**
+   * Guide filtrate in base alla categoria selezionata
+   * NOTA: Questo filtro è ridondante perché useGuides già filtra lato server
+   * TODO: Rimuovere questo filtro client-side in futuro
+   */
+  const filteredGuides = selectedCategory
+    ? guides.filter(guide => guide.category_id === selectedCategory)
+    : guides;
 
+  /**
+   * Messaggio da mostrare quando non ci sono guide
+   * Cambia in base al fatto che ci sia un filtro attivo o meno
+   */
+  const emptyMessage = selectedCategory
+    ? 'Nessuna guida trovata per questa categoria.'
+    : 'Nessuna guida disponibile.';
+
+  // ==================== ERROR HANDLING ====================
+  
+  /**
+   * Gestione degli errori nel caricamento delle guide
+   * Mostra un messaggio di errore styled con Tailwind
+   */
   if (guidesError) {
     return (
       <div className="min-h-screen p-8">
@@ -54,12 +82,22 @@ export default function GuidesPage() {
     );
   }
 
+  // ==================== RENDER ====================
+  
+  /**
+   * Struttura della pagina:
+   * 1. Container principale con padding e max-width
+   * 2. Titolo della pagina
+   * 3. Filtro per categoria (componente CategoryFilter)
+   * 4. Lista delle guide (componente GuideList)
+   */
   return (
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
+        {/* Titolo principale della pagina */}
         <h1 className="mb-8 text-3xl font-bold">Guide</h1>
 
-        {/* Filtro per categoria */}
+        {/* Sezione filtro categorie */}
         <div className="mb-8">
           <CategoryFilter
             categories={categories}
@@ -69,23 +107,13 @@ export default function GuidesPage() {
           />
         </div>
 
-        {/* Lista guide */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {guides.map((guide) => (
-            <GuidePreview key={guide.id} guide={guide} onClick={() => router.push(`/guides/${guide.id}`)} />
-          ))}
-        </div>
-
-        {/* Messaggio nessuna guida */}
-        {guides.length === 0 && !guidesLoading && (
-          <div className="py-12 text-center">
-            <p className="text-muted-foreground">
-              {selectedCategory
-                ? 'Nessuna guida trovata per questa categoria.'
-                : 'Nessuna guida disponibile.'}
-            </p>
-          </div>
-        )}
+        {/* Lista delle guide filtrate */}
+        <GuideList
+          guides={filteredGuides}
+          loading={guidesLoading}
+          onGuideClick={(id) => router.push(`/guides/${id}`)}
+          emptyMessage={emptyMessage}
+        />
       </div>
     </div>
   );
