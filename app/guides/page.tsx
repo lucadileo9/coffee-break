@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import SimpleTitle from '@/components/atoms/SimpleTitle';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
 import GuideList from '@/components/organisms/GuideList';
 import { useCategories } from '@/lib/hooks/useCategories';
@@ -83,7 +84,7 @@ export default function GuidesPage() {
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
         {/* Titolo principale della pagina */}
-        <h1 className="mb-8 text-3xl font-bold">Guide</h1>
+        <SimpleTitle level="h1" className="mb-8">Guida alle Guide</SimpleTitle>
 
         {/* Sezione filtro categorie */}
         <div className="mb-8">
