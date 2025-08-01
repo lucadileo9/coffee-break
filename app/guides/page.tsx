@@ -44,16 +44,6 @@ export default function GuidesPage() {
    */
   const { categories, loading: categoriesLoading } = useCategories();
 
-  // ==================== COMPUTED VALUES ====================
-  
-  /**
-   * Guide filtrate in base alla categoria selezionata
-   * NOTA: Questo filtro è ridondante perché useGuides già filtra lato server
-   * TODO: Rimuovere questo filtro client-side in futuro
-   */
-  const filteredGuides = selectedCategory
-    ? guides.filter(guide => guide.category_id === selectedCategory)
-    : guides;
 
   /**
    * Messaggio da mostrare quando non ci sono guide
@@ -109,7 +99,7 @@ export default function GuidesPage() {
 
         {/* Lista delle guide filtrate */}
         <GuideList
-          guides={filteredGuides}
+          guides={guides}
           loading={guidesLoading}
           onGuideClick={(id) => router.push(`/guides/${id}`)}
           emptyMessage={emptyMessage}
