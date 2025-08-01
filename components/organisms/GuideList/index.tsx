@@ -1,16 +1,15 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import LoadingSkeleton from "@/components/atoms/LoadingSkeleton";
-import GuidePreview from "@/components/molecules/GuidePreview";
+import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
+import GuidePreview from '@/components/molecules/GuidePreview';
 
-import GuideListProps from "./index.types"
+import GuideListProps from './index.types';
 
-const GuideList: FC<GuideListProps> = ({ 
-    guides,
+const GuideList: FC<GuideListProps> = ({
+  guides,
   loading = false,
   onGuideClick,
-  emptyMessage = "Nessuna guida disponibile."
-
+  emptyMessage = 'Nessuna guida disponibile.',
 }) => {
   if (loading) {
     return (
@@ -23,9 +22,7 @@ const GuideList: FC<GuideListProps> = ({
   }
   if (guides.length === 0) {
     return (
-      <div className="text-center text-muted-foreground">
-        {emptyMessage}
-      </div>
+      <div className="text-center text-muted-foreground">{emptyMessage}</div>
     );
   }
   return (
@@ -39,6 +36,6 @@ const GuideList: FC<GuideListProps> = ({
       ))}
     </div>
   );
-}
+};
 
-export default GuideList
+export default GuideList;

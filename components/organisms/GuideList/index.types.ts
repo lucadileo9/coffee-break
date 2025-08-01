@@ -1,9 +1,8 @@
-import { Guide } from "@/types/guides";
+import { Guide } from '@/types/guides';
 
 export default interface GuideListProps {
-      guides: Guide[];
+  guides: Guide[];
   loading?: boolean;
   onGuideClick: (guideId: string) => void;
   emptyMessage?: string;
-
- }
+}

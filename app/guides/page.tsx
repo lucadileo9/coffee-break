@@ -8,23 +8,22 @@ import GuideList from '@/components/organisms/GuideList';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 
-
 export default function GuidesPage() {
   // ==================== STATE MANAGEMENT ====================
-  
+
   /**
    * Stato per tracciare la categoria selezionata nel filtro
    * Stringa vuota significa "tutte le categorie"
    */
   const [selectedCategory, setSelectedCategory] = useState<string>('');
-  
+
   /**
    * Router per la navigazione programmatica verso le pagine di dettaglio
    */
   const router = useRouter();
 
   // ==================== DATA FETCHING ====================
-  
+
   /**
    * Hook personalizzato per il caricamento delle guide
    * - Se selectedCategory è vuoto, carica tutte le guide
@@ -44,7 +43,6 @@ export default function GuidesPage() {
    */
   const { categories, loading: categoriesLoading } = useCategories();
 
-
   /**
    * Messaggio da mostrare quando non ci sono guide
    * Cambia in base al fatto che ci sia un filtro attivo o meno
@@ -54,7 +52,7 @@ export default function GuidesPage() {
     : 'Nessuna guida disponibile.';
 
   // ==================== ERROR HANDLING ====================
-  
+
   /**
    * Gestione degli errori nel caricamento delle guide
    * Mostra un messaggio di errore styled con Tailwind
@@ -73,7 +71,7 @@ export default function GuidesPage() {
   }
 
   // ==================== RENDER ====================
-  
+
   /**
    * Struttura della pagina:
    * 1. Container principale con padding e max-width

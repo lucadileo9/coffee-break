@@ -99,7 +99,10 @@ export default function GuidePage() {
                 </div>
 
                 {guide.categories && (
-                  <CategoryBadge name={guide.categories.name} variant="default" />
+                  <CategoryBadge
+                    name={guide.categories.name}
+                    variant="default"
+                  />
                 )}
               </div>
             </div>

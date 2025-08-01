@@ -1,12 +1,23 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-import CategoryFilterProps from "./index.types"
+import CategoryFilterProps from './index.types';
 
-const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selectedCategory, onCategoryChange, loading }) => {
+const CategoryFilter: FC<CategoryFilterProps> = ({
+  categories,
+  selectedCategory,
+  onCategoryChange,
+  loading,
+}) => {
   return (
-        <div className="mb-8">
+    <div className="mb-8">
       <label className="mb-2 block text-sm font-medium">
         Filtra per categoria:
       </label>
@@ -21,15 +32,14 @@ const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selectedCategory,
         <SelectContent>
           <SelectItem value="all">Tutte le categorie</SelectItem>
           {categories.map((category) => (
-        <SelectItem key={category.id} value={category.id}>
-          {category.name}
-        </SelectItem>
+            <SelectItem key={category.id} value={category.id}>
+              {category.name}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>
     </div>
+  );
+};
 
-  )
-}
-
-export default CategoryFilter
+export default CategoryFilter;

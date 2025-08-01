@@ -1,14 +1,14 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import CategoryBadge from "@/components/atoms/CategoryBadge";
-import DateBadge from "@/components/atoms/DateBadge";
+import CategoryBadge from '@/components/atoms/CategoryBadge';
+import DateBadge from '@/components/atoms/DateBadge';
 
-import GuidePreviewProps from "./index.types"
+import GuidePreviewProps from './index.types';
 
 const GuidePreview: FC<GuidePreviewProps> = ({ guide, onClick }) => {
   return (
-        <div
-      className="rounded-lg bg-card p-6 transition-shadow hover:shadow-lg cursor-pointer"
+    <div
+      className="cursor-pointer rounded-lg bg-card p-6 transition-shadow hover:shadow-lg"
       onClick={onClick}
     >
       <div className="mb-4">
@@ -27,8 +27,7 @@ const GuidePreview: FC<GuidePreviewProps> = ({ guide, onClick }) => {
         </span>
       </div>
     </div>
+  );
+};
 
-  )
-}
-
-export default GuidePreview
+export default GuidePreview;
