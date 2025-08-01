@@ -15,7 +15,7 @@ const GuideList: FC<GuideListProps> = ({
     return (
       <div className="grid grid-cols-1 gap-4">
         {Array.from({ length: 6 }).map((_, index) => (
-          <LoadingSkeleton key={index} className="h-20" />
+          <LoadingSkeleton key={index} />
         ))}
       </div>
     );
