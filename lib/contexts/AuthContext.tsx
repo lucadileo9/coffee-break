@@ -1,0 +1,135 @@
+import { User, Session, AuthError } from '@supabase/supabase-js';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import { supabase } from '@/lib/supabase';
+
+interface AuthContextType {
+  // Stato autenticazione
+  user: User | null;
+  session: Session | null;
+  loading: boolean;
+  
+  // Metodi autenticazione
+  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signOut: () => Promise<{ error: AuthError | null }>;
+  
+  // Utility
+  isAuthenticated: boolean;
+  isAdmin: boolean;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+/**
+ * AuthProvider - Provider per gestire stato globale autenticazione
+ * 
+ * Features:
+ * - Gestione sessione automatica
+ * - Persistenza login tra refresh
+ * - Controllo ruoli admin
+ * - Loading states
+ * 
+ * @param children - Componenti figli
+ */
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Inizializza sessione al mount
+  useEffect(() => {
+    // Ottieni sessione corrente
+    const getSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error) {
+        console.error('Error getting session:', error);
+      } else {
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+      
+      setLoading(false);
+    };
+
+    getSession();
+
+    // Listener per cambi di stato auth
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    // Cleanup subscription
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Metodo per login
+  const signIn = async (email: string, password: string) => {
+    setLoading(true);
+    
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    setLoading(false);
+    return { error };
+  };
+
+  // Metodo per logout
+  const signOut = async () => {
+    setLoading(true);
+    
+    const { error } = await supabase.auth.signOut();
+    
+    if (!error) {
+      setUser(null);
+      setSession(null);
+    }
+    
+    setLoading(false);
+    return { error };
+  };
+
+  // Computed values
+  const isAuthenticated = !!user;
+  const isAdmin = !!user && (
+    user.email === 'admin@jemore.it' || 
+    user.user_metadata?.role === 'admin' ||
+    user.app_metadata?.role === 'admin'
+  );
+
+  const value: AuthContextType = {
+    user,
+    session,
+    loading,
+    signIn,
+    signOut,
+    isAuthenticated,
+    isAdmin,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+/**
+ * Hook per utilizzare il context di autenticazione
+ * @returns AuthContextType
+ */
+export function useAuth() {
+  const context = useContext(AuthContext);
+  
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  
+  return context;
+}
