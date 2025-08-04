@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { supabase } from '@/lib/supabase';
+import { CreateGuideData } from '@/types/guides';
 
 /**
  * Interfaccia TypeScript per i parametri dinamici della route
@@ -127,6 +128,352 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     });
   } catch (error) {
     // Gestione errori JavaScript imprevisti
+    console.error('API error:', error);
+    return NextResponse.json(
+      { error: 'Errore interno del server' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PUT /api/guides/[id]
+ *
+ * Modifica completamente una guida esistente.
+ * Richiede autenticazione admin.
+ *
+ * @param {NextRequest} request - Oggetto richiesta HTTP con body JSON
+ * @param {RouteParams} { params } - Parametri dinamici estratti dall'URL
+ *
+ * Route Parameters:
+ * @param {string} id - ID univoco della guida da modificare
+ *
+ * Body Parameters richiesti:
+ * @param {string} title - Nuovo titolo della guida
+ * @param {string} content - Nuovo contenuto della guida
+ * @param {string} category_id - ID della nuova categoria associata
+ * @param {boolean} [published] - Se la guida è pubblicata
+ *
+ * @returns {Promise<NextResponse>} Response JSON con guida aggiornata
+ *
+ * @example
+ * // Richiesta
+ * PUT /api/guides/abc-123-def-456
+ * {
+ *   "title": "Titolo aggiornato",
+ *   "content": "Contenuto aggiornato",
+ *   "category_id": "new-category-uuid"
+ * }
+ *
+ * // Risposta (200)
+ * {
+ *   "success": true,
+ *   "data": { ... } // Guida aggiornata con categoria
+ * }
+ */
+export async function PUT(request: NextRequest, { params }: RouteParams) {
+  try {
+    // TODO: Aggiungere controllo autenticazione admin
+    
+    const { id } = params;
+    
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID guida richiesto' },
+        { status: 400 }
+      );
+    }
+
+    // Parsing del body JSON
+    const body: CreateGuideData = await request.json();
+    const { title, content, category_id } = body;
+    
+    // Validazione dati
+    if (!title?.trim()) {
+      return NextResponse.json(
+        { error: 'Titolo obbligatorio' },
+        { status: 400 }
+      );
+    }
+    
+    if (!content?.trim()) {
+      return NextResponse.json(
+        { error: 'Contenuto obbligatorio' },
+        { status: 400 }
+      );
+    }
+    
+    if (!category_id?.trim()) {
+      return NextResponse.json(
+        { error: 'Categoria obbligatoria' },
+        { status: 400 }
+      );
+    }
+
+    // Verifica che la categoria esista
+    const { data: categoryExists, error: categoryError } = await supabase
+      .from('categories')
+      .select('id')
+      .eq('id', category_id)
+      .single();
+
+    if (categoryError || !categoryExists) {
+      return NextResponse.json(
+        { error: 'Categoria non trovata' },
+        { status: 400 }
+      );
+    }
+
+    // Aggiornamento guida
+    const { data: updatedGuide, error: updateError } = await supabase
+      .from('guides')
+      .update({
+        title: title.trim(),
+        content: content.trim(),
+        category_id,
+        // published, // Se hai questo campo
+      })
+      .eq('id', id)
+      .select(`
+        *,
+        categories (
+          id,
+          name
+        )
+      `)
+      .single();
+
+    if (updateError) {
+      console.error('Update error:', updateError);
+      
+      // Gestione specifica per "guida non trovata"
+      if (updateError.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: 'Guida non trovata' },
+          { status: 404 }
+        );
+      }
+      
+      return NextResponse.json(
+        { error: 'Errore durante l\'aggiornamento della guida' },
+        { status: 500 }
+      );
+    }
+
+    if (!updatedGuide) {
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedGuide,
+    });
+
+  } catch (error) {
+    console.error('API error:', error);
+    
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: 'Body JSON malformato' },
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json(
+      { error: 'Errore interno del server' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PATCH /api/guides/[id]
+ *
+ * Modifica parzialmente una guida esistente.
+ * Simile a PUT ma permette aggiornamenti parziali.
+ * Richiede autenticazione admin.
+ */
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
+  try {
+    // TODO: Aggiungere controllo autenticazione admin
+    
+    const { id } = params;
+    
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID guida richiesto' },
+        { status: 400 }
+      );
+    }
+
+    // Parsing del body JSON
+    const body: Partial<CreateGuideData> = await request.json();
+    const { title, content, category_id } = body;
+    
+    // Validazione: almeno un campo deve essere presente
+    if (!title && !content && !category_id) {
+      return NextResponse.json(
+        { error: 'Almeno un campo da aggiornare è richiesto' },
+        { status: 400 }
+      );
+    }
+
+    // Costruisci oggetto update dinamicamente
+    const updateData: Partial<CreateGuideData> = {};
+    
+    if (title?.trim()) updateData.title = title.trim();
+    if (content?.trim()) updateData.content = content.trim();
+    if (category_id?.trim()) {
+      // Verifica che la categoria esista
+      const { data: categoryExists, error: categoryError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('id', category_id)
+        .single();
+
+      if (categoryError || !categoryExists) {
+        return NextResponse.json(
+          { error: 'Categoria non trovata' },
+          { status: 400 }
+        );
+      }
+      
+      updateData.category_id = category_id.trim();
+    }
+
+    // Aggiornamento parziale
+    const { data: updatedGuide, error: updateError } = await supabase
+      .from('guides')
+      .update(updateData)
+      .eq('id', id)
+      .select(`
+        *,
+        categories (
+          id,
+          name
+        )
+      `)
+      .single();
+
+    if (updateError) {
+      console.error('Patch error:', updateError);
+      
+      if (updateError.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: 'Guida non trovata' },
+          { status: 404 }
+        );
+      }
+      
+      return NextResponse.json(
+        { error: 'Errore durante l\'aggiornamento della guida' },
+        { status: 500 }
+      );
+    }
+
+    if (!updatedGuide) {
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: updatedGuide,
+    });
+
+  } catch (error) {
+    console.error('API error:', error);
+    
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        { error: 'Body JSON malformato' },
+        { status: 400 }
+      );
+    }
+    
+    return NextResponse.json(
+      { error: 'Errore interno del server' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/guides/[id]
+ *
+ * Elimina definitivamente una guida dal database.
+ * Richiede autenticazione admin.
+ *
+ * @param {NextRequest} request - Oggetto richiesta HTTP
+ * @param {RouteParams} { params } - Parametri dinamici estratti dall'URL
+ *
+ * Route Parameters:
+ * @param {string} id - ID univoco della guida da eliminare
+ *
+ * @returns {Promise<NextResponse>} Response JSON con conferma eliminazione
+ *
+ * @example
+ * // Richiesta
+ * DELETE /api/guides/abc-123-def-456
+ *
+ * // Risposta successo (200)
+ * {
+ *   "success": true,
+ *   "message": "Guida eliminata con successo"
+ * }
+ *
+ * // Risposta guida non trovata (404)
+ * {
+ *   "error": "Guida non trovata"
+ * }
+ */
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  try {
+    // TODO: Aggiungere controllo autenticazione admin
+    
+    const { id } = params;
+    
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID guida richiesto' },
+        { status: 400 }
+      );
+    }
+
+    // Elimina la guida
+    const { error: deleteError, count } = await supabase
+      .from('guides')
+      .delete()
+      .eq('id', id);
+
+    if (deleteError) {
+      console.error('Delete error:', deleteError);
+      return NextResponse.json(
+        { error: 'Errore durante l\'eliminazione della guida' },
+        { status: 500 }
+      );
+    }
+
+    // Verifica se è stata effettivamente eliminata una riga
+    // Se count è 0, significa che l'ID non esisteva
+    if (count === 0) {
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Guida eliminata con successo',
+    });
+
+  } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
       { error: 'Errore interno del server' },
