@@ -39,6 +39,7 @@ import {
   ArrowLeft,
   ArrowUpDown,
   ArrowLeftRight,
+  Plus,
 } from 'lucide-react';
 
 import { IconName } from './index.types';
@@ -85,6 +86,7 @@ export const iconMap = {
   'arrow-down': ArrowDown,
   'arrow-up-down': ArrowUpDown,
   'arrow-left-right': ArrowLeftRight,
+  'plus': Plus,
 } as const;
 
 /**
