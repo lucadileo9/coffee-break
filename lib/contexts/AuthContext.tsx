@@ -32,13 +32,24 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
  * @param children - Componenti figli
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null); // Utente corrente
+  const [session, setSession] = useState<Session | null>(null); // Sessione corrente
+  const [loading, setLoading] = useState(true); // Stato di caricamento
 
   // Inizializza sessione al mount
   useEffect(() => {
     // Ottieni sessione corrente
+    /**
+     * Retrieves the current authentication session from Supabase and updates the local session and user state.
+     * 
+     * - Calls `supabase.auth.getSession()` to fetch the current session.
+     * - If an error occurs, logs the error to the console.
+     * - On success, updates the session and user state with the retrieved session data.
+     * - Sets the loading state to `false` after the operation completes.
+     *
+     * @async
+     * @returns {Promise<void>} A promise that resolves when the session retrieval and state updates are complete.
+     */
     const getSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
       
@@ -52,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(false);
     };
 
-    getSession();
+    getSession(); // Inizializza sessione al mount
 
     // Listener per cambi di stato auth
     const { data: { subscription } } = supabase.auth.onAuthStateChange(

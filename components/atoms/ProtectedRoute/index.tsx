@@ -5,12 +5,7 @@ import SimpleTitle from '@/components/atoms/SimpleTitle';
 import LoginForm from '@/components/organisms/LoginForm';
 import { useAuth } from '@/lib/contexts/AuthContext';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-  requireAdmin?: boolean;
-  fallback?: React.ReactNode;
-}
-
+import ProtectedRouteProps from './index.types';
 /**
  * ProtectedRoute - Componente per proteggere route che richiedono autenticazione
  * 
