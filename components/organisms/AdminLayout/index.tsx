@@ -35,7 +35,7 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background px-4 py-8">
       {/* Header Admin con navigazione integrata */}
       <AdminHeader currentPage={currentPage} />
 
