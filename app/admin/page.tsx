@@ -1,13 +1,14 @@
 import React from "react";
 
-import AdminHeader from "@/components/molecules/AdminHeader";
+import AdminLayout from "@/components/organisms/AdminLayout";
 
 export default function AdminHomePage() {
     return (
         <main style={{ padding: "2rem" }}>
-            <AdminHeader currentPage="dashboard" />
-            <h1>Admin Dashboard</h1>
-            <p>Welcome to the Coffee Break admin panel.</p>
+            <AdminLayout>
+                <h1>Admin Dashboard</h1>
+                <p>Welcome to the Coffee Break admin panel.</p>
+            </AdminLayout>
         </main>
     );
 }
