@@ -82,7 +82,7 @@ export default function CategoriesManager() {
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle>Categorie {categories?.length || 0}</CardTitle>
+              <CardTitle>Categorie: {categories?.length || 0}</CardTitle>
               <CardDescription>
                 Gestisci le categorie per organizzare le guide
               </CardDescription>

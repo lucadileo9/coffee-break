@@ -75,7 +75,7 @@ export default function GuidesManager() {
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
-              <CardTitle>Guide ({filteredGuides.length})</CardTitle>
+              <CardTitle>Guide: {filteredGuides.length}</CardTitle>
               <CardDescription>
                 Gestisci le guide del Coffee Break
               </CardDescription>
