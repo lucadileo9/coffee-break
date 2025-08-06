@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Gestione Contenuti */}
-          {/* <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
             <div className="space-y-4">
               <SimpleTitle level="h2">Gestione Guide</SimpleTitle>
@@ -49,7 +49,7 @@ export default function AdminDashboardPage() {
               <SimpleTitle level="h2">Gestione Categorie</SimpleTitle>
               <CategoriesManager />
             </div>
-          </div> */}
+          </div>
         </div>
       </AdminLayout>
   );
