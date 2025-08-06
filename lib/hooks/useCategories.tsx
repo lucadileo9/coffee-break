@@ -36,6 +36,6 @@ export const useCategories = () => {
     categories,
     loading,
     error,
-    refetch: fetchCategories,
+    refetch: fetchCategories, // Funzione per ricaricare le categorie
   };
 };
