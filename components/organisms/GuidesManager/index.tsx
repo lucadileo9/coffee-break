@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 import ErrorMessage from '@/components/atoms/ErrorMessage';
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import MyButton from '@/components/atoms/MyButton';
+import CategoryFilter from '@/components/molecules/CategoryFilter';
 import GuideItem from '@/components/molecules/GuideItem';
 import GuideForm from '@/components/organisms/GuideForm';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 import { useGuidesAPI } from '@/lib/hooks/useGuidesAPI';
@@ -32,7 +31,7 @@ export default function GuidesManager() {
   
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingGuide, setEditingGuide] = useState<Guide | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   // Filtra guide per categoria
   const filteredGuides = guides?.filter(guide => 
@@ -106,25 +105,15 @@ export default function GuidesManager() {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className='text-primary'>
           {/* Filtro categorie */}
-          <div className="flex items-center space-x-4 mb-4">
-            <Label htmlFor="category-filter">Filtra per categoria:</Label>
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-48">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tutte le categorie</SelectItem>
-                {categories?.map(category => (
-                  <SelectItem key={category.id} value={category.id}>
-                    {category.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
+          <CategoryFilter
+            categories={categories || []}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            loading={guidesLoading}
+          />
+    
           {/* Errori */}
           {(guidesError || apiError) && (
             <ErrorMessage
