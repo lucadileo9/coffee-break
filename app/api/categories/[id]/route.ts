@@ -31,7 +31,7 @@ interface UpdateCategoryData {
  *
  * @example
  * GET /api/categories/abc-123
- * 
+ *
  * // Risposta (200)
  * {
  *   "success": true,
@@ -46,7 +46,7 @@ interface UpdateCategoryData {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id } = params;
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'ID categoria richiesto' },
@@ -63,14 +63,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     if (error) {
       console.error('Supabase error:', error);
-      
+
       if (error.code === 'PGRST116') {
         return NextResponse.json(
           { error: 'Categoria non trovata' },
           { status: 404 }
         );
       }
-      
+
       return NextResponse.json(
         { error: 'Errore nel recuperare la categoria' },
         { status: 500 }
@@ -97,7 +97,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         guides_count: guidesCount || 0,
       },
     });
-
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(
@@ -125,9 +124,9 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     // TODO: Aggiungere controllo autenticazione admin
-    
+
     const { id } = params;
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'ID categoria richiesto' },
@@ -137,7 +136,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const body: UpdateCategoryData = await request.json();
     const { name } = body;
-    
+
     if (!name?.trim()) {
       return NextResponse.json(
         { error: 'Nome categoria obbligatorio' },
@@ -178,16 +177,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     if (updateError) {
       console.error('Update error:', updateError);
-      
+
       if (updateError.code === 'PGRST116') {
         return NextResponse.json(
           { error: 'Categoria non trovata' },
           { status: 404 }
         );
       }
-      
+
       return NextResponse.json(
-        { error: 'Errore durante l\'aggiornamento della categoria' },
+        { error: "Errore durante l'aggiornamento della categoria" },
         { status: 500 }
       );
     }
@@ -203,17 +202,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       success: true,
       data: updatedCategory,
     });
-
   } catch (error) {
     console.error('API error:', error);
-    
+
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json(
       { error: 'Errore interno del server' },
       { status: 500 }
@@ -244,13 +242,13 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  *
  * @example
  * DELETE /api/categories/abc-123
- * 
+ *
  * // Risposta successo (200)
  * {
  *   "success": true,
  *   "message": "Categoria eliminata con successo"
  * }
- * 
+ *
  * // Risposta categoria con guide associate (409)
  * {
  *   "error": "Impossibile eliminare categoria con guide associate",
@@ -260,9 +258,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     // TODO: Aggiungere controllo autenticazione admin
-    
+
     const { id } = params;
-    
+
     if (!id) {
       return NextResponse.json(
         { error: 'ID categoria richiesto' },
@@ -287,10 +285,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     // Se ci sono guide associate, impedisci l'eliminazione
     if (guidesCount && guidesCount > 0) {
       return NextResponse.json(
-        { 
+        {
           error: 'Impossibile eliminare categoria con guide associate',
           guides_count: guidesCount,
-          suggestion: 'Elimina prima tutte le guide associate o assegna loro una categoria diversa'
+          suggestion:
+            'Elimina prima tutte le guide associate o assegna loro una categoria diversa',
         },
         { status: 409 } // Conflict
       );
@@ -305,7 +304,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (deleteError) {
       console.error('Delete error:', deleteError);
       return NextResponse.json(
-        { error: 'Errore durante l\'eliminazione della categoria' },
+        { error: "Errore durante l'eliminazione della categoria" },
         { status: 500 }
       );
     }
@@ -321,7 +320,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       success: true,
       message: 'Categoria eliminata con successo',
     });
-
   } catch (error) {
     console.error('API error:', error);
     return NextResponse.json(

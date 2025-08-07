@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import AdminLayout from '@/components/organisms/AdminLayout';
 import GuidesManager from '@/components/organisms/GuidesManager';
 
@@ -10,12 +9,12 @@ import GuidesManager from '@/components/organisms/GuidesManager';
 export default function AdminGuidesPage() {
   return (
     // <ProtectedRoute requireAdmin={true}>
-      <AdminLayout 
-        title="Gestione Guide"
-        description="Crea, modifica ed elimina le guide del Coffee Break"
-      >
-        <GuidesManager />
-      </AdminLayout>
+    <AdminLayout
+      title="Gestione Guide"
+      description="Crea, modifica ed elimina le guide del Coffee Break"
+    >
+      <GuidesManager />
+    </AdminLayout>
     // </ProtectedRoute>
   );
 }

@@ -1,9 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import LoginForm from "@/components/organisms/LoginForm";
+import LoginForm from '@/components/organisms/LoginForm';
 
 export default function LoginPage() {
-    return (
-        <LoginForm />
-    );
+  return <LoginForm />;
 }

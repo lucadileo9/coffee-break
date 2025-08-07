@@ -7,8 +7,21 @@ import MyButton from '@/components/atoms/MyButton';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
 import GuideItem from '@/components/molecules/GuideItem';
 import GuideForm from '@/components/organisms/GuideForm';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useGuides } from '@/lib/hooks/useGuides';
 import { useGuidesAPI } from '@/lib/hooks/useGuidesAPI';
@@ -16,7 +29,7 @@ import { CreateGuideData, Guide } from '@/types/guides';
 
 /**
  * GuidesManager - Componente per gestire le guide (CRUD)
- * 
+ *
  * Features:
  * - Lista guide esistenti
  * - Creazione nuove guide
@@ -25,18 +38,31 @@ import { CreateGuideData, Guide } from '@/types/guides';
  * - Filtri per categoria
  */
 export default function GuidesManager() {
-  const { guides, loading: guidesLoading, error: guidesError, refetch } = useGuides();
+  const {
+    guides,
+    loading: guidesLoading,
+    error: guidesError,
+    refetch,
+  } = useGuides();
   const { categories } = useCategories();
-  const { createGuide, updateGuide, deleteGuide, loading: apiLoading, error: apiError } = useGuidesAPI();
-  
+  const {
+    createGuide,
+    updateGuide,
+    deleteGuide,
+    loading: apiLoading,
+    error: apiError,
+  } = useGuidesAPI();
+
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingGuide, setEditingGuide] = useState<Guide | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   // Filtra guide per categoria
-  const filteredGuides = guides?.filter(guide => 
-    selectedCategory === 'all' || guide.category_id === selectedCategory
-  ) || [];
+  const filteredGuides =
+    guides?.filter(
+      (guide) =>
+        selectedCategory === 'all' || guide.category_id === selectedCategory
+    ) || [];
 
   const handleCreateGuide = async (guideData: CreateGuideData) => {
     const newGuide = await createGuide(guideData);
@@ -55,7 +81,9 @@ export default function GuidesManager() {
   };
 
   const handleDeleteGuide = async (id: string, title: string) => {
-    const confirmed = window.confirm(`Sei sicuro di voler eliminare la guida "${title}"?`);
+    const confirmed = window.confirm(
+      `Sei sicuro di voler eliminare la guida "${title}"?`
+    );
     if (!confirmed) return;
 
     const success = await deleteGuide(id);
@@ -73,14 +101,14 @@ export default function GuidesManager() {
       {/* Header con azioni */}
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-start">
+          <div className="flex items-start justify-between">
             <div>
               <CardTitle>Guide: {filteredGuides.length}</CardTitle>
               <CardDescription>
                 Gestisci le guide del Coffee Break
               </CardDescription>
             </div>
-            
+
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
               <DialogTrigger asChild>
                 <MyButton icon="plus" variant="default">
@@ -105,7 +133,7 @@ export default function GuidesManager() {
           </div>
         </CardHeader>
 
-        <CardContent className='text-primary'>
+        <CardContent className="text-primary">
           {/* Filtro categorie */}
           <CategoryFilter
             categories={categories || []}
@@ -113,7 +141,7 @@ export default function GuidesManager() {
             onCategoryChange={setSelectedCategory}
             loading={guidesLoading}
           />
-    
+
           {/* Errori */}
           {(guidesError || apiError) && (
             <ErrorMessage
@@ -125,16 +153,14 @@ export default function GuidesManager() {
 
           {/* Lista guide */}
           {filteredGuides.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
-              {selectedCategory === 'all' ? (
-                'Nessuna guida trovata. Crea la prima guida!'
-              ) : (
-                'Nessuna guida in questa categoria.'
-              )}
+            <div className="py-8 text-center text-muted-foreground">
+              {selectedCategory === 'all'
+                ? 'Nessuna guida trovata. Crea la prima guida!'
+                : 'Nessuna guida in questa categoria.'}
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredGuides.map(guide => (
+              {filteredGuides.map((guide) => (
                 <GuideItem
                   key={guide.id}
                   guide={guide}
@@ -149,7 +175,10 @@ export default function GuidesManager() {
       </Card>
 
       {/* Dialog modifica */}
-      <Dialog open={!!editingGuide} onOpenChange={(open) => !open && setEditingGuide(null)}>
+      <Dialog
+        open={!!editingGuide}
+        onOpenChange={(open) => !open && setEditingGuide(null)}
+      >
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Modifica Guida</DialogTitle>

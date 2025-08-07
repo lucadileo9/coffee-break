@@ -9,11 +9,14 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  
+
   // Metodi autenticazione
-  signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signIn: (
+    email: string,
+    password: string
+  ) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<{ error: AuthError | null }>;
-  
+
   // Utility
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -23,13 +26,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
  * AuthProvider - Provider per gestire stato globale autenticazione
- * 
+ *
  * Features:
  * - Gestione sessione automatica
  * - Persistenza login tra refresh
  * - Controllo ruoli admin
  * - Loading states
- * 
+ *
  * @param children - Componenti figli
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Ottieni sessione corrente
     /**
      * Retrieves the current authentication session from Supabase and updates the local session and user state.
-     * 
+     *
      * - Calls `supabase.auth.getSession()` to fetch the current session.
      * - If an error occurs, logs the error to the console.
      * - On success, updates the session and user state with the retrieved session data.
@@ -52,28 +55,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
      * @returns {Promise<void>} A promise that resolves when the session retrieval and state updates are complete.
      */
     const getSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
+      const {
+        data: { session },
+        error,
+      } = await supabase.auth.getSession();
+
       if (error) {
         console.error('Error getting session:', error);
       } else {
         setSession(session);
         setUser(session?.user ?? null);
       }
-      
+
       setLoading(false);
     };
 
     getSession(); // Inizializza sessione al mount
 
     // Listener per cambi di stato auth
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
 
     // Cleanup subscription
     return () => subscription.unsubscribe();
@@ -82,12 +88,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Metodo per login
   const signIn = async (email: string, password: string) => {
     setLoading(true);
-    
+
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    
+
     setLoading(false);
     return { error };
   };
@@ -95,25 +101,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Metodo per logout
   const signOut = async () => {
     setLoading(true);
-    
+
     const { error } = await supabase.auth.signOut();
-    
+
     if (!error) {
       setUser(null);
       setSession(null);
     }
-    
+
     setLoading(false);
     return { error };
   };
 
   // Computed values
   const isAuthenticated = !!user;
-  const isAdmin = !!user && (
-    user.email === 'admin@jemore.it' || 
-    user.user_metadata?.role === 'admin' ||
-    user.app_metadata?.role === 'admin'
-  );
+  const isAdmin =
+    !!user &&
+    (user.email === 'admin@jemore.it' ||
+      user.user_metadata?.role === 'admin' ||
+      user.app_metadata?.role === 'admin');
 
   const value: AuthContextType = {
     user,
@@ -125,11 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAdmin,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 /**
@@ -138,10 +140,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
  */
 export function useAuth() {
   const context = useContext(AuthContext);
-  
+
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
-  
+
   return context;
 }

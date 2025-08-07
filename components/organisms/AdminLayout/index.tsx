@@ -10,7 +10,7 @@ import AdminLayoutProps from './index.types';
 
 /**
  * AdminLayout - Layout per pagine di amministrazione
- * 
+ *
  * Features:
  * - AdminHeader separato con info utente e logout
  * - Navigazione admin con highlight pagina corrente
@@ -18,17 +18,17 @@ import AdminLayoutProps from './index.types';
  * - Breadcrumb e titoli
  * - LoadingSkeleton per stati loading
  */
-export default function AdminLayout({ 
-  children, 
-  title = "Pannello Amministrativo",
+export default function AdminLayout({
+  children,
+  title = 'Pannello Amministrativo',
   description,
-  currentPage = "dashboard"
+  currentPage = 'dashboard',
 }: AdminLayoutProps) {
   const { loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center">
         <LoadingSkeleton variant="default" className="w-96" lines={4} />
       </div>
     );
@@ -48,15 +48,13 @@ export default function AdminLayout({
               {title}
             </SimpleTitle>
             {description && (
-              <p className="text-muted-foreground max-w-3xl">{description}</p>
+              <p className="max-w-3xl text-muted-foreground">{description}</p>
             )}
           </div>
         )}
 
         {/* Page Content */}
-        <div className="space-y-6">
-          {children}
-        </div>
+        <div className="space-y-6">{children}</div>
       </main>
     </div>
   );

@@ -13,7 +13,9 @@ export function useGuidesAPI() {
   /**
    * Crea una nuova guida
    */
-  const createGuide = async (guideData: CreateGuideData): Promise<Guide | null> => {
+  const createGuide = async (
+    guideData: CreateGuideData
+  ): Promise<Guide | null> => {
     setLoading(true);
     setError(null);
 
@@ -34,7 +36,8 @@ export function useGuidesAPI() {
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -45,7 +48,10 @@ export function useGuidesAPI() {
   /**
    * Aggiorna completamente una guida esistente
    */
-  const updateGuide = async (id: string, guideData: CreateGuideData): Promise<Guide | null> => {
+  const updateGuide = async (
+    id: string,
+    guideData: CreateGuideData
+  ): Promise<Guide | null> => {
     setLoading(true);
     setError(null);
 
@@ -61,12 +67,13 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante l\'aggiornamento');
+        throw new Error(result.error || "Errore durante l'aggiornamento");
       }
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -77,7 +84,10 @@ export function useGuidesAPI() {
   /**
    * Aggiorna parzialmente una guida esistente
    */
-  const patchGuide = async (id: string, guideData: Partial<CreateGuideData>): Promise<Guide | null> => {
+  const patchGuide = async (
+    id: string,
+    guideData: Partial<CreateGuideData>
+  ): Promise<Guide | null> => {
     setLoading(true);
     setError(null);
 
@@ -93,12 +103,13 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante l\'aggiornamento');
+        throw new Error(result.error || "Errore durante l'aggiornamento");
       }
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -121,12 +132,13 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante l\'eliminazione');
+        throw new Error(result.error || "Errore durante l'eliminazione");
       }
 
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return false;
     } finally {
@@ -138,13 +150,13 @@ export function useGuidesAPI() {
     // States
     loading,
     error,
-    
+
     // Methods
     createGuide,
     updateGuide,
     patchGuide,
     deleteGuide,
-    
+
     // Utility
     clearError: () => setError(null),
   };

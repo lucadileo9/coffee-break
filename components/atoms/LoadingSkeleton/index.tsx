@@ -11,7 +11,7 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
   variant = 'default',
   count = 1,
 }) => {
-  const skeletonClass = "animate-pulse bg-muted rounded";
+  const skeletonClass = 'animate-pulse bg-muted rounded';
 
   const renderSkeleton = () => {
     switch (variant) {
@@ -19,7 +19,10 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
         return (
           <div className={cn('space-y-3', className)}>
             {Array.from({ length: count }).map((_, i) => (
-              <div key={i} className="flex items-center space-x-4 p-4 border rounded-lg">
+              <div
+                key={i}
+                className="flex items-center space-x-4 rounded-lg border p-4"
+              >
                 <div className={`${skeletonClass} h-4 flex-1`}></div>
                 <div className={`${skeletonClass} h-8 w-20`}></div>
                 <div className={`${skeletonClass} h-8 w-20`}></div>
@@ -43,7 +46,7 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
               <div className={`${skeletonClass} h-4 w-28`}></div>
               <div className={`${skeletonClass} h-32 w-full`}></div>
             </div>
-            <div className={`${skeletonClass} h-10 w-32 ml-auto`}></div>
+            <div className={`${skeletonClass} ml-auto h-10 w-32`}></div>
           </div>
         );
 
@@ -53,7 +56,7 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+                  <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-primary"></div>
                   <span className="ml-2">Caricamento...</span>
                 </div>
               </CardContent>
@@ -64,7 +67,9 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
       case 'default':
       default:
         return (
-          <div className={cn('animate-pulse rounded-lg bg-card p-6', className)}>
+          <div
+            className={cn('animate-pulse rounded-lg bg-card p-6', className)}
+          >
             {Array.from({ length: lines }).map((_, i) => (
               <div
                 key={i}

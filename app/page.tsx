@@ -5,14 +5,15 @@ import { CTA } from '@/types/cta';
 
 export const metadata: Metadata = {
   title: 'Coffee Break - La tua pausa caffè digitale',
-  description: 'Benvenuto in Coffee Break: guide utili, calcolatrice del resto e strumenti per la tua pausa caffè perfetta.',
+  description:
+    'Benvenuto in Coffee Break: guide utili, calcolatrice del resto e strumenti per la tua pausa caffè perfetta.',
 };
 
 export default function Home() {
   const CTAlist: CTA[] = [
-    { text: "Resto", link: "/calculator", icon: "calculator" },
-    { text: "Guide", link: "/guides", icon: "book" },
-    { text: "Contattaci", link: "/contact", icon: "mail" },    
+    { text: 'Resto', link: '/calculator', icon: 'calculator' },
+    { text: 'Guide', link: '/guides', icon: 'book' },
+    { text: 'Contattaci', link: '/contact', icon: 'mail' },
   ];
 
   return (

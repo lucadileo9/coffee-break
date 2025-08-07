@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
     // Parsing del body JSON
     const body: CreateCategoryData = await request.json();
     const { name } = body;
-    
+
     // Validazione nome richiesto
     if (!name?.trim()) {
       return NextResponse.json(
@@ -148,17 +148,16 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 } // Created
     );
-
   } catch (error) {
     console.error('API error:', error);
-    
+
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json(
       { error: 'Errore interno del server' },
       { status: 500 }

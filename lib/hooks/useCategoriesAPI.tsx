@@ -20,7 +20,9 @@ export function useCategoriesAPI() {
   /**
    * Crea una nuova categoria
    */
-  const createCategory = async (categoryData: CategoryData): Promise<Category | null> => {
+  const createCategory = async (
+    categoryData: CategoryData
+  ): Promise<Category | null> => {
     setLoading(true);
     setError(null);
 
@@ -41,7 +43,8 @@ export function useCategoriesAPI() {
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -52,7 +55,10 @@ export function useCategoriesAPI() {
   /**
    * Aggiorna una categoria esistente
    */
-  const updateCategory = async (id: string, categoryData: CategoryData): Promise<Category | null> => {
+  const updateCategory = async (
+    id: string,
+    categoryData: CategoryData
+  ): Promise<Category | null> => {
     setLoading(true);
     setError(null);
 
@@ -68,12 +74,13 @@ export function useCategoriesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante l\'aggiornamento');
+        throw new Error(result.error || "Errore durante l'aggiornamento");
       }
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -85,7 +92,9 @@ export function useCategoriesAPI() {
    * Elimina una categoria
    * ATTENZIONE: Fallisce se ci sono guide associate
    */
-  const deleteCategory = async (id: string): Promise<{ success: boolean; guidesCount?: number }> => {
+  const deleteCategory = async (
+    id: string
+  ): Promise<{ success: boolean; guidesCount?: number }> => {
     setLoading(true);
     setError(null);
 
@@ -100,18 +109,19 @@ export function useCategoriesAPI() {
         // Se errore 409 (conflict), include il conteggio guide
         if (response.status === 409) {
           setError(result.error);
-          return { 
-            success: false, 
-            guidesCount: result.guides_count 
+          return {
+            success: false,
+            guidesCount: result.guides_count,
           };
         }
-        
-        throw new Error(result.error || 'Errore durante l\'eliminazione');
+
+        throw new Error(result.error || "Errore durante l'eliminazione");
       }
 
       return { success: true };
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return { success: false };
     } finally {
@@ -122,7 +132,9 @@ export function useCategoriesAPI() {
   /**
    * Recupera una singola categoria con conteggio guide
    */
-  const getCategory = async (id: string): Promise<Category & { guides_count: number } | null> => {
+  const getCategory = async (
+    id: string
+  ): Promise<(Category & { guides_count: number }) | null> => {
     setLoading(true);
     setError(null);
 
@@ -136,7 +148,8 @@ export function useCategoriesAPI() {
 
       return result.data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
       return null;
     } finally {
@@ -148,13 +161,13 @@ export function useCategoriesAPI() {
     // States
     loading,
     error,
-    
+
     // Methods
     createCategory,
     updateCategory,
     deleteCategory,
     getCategory,
-    
+
     // Utility
     clearError: () => setError(null),
   };

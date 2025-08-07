@@ -5,8 +5,9 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!;
 
 if (!supabaseServiceKey) {
-
-  throw new Error('Missing NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY environment variable');
+  throw new Error(
+    'Missing NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY environment variable'
+  );
 }
 
 if (!supabaseUrl) {

@@ -84,7 +84,9 @@ export default function GuidesPage() {
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
         {/* Titolo principale della pagina */}
-        <SimpleTitle level="h1" className="mb-8">Guida alle Guide</SimpleTitle>
+        <SimpleTitle level="h1" className="mb-8">
+          Guida alle Guide
+        </SimpleTitle>
 
         {/* Sezione filtro categorie */}
         <div className="mb-8">

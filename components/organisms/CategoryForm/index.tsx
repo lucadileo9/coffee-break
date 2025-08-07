@@ -7,10 +7,9 @@ import { Label } from '@/components/ui/label';
 
 import CategoryFormProps from './index.types';
 
-
 /**
  * CategoryForm - Form per creare/modificare categorie
- * 
+ *
  * Features:
  * - Validazione campi
  * - Supporto editing esistente
@@ -18,11 +17,11 @@ import CategoryFormProps from './index.types';
  * - Gestione errori
  * - Auto-focus input
  */
-export default function CategoryForm({ 
-  initialValue = '', 
-  onSubmit, 
-  loading, 
-  error 
+export default function CategoryForm({
+  initialValue = '',
+  onSubmit,
+  loading,
+  error,
 }: CategoryFormProps) {
   const [name, setName] = useState(initialValue);
 
@@ -56,11 +55,7 @@ export default function CategoryForm({
 
       {/* Errore */}
       {error && (
-        <ErrorMessage
-          message={error}
-          variant="error"
-          showIcon={true}
-        />
+        <ErrorMessage message={error} variant="error" showIcon={true} />
       )}
 
       {/* Azioni */}

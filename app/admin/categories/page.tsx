@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import AdminLayout from '@/components/organisms/AdminLayout';
 import CategoriesManager from '@/components/organisms/CategoriesManager';
 
@@ -10,12 +9,12 @@ import CategoriesManager from '@/components/organisms/CategoriesManager';
 export default function AdminCategoriesPage() {
   return (
     // <ProtectedRoute requireAdmin={true}>
-      <AdminLayout 
-        title="Gestione Categorie"
-        description="Crea, modifica ed elimina le categorie per organizzare le guide"
-      >
-        <CategoriesManager />
-      </AdminLayout>
+    <AdminLayout
+      title="Gestione Categorie"
+      description="Crea, modifica ed elimina le categorie per organizzare le guide"
+    >
+      <CategoriesManager />
+    </AdminLayout>
     // </ProtectedRoute>
   );
 }

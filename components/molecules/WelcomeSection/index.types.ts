@@ -1,4 +1,4 @@
-import { CTA } from "@/types/cta";
+import { CTA } from '@/types/cta';
 
 /**
  * Props per WelcomeSection
@@ -13,7 +13,7 @@ export default interface WelcomeSectionProps {
   /** Mostra pulsante CTA (default: true) */
   showCTA?: boolean;
 
-  CTAlist?: CTA[]
+  CTAlist?: CTA[];
   /** Classe CSS aggiuntiva */
   className?: string;
 }

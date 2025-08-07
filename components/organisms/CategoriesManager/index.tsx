@@ -6,15 +6,28 @@ import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import MyButton from '@/components/atoms/MyButton';
 import CategoryItem from '@/components/molecules/CategoryItem';
 import CategoryForm from '@/components/organisms/CategoryForm';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useCategories } from '@/lib/hooks/useCategories';
 import { useCategoriesAPI } from '@/lib/hooks/useCategoriesAPI';
 import { Category } from '@/types/category';
 
 /**
  * CategoriesManager - Componente per gestire le categorie (CRUD)
- * 
+ *
  * Features:
  * - Lista categorie esistenti
  * - Creazione nuove categorie
@@ -22,15 +35,20 @@ import { Category } from '@/types/category';
  * - Eliminazione categorie (con controllo guide associate)
  */
 export default function CategoriesManager() {
-  const { categories, loading: categoriesLoading, error: categoriesError, refetch } = useCategories();
-  const { 
-    createCategory, 
-    updateCategory, 
-    deleteCategory, 
-    loading: apiLoading, 
-    error: apiError 
+  const {
+    categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+    refetch,
+  } = useCategories();
+  const {
+    createCategory,
+    updateCategory,
+    deleteCategory,
+    loading: apiLoading,
+    error: apiError,
   } = useCategoriesAPI();
-  
+
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
 
@@ -65,8 +83,8 @@ export default function CategoriesManager() {
       // Mostra messaggio specifico per guide associate
       alert(
         `Impossibile eliminare la categoria "${name}".\n` +
-        `Ci sono ${result.guidesCount} guide associate.\n\n` +
-        `Elimina prima le guide o assegna loro una categoria diversa.`
+          `Ci sono ${result.guidesCount} guide associate.\n\n` +
+          `Elimina prima le guide o assegna loro una categoria diversa.`
       );
     }
   };
@@ -80,14 +98,14 @@ export default function CategoriesManager() {
       {/* Header con azioni */}
       <Card>
         <CardHeader>
-          <div className="flex justify-between items-start">
+          <div className="flex items-start justify-between">
             <div>
               <CardTitle>Categorie: {categories?.length || 0}</CardTitle>
               <CardDescription>
                 Gestisci le categorie per organizzare le guide
               </CardDescription>
             </div>
-            
+
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
               <DialogTrigger asChild>
                 <MyButton icon="lightbulb" variant="default">
@@ -123,17 +141,19 @@ export default function CategoriesManager() {
 
           {/* Lista categorie */}
           {!categories || categories.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="py-8 text-center text-muted-foreground">
               Nessuna categoria trovata. Crea la prima categoria!
             </div>
           ) : (
             <div className="space-y-3">
-              {categories.map(category => (
+              {categories.map((category) => (
                 <CategoryItem
                   key={category.id}
                   category={category}
                   onEdit={setEditingCategory}
-                  onDelete={() => handleDeleteCategory(category.id, category.name)}
+                  onDelete={() =>
+                    handleDeleteCategory(category.id, category.name)
+                  }
                   loading={apiLoading}
                 />
               ))}
@@ -143,7 +163,10 @@ export default function CategoriesManager() {
       </Card>
 
       {/* Dialog modifica */}
-      <Dialog open={!!editingCategory} onOpenChange={(open) => !open && setEditingCategory(null)}>
+      <Dialog
+        open={!!editingCategory}
+        onOpenChange={(open) => !open && setEditingCategory(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Modifica Categoria</DialogTitle>
@@ -154,7 +177,9 @@ export default function CategoriesManager() {
           {editingCategory && (
             <CategoryForm
               initialValue={editingCategory.name}
-              onSubmit={(name) => handleUpdateCategory(editingCategory.id, name)}
+              onSubmit={(name) =>
+                handleUpdateCategory(editingCategory.id, name)
+              }
               loading={apiLoading}
               error={apiError}
             />

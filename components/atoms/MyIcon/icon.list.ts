@@ -91,7 +91,7 @@ export const iconMap = {
   'arrow-left-right': ArrowLeftRight,
   'plus': Plus,
   'save': Save,
-  'calculator': Calculator, 
+  'calculator': Calculator,
   'book': Book,
 } as const;
 

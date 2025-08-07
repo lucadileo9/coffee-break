@@ -4,15 +4,20 @@ import ErrorMessage from '@/components/atoms/ErrorMessage';
 import MyButton from '@/components/atoms/MyButton';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { CreateGuideData } from '@/types/guides';
 
 import GuideFormProps from './index.types';
 
-
 /**
  * GuideForm - Form per creare/modificare guide
- * 
+ *
  * Features:
  * - Validazione campi
  * - Supporto editing esistente
@@ -20,12 +25,12 @@ import GuideFormProps from './index.types';
  * - Loading states
  * - Gestione errori
  */
-export default function GuideForm({ 
-  categories, 
-  initialData, 
-  onSubmit, 
-  loading, 
-  error 
+export default function GuideForm({
+  categories,
+  initialData,
+  onSubmit,
+  loading,
+  error,
 }: GuideFormProps) {
   const [formData, setFormData] = useState<CreateGuideData>({
     title: initialData?.title || '',
@@ -39,13 +44,14 @@ export default function GuideForm({
   };
 
   const handleInputChange = (field: keyof CreateGuideData, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const isValid = formData.title.trim() && formData.content.trim() && formData.category_id;
+  const isValid =
+    formData.title.trim() && formData.content.trim() && formData.category_id;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -65,8 +71,8 @@ export default function GuideForm({
       {/* Categoria */}
       <div className="space-y-2">
         <Label htmlFor="category">Categoria *</Label>
-        <Select 
-          value={formData.category_id} 
+        <Select
+          value={formData.category_id}
           onValueChange={(value) => handleInputChange('category_id', value)}
           disabled={loading}
         >
@@ -88,7 +94,7 @@ export default function GuideForm({
         <Label htmlFor="content">Contenuto *</Label>
         <textarea
           id="content"
-          className="w-full min-h-[200px] p-3 border border-input rounded-md resize-vertical focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="resize-vertical min-h-[200px] w-full rounded-md border border-input p-3 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
           value={formData.content}
           onChange={(e) => handleInputChange('content', e.target.value)}
           placeholder="Scrivi il contenuto della guida... (Markdown supportato)"
@@ -102,11 +108,7 @@ export default function GuideForm({
 
       {/* Errore */}
       {error && (
-        <ErrorMessage
-          message={error}
-          variant="error"
-          showIcon={true}
-        />
+        <ErrorMessage message={error} variant="error" showIcon={true} />
       )}
 
       {/* Azioni */}

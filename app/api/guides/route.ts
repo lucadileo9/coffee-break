@@ -164,24 +164,24 @@ export async function POST(request: NextRequest) {
 
     // Parsing del body JSON
     const body: CreateGuideData = await request.json();
-    
+
     // Validazione dati richiesti
     const { title, content, category_id, published = true } = body;
-    
+
     if (!title?.trim()) {
       return NextResponse.json(
         { error: 'Titolo obbligatorio' },
         { status: 400 }
       );
     }
-    
+
     if (!content?.trim()) {
       return NextResponse.json(
         { error: 'Contenuto obbligatorio' },
         { status: 400 }
       );
     }
-    
+
     if (!category_id?.trim()) {
       return NextResponse.json(
         { error: 'Categoria obbligatoria' },
@@ -212,15 +212,17 @@ export async function POST(request: NextRequest) {
           content: content.trim(),
           category_id,
           // published, // Se hai questo campo nel DB
-        }
+        },
       ])
-      .select(`
+      .select(
+        `
         *,
         categories (
           id,
           name
         )
-      `)
+      `
+      )
       .single();
 
     if (insertError) {
@@ -239,10 +241,9 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 } // Created
     );
-
   } catch (error) {
     console.error('API error:', error);
-    
+
     // Gestione errori di parsing JSON
     if (error instanceof SyntaxError) {
       return NextResponse.json(
@@ -250,7 +251,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json(
       { error: 'Errore interno del server' },
       { status: 500 }

@@ -4,14 +4,20 @@ import React, { useState } from 'react';
 import ErrorMessage from '@/components/atoms/ErrorMessage';
 import MyButton from '@/components/atoms/MyButton';
 import SimpleTitle from '@/components/atoms/SimpleTitle';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/lib/contexts/AuthContext';
 
 /**
  * LoginForm - Componente per form di login amministrativo
- * 
+ *
  * Features:
  * - Form di login con email/password
  * - Gestione errori
@@ -21,7 +27,7 @@ import { useAuth } from '@/lib/contexts/AuthContext';
  */
 export default function LoginForm() {
   const { signIn, loading } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -32,11 +38,11 @@ export default function LoginForm() {
   // Gestione input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    
+
     // Rimuovi errore quando user inizia a digitare
     if (error) setError(null);
   };
@@ -44,7 +50,7 @@ export default function LoginForm() {
   // Gestione submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validazione basic
     if (!formData.email || !formData.password) {
       setError('Tutti i campi sono obbligatori');
@@ -60,8 +66,11 @@ export default function LoginForm() {
     setError(null);
 
     try {
-      const { error: authError } = await signIn(formData.email, formData.password);
-      
+      const { error: authError } = await signIn(
+        formData.email,
+        formData.password
+      );
+
       if (authError) {
         // Messaggi di errore user-friendly
         if (authError.message.includes('Invalid login credentials')) {
@@ -73,7 +82,6 @@ export default function LoginForm() {
         }
       }
       // Se successo, AuthContext gestirà la navigazione
-      
     } catch {
       setError('Si è verificato un errore imprevisto');
     } finally {
@@ -82,10 +90,10 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
+    <div className="flex min-h-screen items-center justify-center p-8">
       <div className="w-full max-w-md">
         {/* Titolo della pagina */}
-        <div className="text-center mb-8">
+        <div className="mb-8 text-center">
           <SimpleTitle level="h1" className="mb-2">
             Pannello Amministrativo
           </SimpleTitle>
@@ -102,7 +110,7 @@ export default function LoginForm() {
               Inserisci le tue credenziali per accedere al pannello di controllo
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Campo Email */}
@@ -139,11 +147,7 @@ export default function LoginForm() {
 
               {/* Messaggio di errore */}
               {error && (
-                <ErrorMessage
-                  message={error}
-                  variant="error"
-                  showIcon={true}
-                />
+                <ErrorMessage message={error} variant="error" showIcon={true} />
               )}
 
               {/* Button di submit */}
