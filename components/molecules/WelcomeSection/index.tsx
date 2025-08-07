@@ -71,13 +71,11 @@ export default function WelcomeSection({
               </div>
             )}
 
-            {/* Decorazione */}
-            <div className="mt-12 flex justify-center space-x-8 opacity-60">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <div className="w-2 h-2 bg-primary/70 rounded-full"></div>
-              <div className="w-2 h-2 bg-primary/40 rounded-full"></div>
-            </div>
-            
+<div className="mt-12 flex justify-center space-x-4">
+  <span className="text-transparent animate-bounce rounded-full bg-primary">•</span>
+  <span className="text-transparent animate-bounce delay-100 rounded-full bg-primary/70">•</span>
+  <span className="text-transparent animate-bounce delay-200 rounded-full bg-primary/40">•</span>
+</div>            
           </CardContent>
         </Card>
       </div>
