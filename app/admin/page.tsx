@@ -1,12 +1,16 @@
 import React from 'react';
 
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import AdminLayout from '@/components/organisms/AdminLayout';
+
 
 export default function AdminHomePage() {
   return (
-    <AdminLayout>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome to the Coffee Break admin panel.</p>
-    </AdminLayout>
+    <ProtectedRoute requireAdmin={true} >
+      <AdminLayout>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the Coffee Break admin panel.</p>
+      </AdminLayout>
+    </ProtectedRoute>
   );
 }
