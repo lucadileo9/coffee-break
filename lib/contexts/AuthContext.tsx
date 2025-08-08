@@ -120,6 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(null);
     }
 
+    router.push('/'); 
     setLoading(false);
     return { error };
   };
