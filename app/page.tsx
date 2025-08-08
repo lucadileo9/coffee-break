@@ -17,13 +17,13 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen">
+    <>
       <WelcomeSection
         title="Benvenuto in Coffee Break"
         subtitle="La tua pausa caffè digitale"
         description="Scopri le nostre guide utili, utilizza la calcolatrice del resto e goditi una pausa rilassante con i nostri strumenti pensati per te."
         CTAlist={CTAlist}
       />
-    </main>
+    </>
   );
 }
