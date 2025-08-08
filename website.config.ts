@@ -13,6 +13,9 @@ export const websiteConfig = {
   menuItems: [
     { text: 'Home', href: '/' },
     { text: 'Guide', href: '/guides' },
+    { text: 'Calcolatrice Resto', href: '/calculator' },
+    { text: 'Login', href: '/login' },
+    
 
     // { text: 'Chi Siamo', href: 'https://jemore.it/chisiamo/' },
     // { text: 'Servizi', href: 'https://jemore.it/servizi-offerti/' },
