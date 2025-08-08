@@ -1,5 +1,6 @@
 'use client';
 import { User, Session, AuthError } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { supabase } from '@/lib/supabase';
@@ -39,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null); // Utente corrente
   const [session, setSession] = useState<Session | null>(null); // Sessione corrente
   const [loading, setLoading] = useState(true); // Stato di caricamento
+  const router = useRouter();
 
   // Inizializza sessione al mount
   useEffect(() => {
@@ -93,6 +95,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
     });
+
+    const isUserAdmin = 
+    (email === 'lucadileo70@gmail.com' ||
+      email === 'marco.krt@libero.it');
+    if (isUserAdmin) {
+      router.push('/admin/dashboard'); // Admin → Dashboard
+    } else {
+      router.push('/calculator'); // Utenti normali → Homepage
+    }
 
     setLoading(false);
     return { error };
