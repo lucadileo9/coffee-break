@@ -96,9 +96,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password,
     });
 
-    const isUserAdmin = 
-    (email === 'lucadileo70@gmail.com' ||
-      email === 'marco.krt@libero.it');
+    const isUserAdmin =
+      email === 'lucadileo70@gmail.com' || email === 'marco.krt@libero.it';
     if (isUserAdmin) {
       router.push('/admin/dashboard'); // Admin → Dashboard
     } else {
@@ -120,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(null);
     }
 
-    router.push('/'); 
+    router.push('/');
     setLoading(false);
     return { error };
   };
@@ -130,10 +129,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isAdmin =
     !!user &&
     (user.email === 'lucadileo70@gmail.com' ||
-      user.email === 'marco.krt@libero.it' 
-      // || user.user_metadata?.role === 'admin' || 
-      // user.app_metadata?.role === 'admin'
-    );
+      user.email === 'marco.krt@libero.it');
+    // || user.user_metadata?.role === 'admin' ||
+    // user.app_metadata?.role === 'admin'
 
   const value: AuthContextType = {
     user,

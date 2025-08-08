@@ -62,14 +62,14 @@ export default function GuidesPage() {
   if (guidesError) {
     return (
       <ProtectedRoute>
-      <div className="min-h-screen p-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-destructive">
-            <h2 className="mb-2 text-lg font-semibold">Errore</h2>
-            <p>{guidesError}</p>
+        <div className="min-h-screen p-8">
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-destructive">
+              <h2 className="mb-2 text-lg font-semibold">Errore</h2>
+              <p>{guidesError}</p>
+            </div>
           </div>
         </div>
-      </div>
       </ProtectedRoute>
     );
   }
@@ -85,32 +85,32 @@ export default function GuidesPage() {
    */
   return (
     <ProtectedRoute>
-    <div className="min-h-screen p-8">
-      <div className="mx-auto max-w-4xl">
-        {/* Titolo principale della pagina */}
-        <SimpleTitle level="h1" className="mb-8">
-          Guida alle Guide
-        </SimpleTitle>
+      <div className="min-h-screen p-8">
+        <div className="mx-auto max-w-4xl">
+          {/* Titolo principale della pagina */}
+          <SimpleTitle level="h1" className="mb-8">
+            Guida alle Guide
+          </SimpleTitle>
 
-        {/* Sezione filtro categorie */}
-        <div className="mb-8">
-          <CategoryFilter
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            loading={categoriesLoading}
+          {/* Sezione filtro categorie */}
+          <div className="mb-8">
+            <CategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              loading={categoriesLoading}
+            />
+          </div>
+
+          {/* Lista delle guide filtrate */}
+          <GuideList
+            guides={guides}
+            loading={guidesLoading}
+            onGuideClick={(id) => router.push(`/guides/${id}`)}
+            emptyMessage={emptyMessage}
           />
         </div>
-
-        {/* Lista delle guide filtrate */}
-        <GuideList
-          guides={guides}
-          loading={guidesLoading}
-          onGuideClick={(id) => router.push(`/guides/${id}`)}
-          emptyMessage={emptyMessage}
-        />
       </div>
-    </div>
     </ProtectedRoute>
   );
 }

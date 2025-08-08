@@ -1,11 +1,11 @@
 import React from 'react';
 
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import SimpleTitle from '@/components/atoms/SimpleTitle';
 import StatsCard from '@/components/atoms/StatsCard';
 import AdminLayout from '@/components/organisms/AdminLayout';
 import CategoriesManager from '@/components/organisms/CategoriesManager';
 import GuidesManager from '@/components/organisms/GuidesManager';
-import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 
 /**
  * AdminDashboardPage - Pagina principale del pannello amministrativo
@@ -19,38 +19,38 @@ import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 export default function AdminDashboardPage() {
   return (
     <ProtectedRoute requireAdmin={true}>
-    <AdminLayout>
-      <div className="space-y-8">
-        {/* Header Dashboard */}
+      <AdminLayout>
+        <div className="space-y-8">
+          {/* Header Dashboard */}
 
-        {/* Stats Overview Cards */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <StatsCard
-            title="Guide Pubblicate"
-            description="Totale guide disponibili"
-            endpoint="/api/guides"
-          />
-          <StatsCard
-            title="Categorie Attive"
-            description="Categorie configurate"
-            endpoint="/api/categories"
-          />
-        </div>
-
-        {/* Gestione Contenuti */}
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
-          <div className="space-y-4">
-            <SimpleTitle level="h2">Gestione Guide</SimpleTitle>
-            <GuidesManager />
+          {/* Stats Overview Cards */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <StatsCard
+              title="Guide Pubblicate"
+              description="Totale guide disponibili"
+              endpoint="/api/guides"
+            />
+            <StatsCard
+              title="Categorie Attive"
+              description="Categorie configurate"
+              endpoint="/api/categories"
+            />
           </div>
 
-          <div className="space-y-4">
-            <SimpleTitle level="h2">Gestione Categorie</SimpleTitle>
-            <CategoriesManager />
+          {/* Gestione Contenuti */}
+          <div className="grid grid-cols-1 gap-8 xl:grid-cols-2">
+            <div className="space-y-4">
+              <SimpleTitle level="h2">Gestione Guide</SimpleTitle>
+              <GuidesManager />
+            </div>
+
+            <div className="space-y-4">
+              <SimpleTitle level="h2">Gestione Categorie</SimpleTitle>
+              <CategoriesManager />
+            </div>
           </div>
         </div>
-      </div>
-    </AdminLayout>
+      </AdminLayout>
     </ProtectedRoute>
   );
 }

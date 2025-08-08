@@ -186,7 +186,9 @@ const Header: FC<HeaderProps> = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
                   transition={{
-                    delay: menuItems.length * ANIMATION_DELAY_INCREMENT + ANIMATION_BASE_DELAY,
+                    delay:
+                      menuItems.length * ANIMATION_DELAY_INCREMENT +
+                      ANIMATION_BASE_DELAY,
                     duration: ANIMATION_DURATION,
                   }}
                   className="border-t border-border/40 pt-2"
