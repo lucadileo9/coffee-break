@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import SimpleTitle from '@/components/atoms/SimpleTitle';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
 import GuideList from '@/components/organisms/GuideList';
@@ -60,6 +61,7 @@ export default function GuidesPage() {
    */
   if (guidesError) {
     return (
+      <ProtectedRoute>
       <div className="min-h-screen p-8">
         <div className="mx-auto max-w-4xl">
           <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-destructive">
@@ -68,6 +70,7 @@ export default function GuidesPage() {
           </div>
         </div>
       </div>
+      </ProtectedRoute>
     );
   }
 
@@ -81,6 +84,7 @@ export default function GuidesPage() {
    * 4. Lista delle guide (componente GuideList)
    */
   return (
+    <ProtectedRoute>
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
         {/* Titolo principale della pagina */}
@@ -107,5 +111,6 @@ export default function GuidesPage() {
         />
       </div>
     </div>
+    </ProtectedRoute>
   );
 }

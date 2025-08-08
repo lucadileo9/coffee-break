@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import ErrorMessage from '@/components/atoms/ErrorMessage';
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import MyButton from '@/components/atoms/MyButton';
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import GuideCard from '@/components/molecules/GuideCard';
 import { useGuide } from '@/lib/hooks/useGuide';
 
@@ -17,6 +18,7 @@ export default function GuidePage() {
 
   if (loading) {
     return (
+      <ProtectedRoute>
       <div className="min-h-screen p-8">
         <div className="mx-auto max-w-4xl">
           <MyButton
@@ -29,11 +31,13 @@ export default function GuidePage() {
           <LoadingSkeleton lines={5} className="mb-8" />
         </div>
       </div>
+      </ProtectedRoute>
     );
   }
 
   if (error) {
     return (
+      <ProtectedRoute>
       <div className="min-h-screen p-8">
         <div className="mx-auto max-w-4xl">
           <MyButton
@@ -49,6 +53,7 @@ export default function GuidePage() {
           />
         </div>
       </div>
+      </ProtectedRoute>
     );
   }
 
@@ -57,6 +62,7 @@ export default function GuidePage() {
   }
 
   return (
+    <ProtectedRoute>
     <div className="min-h-screen p-8">
       <div className="mx-auto max-w-4xl">
         <MyButton
@@ -71,5 +77,6 @@ export default function GuidePage() {
         <GuideCard guide={guide} />
       </div>
     </div>
+    </ProtectedRoute>
   );
 }
