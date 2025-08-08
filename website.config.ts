@@ -1,5 +1,6 @@
 import { NextFontWithVariable } from 'next/dist/compiled/@next/font';
 
+import { MenuItemConfig } from '@/components/organisms/Header/index.types';
 import { fonts } from '@/lib/fonts';
 
 const font_variables = Object.values(fonts).map(
@@ -12,15 +13,9 @@ export const websiteConfig = {
   logo_img: '/images/logo_jemore.png',
   menuItems: [
     { text: 'Home', href: '/' },
-    { text: 'Guide', href: '/guides' },
+    { text: 'Guide', href: '/guides', requiresAuth: true },
     { text: 'Calcolatrice Resto', href: '/calculator' },
-    { text: 'Login', href: '/login' },
-    
-
-    // { text: 'Chi Siamo', href: 'https://jemore.it/chisiamo/' },
-    // { text: 'Servizi', href: 'https://jemore.it/servizi-offerti/' },
-    // { text: 'Unisciti a Noi', href: 'https://jemore.it/unisciti-a-noi/' },
-  ],
+  ] as MenuItemConfig[],
   title: 'Coffee Break',
   description:
     'template di base per siti web JEMORE, con configurazione di base, header, footer e navigazione.',
