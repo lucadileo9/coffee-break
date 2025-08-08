@@ -5,6 +5,7 @@ import StatsCard from '@/components/atoms/StatsCard';
 import AdminLayout from '@/components/organisms/AdminLayout';
 import CategoriesManager from '@/components/organisms/CategoriesManager';
 import GuidesManager from '@/components/organisms/GuidesManager';
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 
 /**
  * AdminDashboardPage - Pagina principale del pannello amministrativo
@@ -17,7 +18,7 @@ import GuidesManager from '@/components/organisms/GuidesManager';
  */
 export default function AdminDashboardPage() {
   return (
-    // <ProtectedRoute requireAdmin={true}>
+    <ProtectedRoute requireAdmin={true}>
     <AdminLayout>
       <div className="space-y-8">
         {/* Header Dashboard */}
@@ -50,5 +51,6 @@ export default function AdminDashboardPage() {
         </div>
       </div>
     </AdminLayout>
+    </ProtectedRoute>
   );
 }
