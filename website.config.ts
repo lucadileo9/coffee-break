@@ -32,18 +32,19 @@ export const adminNavigationItems: AdminNavigationItem[] = [
     icon: 'file-text',
     description: 'Organizza le categorie',
   },
-  {
-    href: '/admin/users',
-    label: 'Utenti',
-    icon: 'users',
-    description: 'Gestisci gli utenti',
-  },
-  {
-    href: '/admin/analytics',
-    label: 'Statistiche',
-    icon: 'trending-up',
-    description: 'Analisi e metriche',
-  },
+  // DA ABILITARE IN FUTURO
+  // {
+  //   href: '/admin/users',
+  //   label: 'Utenti',
+  //   icon: 'users',
+  //   description: 'Gestisci gli utenti',
+  // },
+  // {
+  //   href: '/admin/analytics',
+  //   label: 'Statistiche',
+  //   icon: 'trending-up',
+  //   description: 'Analisi e metriche',
+  // },
   {
     href: '/admin/settings',
     label: 'Impostazioni',
