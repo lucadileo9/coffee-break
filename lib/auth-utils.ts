@@ -31,12 +31,12 @@ export function isAdminEmail(email: string): boolean {
 
 /**
  * Estrae e verifica l'autenticazione dal token Bearer
- * 
+ *
  * Meccanismo:
  * 1. Estrae il token dall'header Authorization
  * 2. Usa Supabase per verificare il token
  * 3. Controlla se l'utente è admin
- * 
+ *
  * @param request - Request HTTP con header Authorization
  * @returns Promise<AuthResult> - Risultato dell'autenticazione
  */
@@ -44,13 +44,13 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
   try {
     // 1. Estrae il token Bearer dall'header Authorization
     const authHeader = request.headers.get('authorization');
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return {
         isAuthenticated: false,
         isAdmin: false,
         user: null,
-        error: 'Token di autenticazione mancante'
+        error: 'Token di autenticazione mancante',
       };
     }
 
@@ -59,14 +59,17 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     const token = authHeader.substring(BEARER_PREFIX_LENGTH);
 
     // 2. Verifica il token con Supabase
-    const { data: { user }, error } = await supabase.auth.getUser(token);
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
 
     if (error || !user) {
       return {
         isAuthenticated: false,
         isAdmin: false,
         user: null,
-        error: 'Token non valido o scaduto'
+        error: 'Token non valido o scaduto',
       };
     }
 
@@ -77,29 +80,28 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       isAuthenticated: true,
       isAdmin: userIsAdmin,
       user,
-      error: undefined
+      error: undefined,
     };
-
   } catch (error) {
     console.error('Errore durante verifica autenticazione:', error);
     return {
       isAuthenticated: false,
       isAdmin: false,
       user: null,
-      error: 'Errore interno durante autenticazione'
+      error: 'Errore interno durante autenticazione',
     };
   }
 }
 
 /**
  * Middleware di autenticazione per API routes
- * 
+ *
  * @param request - Request HTTP
  * @param requireAdmin - Se true, richiede permessi admin
  * @returns AuthResult o null se tutto ok
  */
 export async function requireAuth(
-  request: NextRequest, 
+  request: NextRequest,
   requireAdmin: boolean = false
 ): Promise<AuthResult | null> {
   const auth = await verifyAuth(request);
@@ -115,7 +117,7 @@ export async function requireAuth(
       isAuthenticated: true,
       isAdmin: false,
       user: auth.user,
-      error: 'Permessi amministratore richiesti'
+      error: 'Permessi amministratore richiesti',
     };
   }
 

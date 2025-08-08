@@ -47,7 +47,9 @@ export default function AdminSidebar({
       {/* Header */}
       <div className="border-b p-6">
         <h2 className="text-lg font-semibold">{websiteConfig.admin.title}</h2>
-        <p className="text-sm text-muted-foreground">{websiteConfig.admin.subtitle}</p>
+        <p className="text-sm text-muted-foreground">
+          {websiteConfig.admin.subtitle}
+        </p>
       </div>
 
       {/* Navigation */}
@@ -101,9 +103,9 @@ export default function AdminSidebar({
   );
 
   return (
-    <div className={cn("", className)}>
+    <div className={cn('', className)}>
       {/* Mobile Trigger */}
-      <div className="fixed left-4 top-4 z-60 lg:hidden">
+      <div className="z-60 fixed left-4 top-4 lg:hidden">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">

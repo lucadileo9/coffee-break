@@ -106,10 +106,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!error) {
         // ✅ Login riuscito - Determina redirect in base al ruolo
         const isUserAdmin = isAdminEmail(email);
-        
+
         const redirectPath = isUserAdmin ? '/admin/dashboard' : '/';
-        
-        console.warn(`🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`);
+
+        console.warn(
+          `🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`
+        );
         router.push(redirectPath);
       } else {
         // ❌ Errore di login - rimane sul form
@@ -149,8 +151,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Computed values
   const isAuthenticated = !!user;
   const isAdmin = !!user && isAdminEmail(user.email || '');
-    // || user.user_metadata?.role === 'admin' ||
-    // user.app_metadata?.role === 'admin'
+  // || user.user_metadata?.role === 'admin' ||
+  // user.app_metadata?.role === 'admin'
 
   const value: AuthContextType = {
     user,

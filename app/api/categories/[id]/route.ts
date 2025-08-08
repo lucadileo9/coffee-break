@@ -127,9 +127,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     // ✅ Controllo autenticazione admin
     const authError = await requireAuth(request, true); // true = richiede admin
-    
+
     if (authError) {
-      const statusCode = authError.isAuthenticated ? HTTP_STATUS.FORBIDDEN : HTTP_STATUS.UNAUTHORIZED;
+      const statusCode = authError.isAuthenticated
+        ? HTTP_STATUS.FORBIDDEN
+        : HTTP_STATUS.UNAUTHORIZED;
       return NextResponse.json(
         { error: authError.error },
         { status: statusCode }
@@ -277,9 +279,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     // ✅ Controllo autenticazione admin
     const authError = await requireAuth(request, true); // true = richiede admin
-    
+
     if (authError) {
-      const statusCode = authError.isAuthenticated ? HTTP_STATUS.FORBIDDEN : HTTP_STATUS.UNAUTHORIZED;
+      const statusCode = authError.isAuthenticated
+        ? HTTP_STATUS.FORBIDDEN
+        : HTTP_STATUS.UNAUTHORIZED;
       return NextResponse.json(
         { error: authError.error },
         { status: statusCode }

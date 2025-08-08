@@ -1,40 +1,40 @@
 /**
  * Costanti HTTP Status Codes
- * 
+ *
  * Centralizza tutti i codici di stato HTTP utilizzati nell'applicazione
  * per migliorare la manutenibilità e consistenza delle API.
- * 
+ *
  * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
  */
 
 export const HTTP_STATUS = {
   // 2xx Success
-  OK: 200,                        // Richiesta elaborata con successo
-  CREATED: 201,                   // Risorsa creata con successo
-  ACCEPTED: 202,                  // Richiesta accettata ma elaborazione non completata
-  NO_CONTENT: 204,                // Successo senza contenuto da restituire
+  OK: 200, // Richiesta elaborata con successo
+  CREATED: 201, // Risorsa creata con successo
+  ACCEPTED: 202, // Richiesta accettata ma elaborazione non completata
+  NO_CONTENT: 204, // Successo senza contenuto da restituire
 
   // 3xx Redirection
-  MOVED_PERMANENTLY: 301,         // Risorsa spostata permanentemente
-  FOUND: 302,                     // Risorsa trovata ma temporaneamente altrove
-  NOT_MODIFIED: 304,              // Risorsa non modificata (cache)
+  MOVED_PERMANENTLY: 301, // Risorsa spostata permanentemente
+  FOUND: 302, // Risorsa trovata ma temporaneamente altrove
+  NOT_MODIFIED: 304, // Risorsa non modificata (cache)
 
   // 4xx Client Error
-  BAD_REQUEST: 400,               // Richiesta malformata o parametri non validi
-  UNAUTHORIZED: 401,              // Autenticazione richiesta o fallita
-  FORBIDDEN: 403,                 // Accesso negato (autorizzazione insufficiente)
-  NOT_FOUND: 404,                 // Risorsa non trovata
-  METHOD_NOT_ALLOWED: 405,        // Metodo HTTP non supportato
-  CONFLICT: 409,                  // Conflitto con lo stato attuale (es. duplicati)
-  UNPROCESSABLE_ENTITY: 422,      // Entità sintatticamente corretta ma semanticamente errata
-  TOO_MANY_REQUESTS: 429,         // Tropppe richieste (rate limiting)
+  BAD_REQUEST: 400, // Richiesta malformata o parametri non validi
+  UNAUTHORIZED: 401, // Autenticazione richiesta o fallita
+  FORBIDDEN: 403, // Accesso negato (autorizzazione insufficiente)
+  NOT_FOUND: 404, // Risorsa non trovata
+  METHOD_NOT_ALLOWED: 405, // Metodo HTTP non supportato
+  CONFLICT: 409, // Conflitto con lo stato attuale (es. duplicati)
+  UNPROCESSABLE_ENTITY: 422, // Entità sintatticamente corretta ma semanticamente errata
+  TOO_MANY_REQUESTS: 429, // Tropppe richieste (rate limiting)
 
   // 5xx Server Error
-  INTERNAL_SERVER_ERROR: 500,     // Errore interno del server
-  NOT_IMPLEMENTED: 501,           // Funzionalità non implementata
-  BAD_GATEWAY: 502,               // Gateway non valido
-  SERVICE_UNAVAILABLE: 503,       // Servizio temporaneamente non disponibile
-  GATEWAY_TIMEOUT: 504,           // Timeout del gateway
+  INTERNAL_SERVER_ERROR: 500, // Errore interno del server
+  NOT_IMPLEMENTED: 501, // Funzionalità non implementata
+  BAD_GATEWAY: 502, // Gateway non valido
+  SERVICE_UNAVAILABLE: 503, // Servizio temporaneamente non disponibile
+  GATEWAY_TIMEOUT: 504, // Timeout del gateway
 } as const;
 
 /**

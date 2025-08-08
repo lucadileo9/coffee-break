@@ -272,7 +272,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     if (!updatedGuide) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: HTTP_STATUS.NOT_FOUND }
+      );
     }
 
     return NextResponse.json({
@@ -391,7 +394,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     if (!updatedGuide) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: HTTP_STATUS.NOT_FOUND }
+      );
     }
 
     return NextResponse.json({
@@ -481,7 +487,10 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     // Verifica se è stata effettivamente eliminata una riga
     // Se count è 0, significa che l'ID non esisteva
     if (count === 0) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
+      return NextResponse.json(
+        { error: 'Guida non trovata' },
+        { status: HTTP_STATUS.NOT_FOUND }
+      );
     }
 
     return NextResponse.json({
