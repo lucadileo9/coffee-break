@@ -21,8 +21,6 @@ export default function AdminDashboardPage() {
     <ProtectedRoute requireAdmin={true}>
       <AdminLayout>
         <div className="space-y-8">
-          {/* Header Dashboard */}
-
           {/* Stats Overview Cards */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <StatsCard

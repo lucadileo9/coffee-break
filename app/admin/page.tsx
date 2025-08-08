@@ -1,15 +1,21 @@
 import React from 'react';
 
-import ProtectedRoute from '@/components/atoms/ProtectedRoute';
-import AdminLayout from '@/components/organisms/AdminLayout';
+import AdminDashboard from '@/components/organisms/AdminDashboard';
 
-export default function AdminHomePage() {
-  return (
-    <ProtectedRoute requireAdmin={true}>
-      <AdminLayout>
-        <h1>Admin Dashboard</h1>
-        <p>Welcome to the Coffee Break admin panel.</p>
-      </AdminLayout>
-    </ProtectedRoute>
-  );
+/**
+ * Pagina Dashboard Amministrativa
+ *
+ * Features:
+ * - Panoramica statistiche
+ * - Azioni rapide
+ * - Layout automatico tramite layout.tsx
+ */
+export default function AdminPage() {
+  return <AdminDashboard />;
 }
+
+// Metadata per la pagina
+export const metadata = {
+  title: 'Dashboard Admin | Coffee Break',
+  description: 'Pannello di amministrazione per Coffee Break',
+};
