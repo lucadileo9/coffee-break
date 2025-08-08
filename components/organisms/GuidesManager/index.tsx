@@ -55,7 +55,7 @@ export default function GuidesManager() {
 
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingGuide, setEditingGuide] = useState<Guide | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   // Filtra guide per categoria
   const filteredGuides =
