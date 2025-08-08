@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { requireAuth } from '@/lib/auth-utils';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
 
 /**

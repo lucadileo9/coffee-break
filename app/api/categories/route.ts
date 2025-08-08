@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { requireAuth } from '@/lib/auth-utils';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
 
 /**
@@ -36,7 +37,7 @@ export async function GET() {
       console.error('Supabase error:', error);
       return NextResponse.json(
         { error: 'Errore nel recuperare le categorie', details: error.message },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
@@ -49,7 +50,7 @@ export async function GET() {
     console.error('API error:', error);
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }
@@ -103,7 +104,7 @@ export async function POST(request: NextRequest) {
     if (!name?.trim()) {
       return NextResponse.json(
         { error: 'Nome categoria obbligatorio' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -119,14 +120,14 @@ export async function POST(request: NextRequest) {
       console.error('Check error:', checkError);
       return NextResponse.json(
         { error: 'Errore durante la verifica duplicati' },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
     if (existingCategory) {
       return NextResponse.json(
         { error: 'Categoria con questo nome già esistente' },
-        { status: 409 } // Conflict
+        { status: HTTP_STATUS.CONFLICT } // Conflict
       );
     }
 
@@ -141,7 +142,7 @@ export async function POST(request: NextRequest) {
       console.error('Insert error:', insertError);
       return NextResponse.json(
         { error: 'Errore durante la creazione della categoria' },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
@@ -150,7 +151,7 @@ export async function POST(request: NextRequest) {
         success: true,
         data: newCategory,
       },
-      { status: 201 } // Created
+      { status: HTTP_STATUS.CREATED } // Created
     );
   } catch (error) {
     console.error('API error:', error);
@@ -158,13 +159,13 @@ export async function POST(request: NextRequest) {
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { requireAuth } from '@/lib/auth-utils';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
 import { CreateGuideData } from '@/types/guides';
 
@@ -170,26 +171,26 @@ export async function POST(request: NextRequest) {
     const body: CreateGuideData = await request.json();
 
     // Validazione dati richiesti
-    const { title, content, category_id, published = true } = body;
+    const { title, content, category_id, published: _published = true } = body;
 
     if (!title?.trim()) {
       return NextResponse.json(
         { error: 'Titolo obbligatorio' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     if (!content?.trim()) {
       return NextResponse.json(
         { error: 'Contenuto obbligatorio' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     if (!category_id?.trim()) {
       return NextResponse.json(
         { error: 'Categoria obbligatoria' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -203,7 +204,7 @@ export async function POST(request: NextRequest) {
     if (categoryError || !categoryExists) {
       return NextResponse.json(
         { error: 'Categoria non trovata' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -233,7 +234,7 @@ export async function POST(request: NextRequest) {
       console.error('Insert error:', insertError);
       return NextResponse.json(
         { error: 'Errore durante la creazione della guida' },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
@@ -243,7 +244,7 @@ export async function POST(request: NextRequest) {
         success: true,
         data: newGuide,
       },
-      { status: 201 } // Created
+      { status: HTTP_STATUS.CREATED } // Created
     );
   } catch (error) {
     console.error('API error:', error);
@@ -252,13 +253,13 @@ export async function POST(request: NextRequest) {
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }

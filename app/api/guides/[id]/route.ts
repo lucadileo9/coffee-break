@@ -189,7 +189,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (!id) {
       return NextResponse.json(
         { error: 'ID guida richiesto' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -201,21 +201,21 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (!title?.trim()) {
       return NextResponse.json(
         { error: 'Titolo obbligatorio' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     if (!content?.trim()) {
       return NextResponse.json(
         { error: 'Contenuto obbligatorio' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     if (!category_id?.trim()) {
       return NextResponse.json(
         { error: 'Categoria obbligatoria' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -229,7 +229,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (categoryError || !categoryExists) {
       return NextResponse.json(
         { error: 'Categoria non trovata' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -261,18 +261,18 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       if (updateError.code === 'PGRST116') {
         return NextResponse.json(
           { error: 'Guida non trovata' },
-          { status: 404 }
+          { status: HTTP_STATUS.NOT_FOUND }
         );
       }
 
       return NextResponse.json(
         { error: "Errore durante l'aggiornamento della guida" },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
     if (!updatedGuide) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: 404 });
+      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
     }
 
     return NextResponse.json({
@@ -285,13 +285,13 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }
@@ -319,7 +319,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (!id) {
       return NextResponse.json(
         { error: 'ID guida richiesto' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -331,7 +331,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (!title && !content && !category_id) {
       return NextResponse.json(
         { error: 'Almeno un campo da aggiornare è richiesto' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -351,7 +351,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       if (categoryError || !categoryExists) {
         return NextResponse.json(
           { error: 'Categoria non trovata' },
-          { status: 400 }
+          { status: HTTP_STATUS.BAD_REQUEST }
         );
       }
 
@@ -380,18 +380,18 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       if (updateError.code === 'PGRST116') {
         return NextResponse.json(
           { error: 'Guida non trovata' },
-          { status: 404 }
+          { status: HTTP_STATUS.NOT_FOUND }
         );
       }
 
       return NextResponse.json(
         { error: "Errore durante l'aggiornamento della guida" },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
     if (!updatedGuide) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: 404 });
+      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
     }
 
     return NextResponse.json({
@@ -404,13 +404,13 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (error instanceof SyntaxError) {
       return NextResponse.json(
         { error: 'Body JSON malformato' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }
@@ -460,7 +460,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     if (!id) {
       return NextResponse.json(
         { error: 'ID guida richiesto' },
-        { status: 400 }
+        { status: HTTP_STATUS.BAD_REQUEST }
       );
     }
 
@@ -474,14 +474,14 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       console.error('Delete error:', deleteError);
       return NextResponse.json(
         { error: "Errore durante l'eliminazione della guida" },
-        { status: 500 }
+        { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
       );
     }
 
     // Verifica se è stata effettivamente eliminata una riga
     // Se count è 0, significa che l'ID non esisteva
     if (count === 0) {
-      return NextResponse.json({ error: 'Guida non trovata' }, { status: 404 });
+      return NextResponse.json({ error: 'Guida non trovata' }, { status: HTTP_STATUS.NOT_FOUND });
     }
 
     return NextResponse.json({
@@ -492,7 +492,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     console.error('API error:', error);
     return NextResponse.json(
       { error: 'Errore interno del server' },
-      { status: 500 }
+      { status: HTTP_STATUS.INTERNAL_SERVER_ERROR }
     );
   }
 }
