@@ -25,6 +25,12 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Helper function per verificare se un'email è admin
+const isAdminEmail = (email: string): boolean => {
+  const adminEmails = ['lucadileo70@gmail.com', 'marco.krt@libero.it'];
+  return adminEmails.includes(email);
+};
+
 /**
  * AuthProvider - Provider per gestire stato globale autenticazione
  *
@@ -91,21 +97,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    const isUserAdmin =
-      email === 'lucadileo70@gmail.com' || email === 'marco.krt@libero.it';
-    if (isUserAdmin) {
-      router.push('/admin/dashboard'); // Admin → Dashboard
-    } else {
-      router.push('/calculator'); // Utenti normali → Homepage
+      if (!error) {
+        // ✅ Login riuscito - Determina redirect in base al ruolo
+        const isUserAdmin = isAdminEmail(email);
+        
+        const redirectPath = isUserAdmin ? '/admin/dashboard' : '/';
+        
+        console.warn(`🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`);
+        router.push(redirectPath);
+      } else {
+        // ❌ Errore di login - rimane sul form
+        console.error(`❌ Login fallito per ${email}:`, error.message);
+      }
+
+      setLoading(false);
+      return { error };
+    } catch (err) {
+      // ❌ Errore imprevisto
+      console.error('Errore imprevisto durante il login:', err);
+      setLoading(false);
+      return { error: err as AuthError };
     }
-
-    setLoading(false);
-    return { error };
   };
 
   // Metodo per logout
@@ -117,8 +135,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!error) {
       setUser(null);
       setSession(null);
+      console.warn('🚪 Logout riuscito, redirect alla home');
+    } else {
+      console.error('❌ Errore durante logout:', error.message);
     }
 
+    // 1) Redirect alla home sempre (anche in caso di errore per sicurezza)
     router.push('/');
     setLoading(false);
     return { error };
@@ -126,10 +148,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Computed values
   const isAuthenticated = !!user;
-  const isAdmin =
-    !!user &&
-    (user.email === 'lucadileo70@gmail.com' ||
-      user.email === 'marco.krt@libero.it');
+  const isAdmin = !!user && isAdminEmail(user.email || '');
     // || user.user_metadata?.role === 'admin' ||
     // user.app_metadata?.role === 'admin'
 
