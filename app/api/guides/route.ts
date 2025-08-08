@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { requireAuth } from '@/lib/auth-utils';
 import { supabase } from '@/lib/supabase';
 import { CreateGuideData } from '@/types/guides';
 
@@ -156,11 +157,14 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
-    // const session = await getServerSession();
-    // if (!session || !isAdmin(session.user)) {
-    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    // }
+    // Authentication check - admin required
+    const authError = await requireAuth(request, true);
+    if (authError) {
+      return NextResponse.json(
+        { error: authError.error || 'Non autorizzato' },
+        { status: HTTP_STATUS.UNAUTHORIZED }
+      );
+    }
 
     // Parsing del body JSON
     const body: CreateGuideData = await request.json();

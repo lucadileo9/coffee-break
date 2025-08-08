@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { requireAuth } from '@/lib/auth-utils';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
 import { CreateGuideData } from '@/types/guides';
 
@@ -173,7 +175,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
+    // Authentication check - admin required
+    const authError = await requireAuth(request, true);
+    if (authError) {
+      return NextResponse.json(
+        { error: authError.error || 'Non autorizzato' },
+        { status: HTTP_STATUS.UNAUTHORIZED }
+      );
+    }
 
     const { id } = params;
 
@@ -296,7 +305,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
+    // Authentication check - admin required
+    const authError = await requireAuth(request, true);
+    if (authError) {
+      return NextResponse.json(
+        { error: authError.error || 'Non autorizzato' },
+        { status: HTTP_STATUS.UNAUTHORIZED }
+      );
+    }
 
     const { id } = params;
 
@@ -430,7 +446,14 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
+    // Authentication check - admin required
+    const authError = await requireAuth(request, true);
+    if (authError) {
+      return NextResponse.json(
+        { error: authError.error || 'Non autorizzato' },
+        { status: HTTP_STATUS.UNAUTHORIZED }
+      );
+    }
 
     const { id } = params;
 

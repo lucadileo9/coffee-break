@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { requireAuth } from '@/lib/auth-utils';
 import { supabase } from '@/lib/supabase';
 
 /**
@@ -123,7 +124,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
+    // ✅ Controllo autenticazione admin
+    const authError = await requireAuth(request, true); // true = richiede admin
+    
+    if (authError) {
+      const statusCode = authError.isAuthenticated ? HTTP_STATUS.FORBIDDEN : HTTP_STATUS.UNAUTHORIZED;
+      return NextResponse.json(
+        { error: authError.error },
+        { status: statusCode }
+      );
+    }
 
     const { id } = params;
 
@@ -257,7 +267,16 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    // TODO: Aggiungere controllo autenticazione admin
+    // ✅ Controllo autenticazione admin
+    const authError = await requireAuth(request, true); // true = richiede admin
+    
+    if (authError) {
+      const statusCode = authError.isAuthenticated ? HTTP_STATUS.FORBIDDEN : HTTP_STATUS.UNAUTHORIZED;
+      return NextResponse.json(
+        { error: authError.error },
+        { status: statusCode }
+      );
+    }
 
     const { id } = params;
 
