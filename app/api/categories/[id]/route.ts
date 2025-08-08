@@ -237,6 +237,13 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   // Per le categorie, PATCH è identico a PUT dato che abbiamo solo il campo 'name'
+  // Quindi possiamo semplicemente chiamare PUT qui
+  // Questo mantiene la coerenza con le altre API che potrebbero avere campi multipli da aggiornare
+  // e permette di riutilizzare la logica di autenticazione e validazione
+  // Se in futuro aggiungiamo altri campi, possiamo modificare PUT e PATCH separatamente
+  // per gestire casi specifici.
+
+  // Ovviamente non c'è bisogno di fare il controllo di autenticazione, siccome verrà già fatto in PUT.
   return PUT(request, { params });
 }
 
