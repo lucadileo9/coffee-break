@@ -10,9 +10,9 @@ import { CreateGuideData } from '@/types/guides';
  * Next.js estrae automaticamente i parametri dalle parentesi quadre [id]
  */
 interface RouteParams {
-  params: {
+  params: Promise<{
     id: string; // Corrisponde al nome del file [id]
-  };
+  }>;
 }
 
 /**
@@ -72,7 +72,7 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     // Estrazione dell'ID dai parametri dinamici dell'URL
-    const { id } = params;
+    const { id } = await params;
     // URL: /api/guides/abc-123 → id = "abc-123"
 
     // Validazione presenza ID (controllo difensivo)
@@ -184,7 +184,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -317,7 +317,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -461,7 +461,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
