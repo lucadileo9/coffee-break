@@ -117,9 +117,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const isAuthenticated = !!user;
   const isAdmin =
     !!user &&
-    (user.email === 'admin@jemore.it' ||
-      user.user_metadata?.role === 'admin' ||
-      user.app_metadata?.role === 'admin');
+    (user.email === 'lucadileo70@gmail.com' ||
+      user.email === 'marco.krt@libero.it' 
+      // || user.user_metadata?.role === 'admin' || 
+      // user.app_metadata?.role === 'admin'
+    );
 
   const value: AuthContextType = {
     user,
