@@ -10,7 +10,7 @@ import { CreateGuideData, Guide } from '@/types/guides';
 export function useGuidesAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { session } = useAuth();
+  const { session, handleTokenExpired } = useAuth();
 
   /**
    * Funzione helper per ottenere gli headers con autenticazione
@@ -25,6 +25,23 @@ export function useGuidesAPI() {
     }
 
     return headers;
+  };
+
+  /**
+   * Gestisce errori di autenticazione
+   */
+  const handleAuthError = (error: string, response?: Response) => {
+    if (
+      response?.status === 401 || 
+      error.includes('Token non valido') || 
+      error.includes('Token di autenticazione mancante') ||
+      error.includes('scaduto')
+    ) {
+      console.warn('Token scaduto rilevato, effettuo logout automatico');
+      handleTokenExpired();
+      return true; // Indica che è stato gestito un errore di auth
+    }
+    return false; // Non è un errore di auth
   };
 
   /**
@@ -46,7 +63,14 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante la creazione');
+        const errorMessage = result.error || 'Errore durante la creazione';
+        
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return null; // L'utente verrà reindirizzato al login
+        }
+        
+        throw new Error(errorMessage);
       }
 
       return result.data;
@@ -80,7 +104,14 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Errore durante l'aggiornamento");
+        const errorMessage = result.error || "Errore durante l'aggiornamento";
+        
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return null; // L'utente verrà reindirizzato al login
+        }
+        
+        throw new Error(errorMessage);
       }
 
       return result.data;
@@ -114,7 +145,14 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Errore durante l'aggiornamento");
+        const errorMessage = result.error || "Errore durante l'aggiornamento";
+        
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return null; // L'utente verrà reindirizzato al login
+        }
+        
+        throw new Error(errorMessage);
       }
 
       return result.data;
@@ -144,7 +182,14 @@ export function useGuidesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Errore durante l'eliminazione");
+        const errorMessage = result.error || "Errore durante l'eliminazione";
+        
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return false; // L'utente verrà reindirizzato al login
+        }
+        
+        throw new Error(errorMessage);
       }
 
       return true;
