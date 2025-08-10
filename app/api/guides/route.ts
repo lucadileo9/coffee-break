@@ -9,7 +9,9 @@ import { CreateGuideData } from '@/types/guides';
 /**
  * Helper function per normalizzare category_id da string | number a string
  */
-function normalizeCategoryId(categoryId: string | number | undefined): string | undefined {
+function normalizeCategoryId(
+  categoryId: string | number | undefined
+): string | undefined {
   if (categoryId === undefined || categoryId === null) return undefined;
   return typeof categoryId === 'number' ? String(categoryId) : categoryId;
 }

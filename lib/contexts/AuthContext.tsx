@@ -17,7 +17,7 @@ interface AuthContextType {
     password: string
   ) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<{ error: AuthError | null }>;
-  
+
   // Metodo per gestire token scaduti
   handleTokenExpired: () => void;
 
@@ -142,16 +142,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!error) {
         console.warn('🚪 Logout riuscito, redirect alla home');
       } else {
-        console.warn('⚠️ Errore durante logout, ma procediamo con clear locale:', error.message);
+        console.warn(
+          '⚠️ Errore durante logout, ma procediamo con clear locale:',
+          error.message
+        );
       }
     } catch (err) {
-      console.warn('⚠️ Errore durante logout, ma procediamo con clear locale:', err);
+      console.warn(
+        '⚠️ Errore durante logout, ma procediamo con clear locale:',
+        err
+      );
     }
 
     // SEMPRE pulisci lo stato locale, anche se il logout server fallisce
     setUser(null);
     setSession(null);
-    
+
     // Clear anche il local storage per sicurezza
     try {
       localStorage.removeItem('supabase.auth.token');
@@ -163,7 +169,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Redirect alla home sempre (per sicurezza)
     router.push('/');
     setLoading(false);
-    
+
     // Ritorna sempre successo per evitare blocchi UI
     return { error: null };
   };
@@ -171,11 +177,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Metodo per gestire token scaduti
   const handleTokenExpired = () => {
     console.warn('🔄 Token scaduto rilevato, effettuo logout automatico');
-    
+
     // Clear dello stato locale immediatamente
     setUser(null);
     setSession(null);
-    
+
     // Clear storage
     try {
       localStorage.removeItem('supabase.auth.token');

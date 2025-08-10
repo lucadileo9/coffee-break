@@ -40,8 +40,8 @@ export function useCategoriesAPI() {
    */
   const handleAuthError = (error: string, response?: Response) => {
     if (
-      response?.status === HTTP_STATUS.UNAUTHORIZED || 
-      error.includes('Token non valido') || 
+      response?.status === HTTP_STATUS.UNAUTHORIZED ||
+      error.includes('Token non valido') ||
       error.includes('Token di autenticazione mancante') ||
       error.includes('scaduto')
     ) {
@@ -72,12 +72,12 @@ export function useCategoriesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || 'Errore durante la creazione';
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return null; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
@@ -113,12 +113,12 @@ export function useCategoriesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || "Errore durante l'aggiornamento";
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return null; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
@@ -157,7 +157,7 @@ export function useCategoriesAPI() {
         if (handleAuthError(errorMessage, response)) {
           return { success: false }; // L'utente verrà reindirizzato al login
         }
-        
+
         // Se errore 409 (conflict), include il conteggio guide
         if (response.status === HTTP_STATUS.CONFLICT) {
           setError(result.error);

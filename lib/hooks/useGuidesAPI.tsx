@@ -32,8 +32,8 @@ export function useGuidesAPI() {
    */
   const handleAuthError = (error: string, response?: Response) => {
     if (
-      response?.status === 401 || 
-      error.includes('Token non valido') || 
+      response?.status === 401 ||
+      error.includes('Token non valido') ||
       error.includes('Token di autenticazione mancante') ||
       error.includes('scaduto')
     ) {
@@ -64,12 +64,12 @@ export function useGuidesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || 'Errore durante la creazione';
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return null; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
@@ -105,12 +105,12 @@ export function useGuidesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || "Errore durante l'aggiornamento";
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return null; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
@@ -146,12 +146,12 @@ export function useGuidesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || "Errore durante l'aggiornamento";
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return null; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
@@ -183,12 +183,12 @@ export function useGuidesAPI() {
 
       if (!response.ok) {
         const errorMessage = result.error || "Errore durante l'eliminazione";
-        
+
         // Controlla se è un errore di autenticazione
         if (handleAuthError(errorMessage, response)) {
           return false; // L'utente verrà reindirizzato al login
         }
-        
+
         throw new Error(errorMessage);
       }
 
