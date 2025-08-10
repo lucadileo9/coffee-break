@@ -1,7 +1,7 @@
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 /**
  * Interfaccia per il risultato dell'autenticazione
@@ -62,7 +62,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
     const {
       data: { user },
       error,
-    } = await supabase.auth.getUser(token);
+    } = await supabaseAdmin.auth.getUser(token);
 
     if (error || !user) {
       return {

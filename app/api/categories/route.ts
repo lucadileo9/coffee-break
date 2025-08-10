@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-utils';
 import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 /**
  * Interfaccia per i dati di creazione categoria
@@ -109,7 +110,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Verifica unicità del nome (case-insensitive)
-    const { data: existingCategory, error: checkError } = await supabase
+    const { data: existingCategory, error: checkError } = await supabaseAdmin
       .from('categories')
       .select('id')
       .ilike('name', name.trim()) // Case-insensitive like
@@ -132,7 +133,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Inserimento nuova categoria
-    const { data: newCategory, error: insertError } = await supabase
+    const { data: newCategory, error: insertError } = await supabaseAdmin
       .from('categories')
       .insert([{ name: name.trim() }])
       .select('*')

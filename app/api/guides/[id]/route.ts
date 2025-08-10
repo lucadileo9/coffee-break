@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-utils';
 import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import { CreateGuideData } from '@/types/guides';
 
 /**
@@ -212,7 +213,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    if (!category_id?.trim()) {
+    if (typeof category_id !== 'string' || !category_id.trim()) {
       return NextResponse.json(
         { error: 'Categoria obbligatoria' },
         { status: HTTP_STATUS.BAD_REQUEST }
@@ -220,7 +221,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Verifica che la categoria esista
-    const { data: categoryExists, error: categoryError } = await supabase
+    const { data: categoryExists, error: categoryError } = await supabaseAdmin
       .from('categories')
       .select('id')
       .eq('id', category_id)
@@ -234,7 +235,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Aggiornamento guida
-    const { data: updatedGuide, error: updateError } = await supabase
+    const { data: updatedGuide, error: updateError } = await supabaseAdmin
       .from('guides')
       .update({
         title: title.trim(),
@@ -345,13 +346,14 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     if (content?.trim()) updateData.content = content.trim();
     if (category_id?.trim()) {
       // Verifica che la categoria esista
-      const { data: categoryExists, error: categoryError } = await supabase
+      const { data: categoryExists, error: categoryError } = await supabaseAdmin
         .from('categories')
         .select('id')
         .eq('id', category_id)
         .single();
 
       if (categoryError || !categoryExists) {
+        console.error('Category check error:', categoryError);
         return NextResponse.json(
           { error: 'Categoria non trovata' },
           { status: HTTP_STATUS.BAD_REQUEST }
@@ -362,7 +364,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     // Aggiornamento parziale
-    const { data: updatedGuide, error: updateError } = await supabase
+    const { data: updatedGuide, error: updateError } = await supabaseAdmin
       .from('guides')
       .update(updateData)
       .eq('id', id)
@@ -471,7 +473,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     // Elimina la guida
-    const { error: deleteError, count } = await supabase
+    const { error: deleteError, count } = await supabaseAdmin
       .from('guides')
       .delete()
       .eq('id', id);

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useAuth } from '@/lib/contexts/AuthContext';
 import { CreateGuideData, Guide } from '@/types/guides';
 
 /**
@@ -9,6 +10,22 @@ import { CreateGuideData, Guide } from '@/types/guides';
 export function useGuidesAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { session } = useAuth();
+
+  /**
+   * Funzione helper per ottenere gli headers con autenticazione
+   */
+  const getAuthHeaders = () => {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+
+    return headers;
+  };
 
   /**
    * Crea una nuova guida
@@ -22,9 +39,7 @@ export function useGuidesAPI() {
     try {
       const response = await fetch('/api/guides', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(guideData),
       });
 
@@ -58,9 +73,7 @@ export function useGuidesAPI() {
     try {
       const response = await fetch(`/api/guides/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(guideData),
       });
 
@@ -94,9 +107,7 @@ export function useGuidesAPI() {
     try {
       const response = await fetch(`/api/guides/${id}`, {
         method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(guideData),
       });
 
@@ -127,6 +138,7 @@ export function useGuidesAPI() {
     try {
       const response = await fetch(`/api/guides/${id}`, {
         method: 'DELETE',
+        headers: getAuthHeaders(),
       });
 
       const result = await response.json();

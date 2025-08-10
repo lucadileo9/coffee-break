@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-utils';
 import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import { CreateGuideData } from '@/types/guides';
 
 /**
@@ -209,7 +210,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Inserimento nuova guida
-    const { data: newGuide, error: insertError } = await supabase
+    const { data: newGuide, error: insertError } = await supabaseAdmin
       .from('guides')
       .insert([
         {

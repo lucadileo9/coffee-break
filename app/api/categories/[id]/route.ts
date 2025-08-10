@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAuth } from '@/lib/auth-utils';
 import { HTTP_STATUS } from '@/lib/http-status';
 import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 /**
  * Interfaccia TypeScript per i parametri dinamici della route
@@ -158,7 +159,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Verifica unicità del nome (escludendo la categoria corrente)
-    const { data: existingCategory, error: checkError } = await supabase
+    const { data: existingCategory, error: checkError } = await supabaseAdmin
       .from('categories')
       .select('id')
       .ilike('name', name.trim())
@@ -181,7 +182,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     }
 
     // Aggiornamento categoria
-    const { data: updatedCategory, error: updateError } = await supabase
+    const { data: updatedCategory, error: updateError } = await supabaseAdmin
       .from('categories')
       .update({ name: name.trim() })
       .eq('id', id)
@@ -327,7 +328,7 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     }
 
     // Elimina la categoria
-    const { error: deleteError, count } = await supabase
+    const { error: deleteError, count } = await supabaseAdmin
       .from('categories')
       .delete()
       .eq('id', id);

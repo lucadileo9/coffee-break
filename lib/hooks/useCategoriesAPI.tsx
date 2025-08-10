@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useAuth } from '@/lib/contexts/AuthContext';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { Category } from '@/types/category';
 
 /**
@@ -16,6 +18,22 @@ interface CategoryData {
 export function useCategoriesAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { session } = useAuth();
+
+  /**
+   * Funzione helper per ottenere gli headers con autenticazione
+   */
+  const getAuthHeaders = () => {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+
+    return headers;
+  };
 
   /**
    * Crea una nuova categoria
@@ -29,9 +47,7 @@ export function useCategoriesAPI() {
     try {
       const response = await fetch('/api/categories', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(categoryData),
       });
 
@@ -65,9 +81,7 @@ export function useCategoriesAPI() {
     try {
       const response = await fetch(`/api/categories/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify(categoryData),
       });
 
@@ -101,13 +115,14 @@ export function useCategoriesAPI() {
     try {
       const response = await fetch(`/api/categories/${id}`, {
         method: 'DELETE',
+        headers: getAuthHeaders(),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
         // Se errore 409 (conflict), include il conteggio guide
-        if (response.status === 409) {
+        if (response.status === HTTP_STATUS.CONFLICT) {
           setError(result.error);
           return {
             success: false,
