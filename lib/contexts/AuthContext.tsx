@@ -18,6 +18,9 @@ interface AuthContextType {
   ) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<{ error: AuthError | null }>;
 
+  // Metodo per gestire token scaduti
+  handleTokenExpired: () => void;
+
   // Utility
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -107,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // ✅ Login riuscito - Determina redirect in base al ruolo
         const isUserAdmin = isAdminEmail(email);
 
-        const redirectPath = isUserAdmin ? '/admin/dashboard' : '/';
+        const redirectPath = isUserAdmin ? '/admin/' : '/';
 
         console.warn(
           `🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`
@@ -132,20 +135,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     setLoading(true);
 
-    const { error } = await supabase.auth.signOut();
+    try {
+      // Tenta il logout normale
+      const { error } = await supabase.auth.signOut();
 
-    if (!error) {
-      setUser(null);
-      setSession(null);
-      console.warn('🚪 Logout riuscito, redirect alla home');
-    } else {
-      console.error('❌ Errore durante logout:', error.message);
+      if (!error) {
+        console.warn('🚪 Logout riuscito, redirect alla home');
+      } else {
+        console.warn(
+          '⚠️ Errore durante logout, ma procediamo con clear locale:',
+          error.message
+        );
+      }
+    } catch (err) {
+      console.warn(
+        '⚠️ Errore durante logout, ma procediamo con clear locale:',
+        err
+      );
     }
 
-    // 1) Redirect alla home sempre (anche in caso di errore per sicurezza)
+    // SEMPRE pulisci lo stato locale, anche se il logout server fallisce
+    setUser(null);
+    setSession(null);
+
+    // Clear anche il local storage per sicurezza
+    try {
+      localStorage.removeItem('supabase.auth.token');
+      sessionStorage.clear();
+    } catch (err) {
+      console.warn('Errore durante clear storage:', err);
+    }
+
+    // Redirect alla home sempre (per sicurezza)
     router.push('/');
     setLoading(false);
-    return { error };
+
+    // Ritorna sempre successo per evitare blocchi UI
+    return { error: null };
+  };
+
+  // Metodo per gestire token scaduti
+  const handleTokenExpired = () => {
+    console.warn('🔄 Token scaduto rilevato, effettuo logout automatico');
+
+    // Clear dello stato locale immediatamente
+    setUser(null);
+    setSession(null);
+
+    // Clear storage
+    try {
+      localStorage.removeItem('supabase.auth.token');
+      sessionStorage.clear();
+    } catch (err) {
+      console.warn('Errore durante clear storage:', err);
+    }
+
+    // Redirect al login
+    router.push('/login');
   };
 
   // Computed values
@@ -160,6 +206,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     signIn,
     signOut,
+    handleTokenExpired,
     isAuthenticated,
     isAdmin,
   };

@@ -18,7 +18,7 @@ interface CategoryData {
 export function useCategoriesAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { session } = useAuth();
+  const { session, handleTokenExpired } = useAuth();
 
   /**
    * Funzione helper per ottenere gli headers con autenticazione
@@ -33,6 +33,23 @@ export function useCategoriesAPI() {
     }
 
     return headers;
+  };
+
+  /**
+   * Gestisce errori di autenticazione
+   */
+  const handleAuthError = (error: string, response?: Response) => {
+    if (
+      response?.status === HTTP_STATUS.UNAUTHORIZED ||
+      error.includes('Token non valido') ||
+      error.includes('Token di autenticazione mancante') ||
+      error.includes('scaduto')
+    ) {
+      console.warn('Token scaduto rilevato, effettuo logout automatico');
+      handleTokenExpired();
+      return true; // Indica che è stato gestito un errore di auth
+    }
+    return false; // Non è un errore di auth
   };
 
   /**
@@ -54,7 +71,14 @@ export function useCategoriesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Errore durante la creazione');
+        const errorMessage = result.error || 'Errore durante la creazione';
+
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return null; // L'utente verrà reindirizzato al login
+        }
+
+        throw new Error(errorMessage);
       }
 
       return result.data;
@@ -88,7 +112,14 @@ export function useCategoriesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Errore durante l'aggiornamento");
+        const errorMessage = result.error || "Errore durante l'aggiornamento";
+
+        // Controlla se è un errore di autenticazione
+        if (handleAuthError(errorMessage, response)) {
+          return null; // L'utente verrà reindirizzato al login
+        }
+
+        throw new Error(errorMessage);
       }
 
       return result.data;
@@ -121,6 +152,12 @@ export function useCategoriesAPI() {
       const result = await response.json();
 
       if (!response.ok) {
+        // Controlla se è un errore di autenticazione prima di altri controlli
+        const errorMessage = result.error || "Errore durante l'eliminazione";
+        if (handleAuthError(errorMessage, response)) {
+          return { success: false }; // L'utente verrà reindirizzato al login
+        }
+
         // Se errore 409 (conflict), include il conteggio guide
         if (response.status === HTTP_STATUS.CONFLICT) {
           setError(result.error);
@@ -130,7 +167,7 @@ export function useCategoriesAPI() {
           };
         }
 
-        throw new Error(result.error || "Errore durante l'eliminazione");
+        throw new Error(errorMessage);
       }
 
       return { success: true };
