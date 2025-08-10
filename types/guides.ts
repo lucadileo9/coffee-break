@@ -14,6 +14,6 @@ export interface Guide {
 export interface CreateGuideData {
   title: string;
   content: string;
-  category_id: string;
+  category_id: string | number; // Accetta sia string che number per compatibilità database
   published?: boolean;
 }

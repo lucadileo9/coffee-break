@@ -7,6 +7,14 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { CreateGuideData } from '@/types/guides';
 
 /**
+ * Helper function per normalizzare category_id da string | number a string
+ */
+function normalizeCategoryId(categoryId: string | number | undefined): string | undefined {
+  if (categoryId === undefined || categoryId === null) return undefined;
+  return typeof categoryId === 'number' ? String(categoryId) : categoryId;
+}
+
+/**
  * Interfaccia TypeScript per i parametri dinamici della route
  * Next.js estrae automaticamente i parametri dalle parentesi quadre [id]
  */
@@ -196,8 +204,9 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Parsing del body JSON
     const body: CreateGuideData = await request.json();
-    const { title, content, category_id } = body;
-
+    const { title, content } = body;
+    const category_id = normalizeCategoryId(body.category_id);
+    
     // Validazione dati
     if (!title?.trim()) {
       return NextResponse.json(
@@ -213,7 +222,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    if (typeof category_id !== 'string' || !category_id.trim()) {
+    if (!category_id || typeof category_id !== 'string' || !category_id.trim()) {
+      console.warn('Category validation failed:', {
+        category_id,
+        type: typeof category_id,
+        falsy: !category_id,
+        notString: typeof category_id !== 'string',
+        empty: category_id && !category_id.trim()
+      });
       return NextResponse.json(
         { error: 'Categoria obbligatoria' },
         { status: HTTP_STATUS.BAD_REQUEST }
@@ -329,7 +345,8 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     // Parsing del body JSON
     const body: Partial<CreateGuideData> = await request.json();
-    const { title, content, category_id } = body;
+    const { title, content } = body;
+    const category_id = normalizeCategoryId(body.category_id);
 
     // Validazione: almeno un campo deve essere presente
     if (!title && !content && !category_id) {

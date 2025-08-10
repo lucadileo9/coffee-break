@@ -7,6 +7,14 @@ import { supabaseAdmin } from '@/lib/supabase-admin';
 import { CreateGuideData } from '@/types/guides';
 
 /**
+ * Helper function per normalizzare category_id da string | number a string
+ */
+function normalizeCategoryId(categoryId: string | number | undefined): string | undefined {
+  if (categoryId === undefined || categoryId === null) return undefined;
+  return typeof categoryId === 'number' ? String(categoryId) : categoryId;
+}
+
+/**
  * GET /api/guides
  *
  * Recupera tutte le guide dal database con le informazioni delle categorie associate.
@@ -172,7 +180,8 @@ export async function POST(request: NextRequest) {
     const body: CreateGuideData = await request.json();
 
     // Validazione dati richiesti
-    const { title, content, category_id, published: _published = true } = body;
+    const { title, content, published: _published = true } = body;
+    const category_id = normalizeCategoryId(body.category_id);
 
     if (!title?.trim()) {
       return NextResponse.json(
