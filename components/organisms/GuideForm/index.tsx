@@ -87,7 +87,7 @@ export default function GuideForm({
       <div className="space-y-2">
         <Label htmlFor="category">Categoria *</Label>
         <Select
-          value={formData.category_id}
+          value={formData.category_id ? String(formData.category_id) : ""} // Ensure it's always a string
           onValueChange={(value) => handleInputChange('category_id', value)}
           disabled={loading}
         >
@@ -95,11 +95,14 @@ export default function GuideForm({
             <SelectValue placeholder="Seleziona una categoria" />
           </SelectTrigger>
           <SelectContent>
-            {categories.map((category: { id: string; name: string }) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name}
-              </SelectItem>
-            ))}
+            {categories.map((category: { id: string | number; name: string }) => {
+              const categoryId = String(category.id); // Always convert to string
+              return (
+                <SelectItem key={categoryId} value={categoryId}>
+                  {category.name}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       </div>
