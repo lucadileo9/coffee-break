@@ -16,6 +16,16 @@ import { CreateGuideData } from '@/types/guides';
 import GuideFormProps from './index.types';
 
 /**
+ * Internal form state - ensures category_id is always string for UI components
+ */
+interface FormState {
+  title: string;
+  content: string;
+  category_id: string; // Always string in the form
+  published?: boolean;
+}
+
+/**
  * GuideForm - Form per creare/modificare guide
  *
  * Features:
@@ -32,18 +42,23 @@ export default function GuideForm({
   loading,
   error,
 }: GuideFormProps) {
-  const [formData, setFormData] = useState<CreateGuideData>({
+  const [formData, setFormData] = useState<FormState>({
     title: initialData?.title || '',
     content: initialData?.content || '',
-    category_id: initialData?.category_id || '',
+    category_id: initialData?.category_id ? String(initialData.category_id) : '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    // Convert form data to API format (CreateGuideData)
+    const apiData: CreateGuideData = {
+      ...formData,
+      category_id: formData.category_id, // This is already a string from the form
+    };
+    onSubmit(apiData);
   };
 
-  const handleInputChange = (field: keyof CreateGuideData, value: string) => {
+  const handleInputChange = (field: keyof FormState, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
