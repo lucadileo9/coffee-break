@@ -110,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // ✅ Login riuscito - Determina redirect in base al ruolo
         const isUserAdmin = isAdminEmail(email);
 
-        const redirectPath = isUserAdmin ? '/admin/dashboard' : '/';
+        const redirectPath = isUserAdmin ? '/admin/' : '/';
 
         console.warn(
           `🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`
