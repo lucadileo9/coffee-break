@@ -3,6 +3,7 @@ import React from 'react';
 
 import '../styles/globals.css';
 import Header from '@/components/organisms/Header';
+import { AuthProvider } from '@/lib/contexts/AuthContext';
 import { websiteConfig } from '@/website.config';
 import { ThemeProvider } from '@atoms/ThemeProvider';
 
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={websiteConfig.font_variables.join(' ') }
+      className={websiteConfig.font_variables.join(' ')}
       suppressHydrationWarning
     >
       <body>
@@ -29,12 +30,12 @@ export default function RootLayout({
           enableSystem={false}
           themes={['light', 'dark']}
         >
-          <div className="relative flex min-h-screen flex-col">
-            {/* <Header /> */}
-            <Header />
-            <main className="flex-grow">{children}</main>
-            {/* <Footer /> */}
-          </div>
+          <AuthProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-grow">{children}</main>
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

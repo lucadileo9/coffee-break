@@ -1,4 +1,3 @@
 export default interface ChangeCalculatorProps {
-    className?: string
-
- }
+  className?: string;
+}

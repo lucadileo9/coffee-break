@@ -1,0 +1,116 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import ProtectedRoute from '@/components/atoms/ProtectedRoute';
+import SimpleTitle from '@/components/atoms/SimpleTitle';
+import CategoryFilter from '@/components/molecules/CategoryFilter';
+import GuideList from '@/components/organisms/GuideList';
+import { useCategories } from '@/lib/hooks/useCategories';
+import { useGuides } from '@/lib/hooks/useGuides';
+
+export default function GuidesPage() {
+  // ==================== STATE MANAGEMENT ====================
+
+  /**
+   * Stato per tracciare la categoria selezionata nel filtro
+   * Stringa vuota significa "tutte le categorie"
+   */
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+
+  /**
+   * Router per la navigazione programmatica verso le pagine di dettaglio
+   */
+  const router = useRouter();
+
+  // ==================== DATA FETCHING ====================
+
+  /**
+   * Hook personalizzato per il caricamento delle guide
+   * - Se selectedCategory è vuoto, carica tutte le guide
+   * - Se selectedCategory è valorizzato, filtra per quella categoria
+   */
+  const {
+    guides,
+    loading: guidesLoading,
+    error: guidesError,
+  } = useGuides({
+    categoryId: selectedCategory || undefined,
+  });
+
+  /**
+   * Hook personalizzato per il caricamento delle categorie
+   * Necessario per popolare il filtro delle categorie
+   */
+  const { categories, loading: categoriesLoading } = useCategories();
+
+  /**
+   * Messaggio da mostrare quando non ci sono guide
+   * Cambia in base al fatto che ci sia un filtro attivo o meno
+   */
+  const emptyMessage = selectedCategory
+    ? 'Nessuna guida trovata per questa categoria.'
+    : 'Nessuna guida disponibile.';
+
+  // ==================== ERROR HANDLING ====================
+
+  /**
+   * Gestione degli errori nel caricamento delle guide
+   * Mostra un messaggio di errore styled con Tailwind
+   */
+  if (guidesError) {
+    return (
+      <ProtectedRoute>
+        <div className="min-h-screen p-8">
+          <div className="mx-auto max-w-4xl">
+            <div className="rounded-lg border border-destructive/20 bg-destructive/10 p-6 text-destructive">
+              <h2 className="mb-2 text-lg font-semibold">Errore</h2>
+              <p>{guidesError}</p>
+            </div>
+          </div>
+        </div>
+      </ProtectedRoute>
+    );
+  }
+
+  // ==================== RENDER ====================
+
+  /**
+   * Struttura della pagina:
+   * 1. Container principale con padding e max-width
+   * 2. Titolo della pagina
+   * 3. Filtro per categoria (componente CategoryFilter)
+   * 4. Lista delle guide (componente GuideList)
+   */
+  return (
+    <ProtectedRoute>
+      <div className="min-h-screen p-8">
+        <div className="mx-auto max-w-4xl">
+          {/* Titolo principale della pagina */}
+          <SimpleTitle level="h1" className="mb-8">
+            Guida alle Guide
+          </SimpleTitle>
+
+          {/* Sezione filtro categorie */}
+          <div className="mb-8">
+            <CategoryFilter
+              categories={categories}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              loading={categoriesLoading}
+            />
+          </div>
+
+          {/* Lista delle guide filtrate */}
+          <GuideList
+            guides={guides}
+            loading={guidesLoading}
+            onGuideClick={(id) => router.push(`/guides/${id}`)}
+            emptyMessage={emptyMessage}
+          />
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+}
