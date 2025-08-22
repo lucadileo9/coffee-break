@@ -58,6 +58,7 @@ export const websiteConfig = {
   menuItems: [
     { text: 'Home', href: '/' },
     { text: 'Guide', href: '/guides', requiresAuth: true },
+    { text: 'Prodotti', href: '/products' },
     { text: 'Calcolatrice Resto', href: '/calculator' },
   ] as MenuItemConfig[],
   title: 'Coffee Break',
