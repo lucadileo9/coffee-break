@@ -7,6 +7,6 @@ export default interface ProductsListProps {
   products: ProductWithCategory[];
   loading: boolean;
   error: string | null;
-  onProductClick: (product: ProductWithCategory) => void;
+  onProductClick: (id: string) => void;
   emptyMessage?: string;
 }

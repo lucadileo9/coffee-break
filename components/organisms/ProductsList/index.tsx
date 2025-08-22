@@ -61,7 +61,7 @@ export default function ProductsList({
         <ProductItem
           key={product.id}
           product={product}
-          onClick={() => onProductClick(product)}
+          onClick={() => onProductClick(product.id)}
         />
       ))}
     </div>
