@@ -20,7 +20,11 @@ export interface AuthResult {
  * - Variabili d'ambiente
  * - Servizio di gestione ruoli
  */
-const ADMIN_EMAILS = ['lucadileo70@gmail.com', 'marco.krt@libero.it', 'agrimiky@gmail.com'];
+const ADMIN_EMAILS = [
+  'lucadileo70@gmail.com',
+  'marco.krt@libero.it',
+  'lucacone2002@gmail.com',
+];
 
 /**
  * Verifica se un'email appartiene a un amministratore

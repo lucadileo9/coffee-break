@@ -39,23 +39,23 @@ export default function ProductItem({ product, onClick }: ProductItemProps) {
   }
 
   return (
-    <Card 
-      className="cursor-pointer hover:shadow-md transition-shadow duration-200"
+    <Card
+      className="cursor-pointer transition-shadow duration-200 hover:shadow-md"
       onClick={handleClick}
     >
       <CardHeader className="pb-3">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-semibold line-clamp-1">
+        <div className="flex items-start justify-between">
+          <CardTitle className="line-clamp-1 text-lg font-semibold">
             {product.name}
           </CardTitle>
-          <div className="text-lg font-bold text-primary ml-4 shrink-0">
+          <div className="ml-4 shrink-0 text-lg font-bold text-primary">
             €{formatPrice(product.price)}
           </div>
         </div>
-        
+
         {/* Categoria */}
         {product.categories && (
-          <div className="flex items-center gap-2 mt-2">
+          <div className="mt-2 flex items-center gap-2">
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
               {product.categories.name}
             </span>
