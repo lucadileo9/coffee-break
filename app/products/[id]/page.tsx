@@ -7,7 +7,6 @@ import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
 import MyButton from '@/components/atoms/MyButton';
 import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import ProductCard from '@/components/molecules/ProductCard';
-import { useProducts } from '@/lib/hooks/useProducts';
 import { useProduct } from '@/lib/hooks/useProduct';
 
 /**
