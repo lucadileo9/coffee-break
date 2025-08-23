@@ -21,8 +21,6 @@ import { useProduct } from '@/lib/hooks/useProduct';
  * - Gestione errori
  */
 
-
-
 export default function ProductPage() {
   // Resolve the params Promise
   const params = useParams();
@@ -76,7 +74,6 @@ export default function ProductPage() {
   if (!product) {
     return null;
   }
-
 
   return (
     <ProtectedRoute>

@@ -8,7 +8,13 @@ import MyButton from '@/components/atoms/MyButton';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
 import ProductItem from '@/components/molecules/ProductItem';
 import ProductForm from '@/components/organisms/ProductForm';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -21,7 +27,6 @@ import { useCategories } from '@/lib/hooks/useCategories';
 import { useProducts } from '@/lib/hooks/useProducts';
 import { useProductsAPI } from '@/lib/hooks/useProductsAPI';
 import { CreateProductData, Product } from '@/types/products';
-
 
 /**
  * ProductsManager - Componente per gestire prodotti nell'admin
@@ -51,12 +56,12 @@ export default function ProductsManager() {
     error: apiError,
   } = useProductsAPI();
 
-    // State per UI
+  // State per UI
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-    // Filtra prodotti per categoria
+  // Filtra prodotti per categoria
   const filteredProducts =
     products?.filter(
       (product) =>
@@ -72,7 +77,10 @@ export default function ProductsManager() {
     }
   };
 
-  const handleUpdateProduct = async (id: string, productData: CreateProductData) => {
+  const handleUpdateProduct = async (
+    id: string,
+    productData: CreateProductData
+  ) => {
     const updatedProduct = await updateProduct(id, productData);
     if (updatedProduct) {
       setEditingProduct(null);
@@ -91,7 +99,6 @@ export default function ProductsManager() {
       refetch(); // Aggiorna la lista
     }
   };
-
 
   const isLoading = productsLoading || categoriesLoading;
 
@@ -135,7 +142,7 @@ export default function ProductsManager() {
           </div>
         </CardHeader>
 
-                <CardContent className="text-primary">
+        <CardContent className="text-primary">
           {/* Filtro categorie */}
           <CategoryFilter
             categories={categories || []}
@@ -175,33 +182,29 @@ export default function ProductsManager() {
         </CardContent>
       </Card>
 
-            {/* Dialog modifica */}
-            <Dialog
-              open={!!editingProduct}
-              onOpenChange={(open) => !open && setEditingProduct(null)}
-            >
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Modifica Prodotto</DialogTitle>
-                  <DialogDescription>
-                    Aggiorna i dati del prodotto selezionato
-                  </DialogDescription>
-                </DialogHeader>
-                {editingProduct && (
-                  <ProductForm
-                    categories={categories || []}
-                    initialData={editingProduct}
-                    onSubmit={(data) => handleUpdateProduct(editingProduct.id, data)}
-                    loading={apiLoading}
-                    error={apiError}
-                  />
-                )}
-              </DialogContent>
-            </Dialog>
-      
-
-        </div>
-
-
+      {/* Dialog modifica */}
+      <Dialog
+        open={!!editingProduct}
+        onOpenChange={(open) => !open && setEditingProduct(null)}
+      >
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Modifica Prodotto</DialogTitle>
+            <DialogDescription>
+              Aggiorna i dati del prodotto selezionato
+            </DialogDescription>
+          </DialogHeader>
+          {editingProduct && (
+            <ProductForm
+              categories={categories || []}
+              initialData={editingProduct}
+              onSubmit={(data) => handleUpdateProduct(editingProduct.id, data)}
+              loading={apiLoading}
+              error={apiError}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

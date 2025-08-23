@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { ProductWithCategory } from '@/types/products'; 
+import { ProductWithCategory } from '@/types/products';
 
 export const useProduct = (id: string) => {
   const [product, setProduct] = useState<ProductWithCategory | null>(null);

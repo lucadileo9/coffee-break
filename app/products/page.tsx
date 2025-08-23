@@ -18,7 +18,7 @@ export default function ProductsPage() {
    */
   const [selectedCategory, setSelectedCategory] = useState<string>('');
 
-    /**
+  /**
    * Router per la navigazione programmatica verso le pagine di dettaglio
    */
   const router = useRouter();
@@ -38,15 +38,17 @@ export default function ProductsPage() {
     categoryId: selectedCategory || undefined,
   });
 
-    /**
-     * Hook personalizzato per il caricamento delle categorie
-     * Necessario per popolare il filtro delle categorie
-     */
-    const { categories, loading: categoriesLoading } = useCategories();
+  /**
+   * Hook personalizzato per il caricamento delle categorie
+   * Necessario per popolare il filtro delle categorie
+   */
+  const { categories, loading: categoriesLoading } = useCategories();
 
-    const emptyMessage = selectedCategory ? 'Nessun prodotto trovato per questa categoria' : 'Nessun prodotto disponibile';
+  const emptyMessage = selectedCategory
+    ? 'Nessun prodotto trovato per questa categoria'
+    : 'Nessun prodotto disponibile';
 
-      // ==================== ERROR HANDLING ====================
+  // ==================== ERROR HANDLING ====================
 
   /**
    * Gestione degli errori nel caricamento dei prodotti
@@ -54,23 +56,22 @@ export default function ProductsPage() {
    */
   if (productsError) {
     return (
-            <ProtectedRoute>
-              <div className="min-h-screen p-8">
-                <div className="mx-auto max-w-4xl">
-                          <ErrorMessage
-          message={productsError}
-          variant="error"
-          showIcon={true}
-        />
-                  </div>
-                </div>
-            </ProtectedRoute>
-      
+      <ProtectedRoute>
+        <div className="min-h-screen p-8">
+          <div className="mx-auto max-w-4xl">
+            <ErrorMessage
+              message={productsError}
+              variant="error"
+              showIcon={true}
+            />
+          </div>
+        </div>
+      </ProtectedRoute>
     );
   }
 
   return (
-        <ProtectedRoute>
+    <ProtectedRoute>
       <div className="min-h-screen p-8">
         <div className="mx-auto max-w-4xl">
           {/* Titolo principale della pagina */}
@@ -89,16 +90,15 @@ export default function ProductsPage() {
           </div>
 
           {/* Lista delle guide filtrate */}
-      <ProductsList
-        products={products}
-        loading={productsLoading}
-        error={productsError}
-        onProductClick={(id) => router.push(`/products/${id}`)}
-        emptyMessage={emptyMessage}
-      />
+          <ProductsList
+            products={products}
+            loading={productsLoading}
+            error={productsError}
+            onProductClick={(id) => router.push(`/products/${id}`)}
+            emptyMessage={emptyMessage}
+          />
         </div>
       </div>
     </ProtectedRoute>
-
   );
 }

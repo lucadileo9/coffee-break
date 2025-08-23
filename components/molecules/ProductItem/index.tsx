@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,6 @@ export default function ProductItem({
   onDelete,
   loading,
 }: ProductItemProps) {
-
   function formatPrice(priceInCents: number): string {
     return (priceInCents / 100).toFixed(2);
   }
@@ -39,7 +37,9 @@ export default function ProductItem({
 
       {/* Prezzo */}
       <div className="text-lg font-bold">
-        {product.price ? `${formatPrice(product.price)} €` : 'Prezzo non disponibile'}
+        {product.price
+          ? `${formatPrice(product.price)} €`
+          : 'Prezzo non disponibile'}
       </div>
 
       <div className="ml-4 flex space-x-2">

@@ -13,7 +13,10 @@ import ProductPreviewProps from './index.types';
  * - Click handler per navigazione ai dettagli
  * - Design compatto per liste
  */
-export default function ProductPreview({ product, onClick }: ProductPreviewProps) {
+export default function ProductPreview({
+  product,
+  onClick,
+}: ProductPreviewProps) {
   const handleClick = () => {
     onClick(product);
   };

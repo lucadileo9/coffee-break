@@ -100,7 +100,6 @@ export default function ProductForm({
     !isNaN(parseFloat(formData.price)) &&
     parseFloat(formData.price) > 0;
 
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Nome */}

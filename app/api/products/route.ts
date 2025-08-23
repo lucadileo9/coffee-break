@@ -166,7 +166,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-
     if (typeof price !== 'number' || price < 0) {
       return NextResponse.json(
         { error: 'Prezzo deve essere un numero positivo' },

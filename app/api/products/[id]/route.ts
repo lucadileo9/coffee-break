@@ -284,7 +284,9 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     // Costruisci oggetto update dinamicamente
-    const updateData: Partial<Omit<CreateProductData, 'description'> & { description: string | null }> = {};
+    const updateData: Partial<
+      Omit<CreateProductData, 'description'> & { description: string | null }
+    > = {};
 
     if (name?.trim()) updateData.name = name.trim();
     if (description !== undefined) {
