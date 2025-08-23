@@ -56,7 +56,7 @@ export default function ProductsPage() {
    */
   if (productsError) {
     return (
-      <ProtectedRoute>
+      // <ProtectedRoute>
         <div className="min-h-screen p-8">
           <div className="mx-auto max-w-4xl">
             <ErrorMessage
@@ -66,12 +66,12 @@ export default function ProductsPage() {
             />
           </div>
         </div>
-      </ProtectedRoute>
+      // </ProtectedRoute>
     );
   }
 
   return (
-    <ProtectedRoute>
+    // <ProtectedRoute>
       <div className="min-h-screen p-8">
         <div className="mx-auto max-w-4xl">
           {/* Titolo principale della pagina */}
@@ -99,6 +99,6 @@ export default function ProductsPage() {
           />
         </div>
       </div>
-    </ProtectedRoute>
+    // </ProtectedRoute>
   );
 }
