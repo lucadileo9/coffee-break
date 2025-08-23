@@ -136,9 +136,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Descrizione è opzionale
-    const trimmedDescription = description?.trim();
-
     if (typeof price !== 'number' || price < 0) {
       return NextResponse.json(
         { error: 'Prezzo deve essere un numero positivo' },
@@ -176,16 +173,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       name: string;
       price: number;
       category_id: string;
-      description?: string;
+      description?: string | null;
     } = {
       name: name.trim(),
       price,
       category_id,
     };
 
-    // Aggiungi descrizione se fornita
-    if (description?.trim()) {
-      updateData.description = description.trim();
+    // Gestisci descrizione: se è fornita come stringa vuota, imposta null per rimuoverla
+    if (description !== undefined) {
+      updateData.description = description.trim() || null;
     }
 
     const { data: updatedProduct, error: updateError } = await supabaseAdmin
@@ -287,12 +284,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     }
 
     // Costruisci oggetto update dinamicamente
-    const updateData: Partial<CreateProductData> = {};
+    const updateData: Partial<CreateProductData & { description: string | null }> = {};
 
     if (name?.trim()) updateData.name = name.trim();
     if (description !== undefined) {
-      // Se description è una stringa vuota, la manteniamo per permettere di rimuovere la descrizione
-      updateData.description = description.trim() || undefined;
+      // Se description è fornita (anche come stringa vuota), gestiscila esplicitamente
+      updateData.description = description.trim() || null;
     }
     if (typeof price === 'number' && price >= 0) updateData.price = price;
 
