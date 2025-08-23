@@ -121,7 +121,7 @@ export default function ProductsManager() {
             <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
               <DialogTrigger asChild>
                 <MyButton icon="plus" variant="default">
-                  Nuova Guida
+                  Nuovo Prodotto
                 </MyButton>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
