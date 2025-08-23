@@ -43,6 +43,7 @@ import {
   Save,
   Calculator,
   Book,
+  ShoppingCart,
 } from 'lucide-react';
 
 import { IconName } from './index.types';
@@ -93,6 +94,7 @@ export const iconMap = {
   'save': Save,
   'calculator': Calculator,
   'book': Book,
+  'shopping-cart': ShoppingCart,
 } as const;
 
 /**

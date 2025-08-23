@@ -57,6 +57,30 @@ export const QUICK_ACTIONS: Record<string, QuickActionConfig> = {
     },
   },
 
+  CREATE_PRODUCT: {
+    id: 'create-product',
+    category: 'content',
+    requiresAdmin: true,
+    cardProps: {
+      title: 'Nuovo Prodotto',
+      description: 'Crea un nuovo prodotto',
+      href: '/admin/products',
+      icon: 'plus',
+    },
+  },
+
+  MANAGE_PRODUCTS: {
+    id: 'manage-products',
+    category: 'management',
+    requiresAdmin: true,
+    cardProps: {
+      title: 'Gestisci Prodotti',
+      description: 'Organizza i prodotti',
+      href: '/admin/products',
+      icon: 'shopping-cart',
+    },
+  },
+
   // === VISUALIZZAZIONE ===
   VIEW_SITE: {
     id: 'view-site',
@@ -142,6 +166,7 @@ export const ACTION_PRESETS = {
     QUICK_ACTIONS.CREATE_GUIDE,
     QUICK_ACTIONS.MANAGE_CATEGORIES,
     QUICK_ACTIONS.VIEW_SITE,
+    QUICK_ACTIONS.MANAGE_PRODUCTS,
   ],
 
   /** Azioni per gestione contenuti */
