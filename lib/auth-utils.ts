@@ -1,6 +1,7 @@
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 
+import { logger } from '@/lib/logger';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 /**
@@ -87,7 +88,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       error: undefined,
     };
   } catch (error) {
-    console.error('Errore durante verifica autenticazione:', error);
+    logger.error('Errore durante verifica autenticazione:', error);
     return {
       isAuthenticated: false,
       isAdmin: false,

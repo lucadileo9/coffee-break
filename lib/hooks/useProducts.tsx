@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { logger } from '@/lib/logger';
 import { ProductWithCategory } from '@/types/products';
 
 interface UseProductsOptions {
@@ -43,7 +44,7 @@ export function useProducts(options: UseProductsOptions = {}) {
       const errorMessage =
         err instanceof Error ? err.message : 'Errore sconosciuto';
       setError(errorMessage);
-      console.error('Errore fetch prodotti:', err);
+      logger.error('Errore fetch prodotti:', err);
     } finally {
       setLoading(false);
     }

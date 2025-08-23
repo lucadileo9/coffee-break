@@ -68,7 +68,6 @@ export default function ProductForm({
   };
 
   const handleInputChange = (field: keyof FormState, value: string) => {
-    console.warn(`🔄 Updating ${field} to:`, value, `(type: ${typeof value})`);
     setFormData((prev) => ({
       ...prev,
       [field]: value,

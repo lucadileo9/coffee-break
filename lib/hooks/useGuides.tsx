@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { logger } from '@/lib/logger';
 import { Guide } from '@/types/guides';
 
 interface UseGuidesOptions {
@@ -35,7 +36,7 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
       setGuides(result.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
-      console.error('Error fetching guides:', err);
+      logger.error('Error fetching guides:', err);
     } finally {
       setLoading(false);
     }
