@@ -4,7 +4,7 @@ import React from 'react';
 
 import ErrorMessage from '@/components/atoms/ErrorMessage';
 import LoadingSkeleton from '@/components/atoms/LoadingSkeleton';
-import ProductItem from '@/components/molecules/ProductItem';
+import ProductPreview from '@/components/molecules/ProductPreview';
 
 import ProductsListProps from './index.types';
 
@@ -58,7 +58,7 @@ export default function ProductsList({
   return (
     <div className="grid grid-cols-1 gap-4">
       {products.map((product) => (
-        <ProductItem
+        <ProductPreview
           key={product.id}
           product={product}
           onClick={() => onProductClick(product.id)}

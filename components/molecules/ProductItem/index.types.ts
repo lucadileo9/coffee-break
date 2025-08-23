@@ -1,9 +1,8 @@
-import { ProductWithCategory } from '@/types/products';
+import { Product } from '@/types/products';
 
-/**
- * ProductItem - Singolo elemento nella lista prodotti
- */
 export default interface ProductItemProps {
-  product: ProductWithCategory;
-  onClick: (product: ProductWithCategory) => void;
+  product: Product;
+  onEdit: (product: Product) => void;
+  onDelete: () => void;
+  loading: boolean;
 }
