@@ -166,8 +166,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Descrizione è opzionale, ma se fornita deve essere valida
-    const trimmedDescription = description?.trim();
 
     if (typeof price !== 'number' || price < 0) {
       return NextResponse.json(

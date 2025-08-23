@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Guide } from '@/types/guides';
 
@@ -14,7 +14,7 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchGuides = async () => {
+  const fetchGuides = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -39,13 +39,13 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryId]);
 
   useEffect(() => {
     if (autoFetch) {
       fetchGuides();
     }
-  }, [categoryId]); // Ricarica quando cambia la categoria
+  }, [autoFetch, fetchGuides]); // Ricarica quando cambia la categoria
 
   return {
     guides,

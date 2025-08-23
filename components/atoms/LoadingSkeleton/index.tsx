@@ -5,9 +5,11 @@ import { cn } from '@/lib/utils';
 
 import LoadingSkeletonProps from './index.types';
 
+const DEFAULT_LINES = 3;
+
 const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
   className,
-  lines = 3,
+  lines = DEFAULT_LINES,
   variant = 'default',
   count = 1,
 }) => {

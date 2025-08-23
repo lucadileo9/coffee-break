@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useAuth } from '@/lib/contexts/AuthContext';
+import { HTTP_STATUS } from '@/lib/http-status';
 import { CreateGuideData, Guide } from '@/types/guides';
 
 /**
@@ -32,7 +33,7 @@ export function useGuidesAPI() {
    */
   const handleAuthError = (error: string, response?: Response) => {
     if (
-      response?.status === 401 ||
+      response?.status === HTTP_STATUS.UNAUTHORIZED ||
       error.includes('Token non valido') ||
       error.includes('Token di autenticazione mancante') ||
       error.includes('scaduto')

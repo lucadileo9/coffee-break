@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ProductWithCategory } from '@/types/products';
 
@@ -21,7 +21,7 @@ export function useProducts(options: UseProductsOptions = {}) {
   /**
    * Recupera prodotti dal server
    */
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -47,7 +47,7 @@ export function useProducts(options: UseProductsOptions = {}) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryId]);
 
   /**
    * Auto-fetch al mount e quando cambia categoryId
@@ -56,7 +56,7 @@ export function useProducts(options: UseProductsOptions = {}) {
     if (autoFetch) {
       fetchProducts();
     }
-  }, [categoryId]);
+  }, [autoFetch, fetchProducts]);
 
   return {
     // Data

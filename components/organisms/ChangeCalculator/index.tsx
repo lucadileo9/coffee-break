@@ -227,6 +227,7 @@ const ChangeCalculator: FC<ChangeCalculatorProps> = ({ className }) => {
                       key={`${item.denomination}-${item.type}`}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
+                      // eslint-disable-next-line no-magic-numbers
                       transition={{ delay: index * 0.1 }}
                       className="flex items-center justify-between py-2"
                     >
