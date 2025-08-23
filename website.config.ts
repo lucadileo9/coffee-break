@@ -27,6 +27,12 @@ export const adminNavigationItems: AdminNavigationItem[] = [
     description: 'Gestisci le guide',
   },
   {
+    href: '/admin/products',
+    label: 'Prodotti',
+    icon: 'briefcase',
+    description: 'Gestisci i prodotti',
+  },
+  {
     href: '/admin/categories',
     label: 'Categorie',
     icon: 'file-text',
