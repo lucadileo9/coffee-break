@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import ErrorMessage from '@/components/atoms/ErrorMessage';
-import ProtectedRoute from '@/components/atoms/ProtectedRoute';
 import SimpleTitle from '@/components/atoms/SimpleTitle';
 import CategoryFilter from '@/components/molecules/CategoryFilter';
 import ProductsList from '@/components/organisms/ProductsList';
@@ -57,48 +56,48 @@ export default function ProductsPage() {
   if (productsError) {
     return (
       // <ProtectedRoute>
-        <div className="min-h-screen p-8">
-          <div className="mx-auto max-w-4xl">
-            <ErrorMessage
-              message={productsError}
-              variant="error"
-              showIcon={true}
-            />
-          </div>
+      <div className="min-h-screen p-8">
+        <div className="mx-auto max-w-4xl">
+          <ErrorMessage
+            message={productsError}
+            variant="error"
+            showIcon={true}
+          />
         </div>
+      </div>
       // </ProtectedRoute>
     );
   }
 
   return (
     // <ProtectedRoute>
-      <div className="min-h-screen p-8">
-        <div className="mx-auto max-w-4xl">
-          {/* Titolo principale della pagina */}
-          <SimpleTitle level="h1" className="mb-8">
-            Prodotti
-          </SimpleTitle>
+    <div className="min-h-screen p-8">
+      <div className="mx-auto max-w-4xl">
+        {/* Titolo principale della pagina */}
+        <SimpleTitle level="h1" className="mb-8">
+          Prodotti
+        </SimpleTitle>
 
-          {/* Sezione filtro categorie */}
-          <div className="mb-8">
-            <CategoryFilter
-              categories={categories}
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              loading={categoriesLoading}
-            />
-          </div>
-
-          {/* Lista delle guide filtrate */}
-          <ProductsList
-            products={products}
-            loading={productsLoading}
-            error={productsError}
-            onProductClick={(id) => router.push(`/products/${id}`)}
-            emptyMessage={emptyMessage}
+        {/* Sezione filtro categorie */}
+        <div className="mb-8">
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            loading={categoriesLoading}
           />
         </div>
+
+        {/* Lista delle guide filtrate */}
+        <ProductsList
+          products={products}
+          loading={productsLoading}
+          error={productsError}
+          onProductClick={(id) => router.push(`/products/${id}`)}
+          emptyMessage={emptyMessage}
+        />
       </div>
+    </div>
     // </ProtectedRoute>
   );
 }
