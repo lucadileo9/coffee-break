@@ -27,6 +27,12 @@ export const adminNavigationItems: AdminNavigationItem[] = [
     description: 'Gestisci le guide',
   },
   {
+    href: '/admin/products',
+    label: 'Prodotti',
+    icon: 'briefcase',
+    description: 'Gestisci i prodotti',
+  },
+  {
     href: '/admin/categories',
     label: 'Categorie',
     icon: 'file-text',
@@ -58,6 +64,7 @@ export const websiteConfig = {
   menuItems: [
     { text: 'Home', href: '/' },
     { text: 'Guide', href: '/guides', requiresAuth: true },
+    { text: 'Prodotti', href: '/products' },
     { text: 'Calcolatrice Resto', href: '/calculator' },
   ] as MenuItemConfig[],
   title: 'Coffee Break',

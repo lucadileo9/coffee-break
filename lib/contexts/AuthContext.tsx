@@ -3,6 +3,7 @@ import { User, Session, AuthError } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 
+import { authLogger, logger } from '@/lib/logger';
 import { supabase } from '@/lib/supabase';
 
 interface AuthContextType {
@@ -72,7 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } = await supabase.auth.getSession();
 
       if (error) {
-        console.error('Error getting session:', error);
+        logger.error('Error getting session:', error);
       } else {
         setSession(session);
         setUser(session?.user ?? null);
@@ -112,20 +113,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         const redirectPath = isUserAdmin ? '/admin/' : '/';
 
-        console.warn(
-          `🔐 Login riuscito per ${email}, redirect a: ${redirectPath}`
-        );
+        authLogger.loginSuccess(email);
         router.push(redirectPath);
       } else {
         // ❌ Errore di login - rimane sul form
-        console.error(`❌ Login fallito per ${email}:`, error.message);
+        authLogger.loginFailed(email, error.message);
       }
 
       setLoading(false);
       return { error };
     } catch (err) {
       // ❌ Errore imprevisto
-      console.error('Errore imprevisto durante il login:', err);
+      logger.error('Errore imprevisto durante il login:', err);
       setLoading(false);
       return { error: err as AuthError };
     }
@@ -140,15 +139,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { error } = await supabase.auth.signOut();
 
       if (!error) {
-        console.warn('🚪 Logout riuscito, redirect alla home');
+        authLogger.logout();
       } else {
-        console.warn(
+        logger.warn(
           '⚠️ Errore durante logout, ma procediamo con clear locale:',
           error.message
         );
       }
     } catch (err) {
-      console.warn(
+      logger.warn(
         '⚠️ Errore durante logout, ma procediamo con clear locale:',
         err
       );
@@ -163,7 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('supabase.auth.token');
       sessionStorage.clear();
     } catch (err) {
-      console.warn('Errore durante clear storage:', err);
+      logger.warn('Errore durante clear storage:', err);
     }
 
     // Redirect alla home sempre (per sicurezza)
@@ -176,7 +175,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Metodo per gestire token scaduti
   const handleTokenExpired = () => {
-    console.warn('🔄 Token scaduto rilevato, effettuo logout automatico');
+    authLogger.tokenExpired();
 
     // Clear dello stato locale immediatamente
     setUser(null);
@@ -187,7 +186,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem('supabase.auth.token');
       sessionStorage.clear();
     } catch (err) {
-      console.warn('Errore durante clear storage:', err);
+      logger.warn('Errore durante clear storage:', err);
     }
 
     // Redirect al login

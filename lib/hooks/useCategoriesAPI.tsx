@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { HTTP_STATUS } from '@/lib/http-status';
+import { authLogger } from '@/lib/logger';
 import { Category } from '@/types/category';
 
 /**
@@ -45,7 +46,7 @@ export function useCategoriesAPI() {
       error.includes('Token di autenticazione mancante') ||
       error.includes('scaduto')
     ) {
-      console.warn('Token scaduto rilevato, effettuo logout automatico');
+      authLogger.tokenExpired();
       handleTokenExpired();
       return true; // Indica che è stato gestito un errore di auth
     }

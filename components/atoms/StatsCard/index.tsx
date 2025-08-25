@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { logger } from '@/lib/logger';
 
 import StatsCardProps from './index.types';
 
@@ -38,7 +39,7 @@ export default function StatsCard({
           setCount(Array.isArray(data.data) ? data.data.length : 1);
         }
       } catch (error) {
-        console.error('Error fetching stats:', error);
+        logger.error('Error fetching stats:', error);
         setCount(0);
       } finally {
         setLoading(false);

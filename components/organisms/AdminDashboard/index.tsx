@@ -38,9 +38,15 @@ export default function AdminDashboard() {
         />
 
         <StatsCard
-          title="Categorie"
+          title="Totale Categorie"
           description="Categorie attive"
           endpoint="/api/categories"
+        />
+
+        <StatsCard
+          title="Totale Prodotti"
+          description="Prodotti pubblicati"
+          endpoint="/api/products"
         />
       </div>
 

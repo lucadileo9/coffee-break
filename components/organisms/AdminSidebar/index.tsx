@@ -7,7 +7,8 @@ import React from 'react';
 
 import MyIcon from '@/components/atoms/MyIcon';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { VisuallyHidden } from '@/components/ui/visually-hidden';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import { websiteConfig } from '@/website.config';
@@ -113,6 +114,12 @@ export default function AdminSidebar({
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-0">
+            <VisuallyHidden>
+              <SheetTitle>Menu di navigazione amministratore</SheetTitle>
+              <SheetDescription>
+                Naviga tra le sezioni dell&apos;area amministratore
+              </SheetDescription>
+            </VisuallyHidden>
             <SidebarContent />
           </SheetContent>
         </Sheet>

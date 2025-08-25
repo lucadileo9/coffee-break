@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { logger } from '@/lib/logger';
 import { Guide } from '@/types/guides';
 
 interface UseGuidesOptions {
@@ -14,7 +15,7 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
   const [loading, setLoading] = useState(autoFetch);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchGuides = async () => {
+  const fetchGuides = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -35,17 +36,17 @@ export const useGuides = (options: UseGuidesOptions = {}) => {
       setGuides(result.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
-      console.error('Error fetching guides:', err);
+      logger.error('Error fetching guides:', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [categoryId]);
 
   useEffect(() => {
     if (autoFetch) {
       fetchGuides();
     }
-  }, [categoryId]); // Ricarica quando cambia la categoria
+  }, [autoFetch, fetchGuides]); // Ricarica quando cambia la categoria
 
   return {
     guides,

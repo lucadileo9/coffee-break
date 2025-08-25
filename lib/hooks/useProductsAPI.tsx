@@ -3,13 +3,13 @@ import { useState } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { HTTP_STATUS } from '@/lib/http-status';
 import { authLogger } from '@/lib/logger';
-import { CreateGuideData, Guide } from '@/types/guides';
+import { CreateProductData, Product } from '@/types/products';
 
 /**
- * Hook per gestire le operazioni CRUD delle guide
- * Fornisce metodi per creare, aggiornare ed eliminare guide
+ * Hook per gestire le operazioni CRUD dei prodotti
+ * Fornisce metodi per creare, aggiornare ed eliminare prodotti
  */
-export function useGuidesAPI() {
+export function useProductsAPI() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { session, handleTokenExpired } = useAuth();
@@ -47,19 +47,19 @@ export function useGuidesAPI() {
   };
 
   /**
-   * Crea una nuova guida
+   * Crea un nuovo prodotto
    */
-  const createGuide = async (
-    guideData: CreateGuideData
-  ): Promise<Guide | null> => {
+  const createProduct = async (
+    productData: CreateProductData
+  ): Promise<Product | null> => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/guides', {
+      const response = await fetch('/api/products', {
         method: 'POST',
         headers: getAuthHeaders(),
-        body: JSON.stringify(guideData),
+        body: JSON.stringify(productData),
       });
 
       const result = await response.json();
@@ -87,20 +87,20 @@ export function useGuidesAPI() {
   };
 
   /**
-   * Aggiorna completamente una guida esistente
+   * Aggiorna completamente un prodotto esistente
    */
-  const updateGuide = async (
+  const updateProduct = async (
     id: string,
-    guideData: CreateGuideData
-  ): Promise<Guide | null> => {
+    productData: CreateProductData
+  ): Promise<Product | null> => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`/api/guides/${id}`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
-        body: JSON.stringify(guideData),
+        body: JSON.stringify(productData),
       });
 
       const result = await response.json();
@@ -128,20 +128,20 @@ export function useGuidesAPI() {
   };
 
   /**
-   * Aggiorna parzialmente una guida esistente
+   * Aggiorna parzialmente un prodotto esistente
    */
-  const patchGuide = async (
+  const patchProduct = async (
     id: string,
-    guideData: Partial<CreateGuideData>
-  ): Promise<Guide | null> => {
+    productData: Partial<CreateProductData>
+  ): Promise<Product | null> => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`/api/guides/${id}`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: 'PATCH',
         headers: getAuthHeaders(),
-        body: JSON.stringify(guideData),
+        body: JSON.stringify(productData),
       });
 
       const result = await response.json();
@@ -169,14 +169,14 @@ export function useGuidesAPI() {
   };
 
   /**
-   * Elimina una guida
+   * Elimina un prodotto
    */
-  const deleteGuide = async (id: string): Promise<boolean> => {
+  const deleteProduct = async (id: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`/api/guides/${id}`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: 'DELETE',
         headers: getAuthHeaders(),
       });
@@ -211,12 +211,9 @@ export function useGuidesAPI() {
     error,
 
     // Methods
-    createGuide,
-    updateGuide,
-    patchGuide,
-    deleteGuide,
-
-    // Utility
-    clearError: () => setError(null),
+    createProduct,
+    updateProduct,
+    patchProduct,
+    deleteProduct,
   };
 }

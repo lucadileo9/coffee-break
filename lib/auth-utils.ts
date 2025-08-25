@@ -1,6 +1,7 @@
 import { User } from '@supabase/supabase-js';
 import { NextRequest } from 'next/server';
 
+import { logger } from '@/lib/logger';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 
 /**
@@ -20,7 +21,11 @@ export interface AuthResult {
  * - Variabili d'ambiente
  * - Servizio di gestione ruoli
  */
-const ADMIN_EMAILS = ['lucadileo70@gmail.com', 'marco.krt@libero.it', 'agrimiky@gmail.com'];
+const ADMIN_EMAILS = [
+  'lucadileo70@gmail.com',
+  'marco.krt@libero.it',
+  'lucacone2002@gmail.com',
+];
 
 /**
  * Verifica se un'email appartiene a un amministratore
@@ -83,7 +88,7 @@ export async function verifyAuth(request: NextRequest): Promise<AuthResult> {
       error: undefined,
     };
   } catch (error) {
-    console.error('Errore durante verifica autenticazione:', error);
+    logger.error('Errore durante verifica autenticazione:', error);
     return {
       isAuthenticated: false,
       isAdmin: false,

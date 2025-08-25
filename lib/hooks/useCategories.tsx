@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+import { logger } from '@/lib/logger';
 import { Category } from '@/types/category';
 
 export const useCategories = () => {
@@ -22,7 +23,7 @@ export const useCategories = () => {
       setCategories(result.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
-      console.error('Error fetching categories:', err);
+      logger.error('Error fetching categories:', err);
     } finally {
       setLoading(false);
     }
